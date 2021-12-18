@@ -1,0 +1,31 @@
+{
+    "name": "readersstash",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "start": "node index.js",
+        "dev": "nodemon index.js"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/RohitDhatrak/ReadersStash.git"
+    },
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/RohitDhatrak/ReadersStash/issues"
+    },
+    "homepage": "https://github.com/RohitDhatrak/ReadersStash#readme",
+    "dependencies": {
+        "apollo-server": "^3.5.0",
+        "bcrypt": "^5.0.1",
+        "dotenv": "^10.0.0",
+        "graphql": "^16.1.0",
+        "jsonwebtoken": "^8.5.1",
+        "mongoose": "^6.1.2",
+        "nodemon": "^2.0.15",
+        "validator": "^13.7.0"
+    }
+}
