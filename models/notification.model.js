@@ -7,14 +7,17 @@ const NotificationSchema = new Schema(
             ref: "User",
             required: [true, "User id is required"],
         },
-        post: {
-            type: Schema.Types.ObjectId,
-            ref: "Post",
-            required: [true, "Post id is required"],
-        },
         type: {
             type: "Follow" | "Like" | "Comment" | "Mention",
             required: [true, "Type is required"],
+        },
+        isRead: {
+            type: Boolean,
+            required: [true, "Notification status is required"],
+        },
+        post: {
+            type: Schema.Types.ObjectId,
+            ref: "Post",
         },
         createdAt: Number,
         updatedAt: Number,
