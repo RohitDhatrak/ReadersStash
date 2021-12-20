@@ -5,10 +5,11 @@ const { checkJWT } = require("../../utils/auth");
 const notificationResolvers = {
     Query: {},
     Mutation: {},
-    Notification: {
-        async user(parent) {
-            const user = await User.findOne({ _id: parent.user });
-            return user;
+    Topic: {
+        async posts(parent) {
+            const post = await User.findOne({ _id: parent._id });
+            await post.populate("posts");
+            return post.posts;
         },
     },
 };

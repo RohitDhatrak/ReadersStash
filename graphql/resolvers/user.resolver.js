@@ -1,15 +1,24 @@
 const { encrypt, decrypt } = require("../../utils/hashOperations");
-const { signToken, verifyToken } = require("../../utils/tokenOperations");
+const { signToken } = require("../../utils/tokenOperations");
 const { User } = require("../../models/user.model");
+const { Post } = require("../../models/post.model");
 const { UserInputError } = require("apollo-server");
+const { checkJWT } = require("../../utils/auth");
 
 const userResolvers = {
+    Query: {
+        async getUser(parent, args) {
+            const { userId } = args;
+            const user = await User.findOne({ _id: userId });
+            return user;
+        },
+    },
     Mutation: {
         async signup(parent, args) {
             const {
                 signupInput: { userName, password, email, name },
             } = args;
-            const user = await User.findOne({ userName }).exec();
+            const user = await User.findOne({ userName });
             if (user) {
                 throw new UserInputError("Username is taken", {
                     errors: {
@@ -31,7 +40,7 @@ const userResolvers = {
         },
         async login(parent, args) {
             const { userName, password } = args;
-            const user = await User.findOne({ userName }).exec();
+            const user = await User.findOne({ userName });
 
             if (user) {
                 const doesMatch = await decrypt(user.password, password);
@@ -52,6 +61,33 @@ const userResolvers = {
                     },
                 });
             }
+        },
+    },
+    User: {
+        async followers(parent) {
+            const user = await User.findOne({ _id: parent._id });
+            await user.populate("followers");
+            return user.followers;
+        },
+        async following(parent) {
+            const user = await User.findOne({ _id: parent._id });
+            await user.populate("following");
+            return user.following;
+        },
+        async posts(parent) {
+            const post = await User.findOne({ _id: parent._id });
+            await post.populate("posts");
+            return post.posts;
+        },
+        async liked(parent) {
+            const post = await User.findOne({ _id: parent._id });
+            await post.populate("liked");
+            return post.liked;
+        },
+        async bookmarks(parent) {
+            const post = await User.findOne({ _id: parent._id });
+            await post.populate("bookmarks");
+            return post.bookmarks;
         },
     },
 };
