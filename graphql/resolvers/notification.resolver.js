@@ -7,8 +7,8 @@ const notificationResolvers = {
     Mutation: {},
     Notification: {
         async user(parent) {
-            const user = await User.findOne({ _id: parent.user });
-            return user;
+            await parent.populate("user");
+            return parent.user;
         },
     },
 };

@@ -1,17 +1,25 @@
 const { User } = require("../../models/user.model");
 const { Post } = require("../../models/post.model");
+const { Topic } = require("../../models/topic.model");
 const { checkJWT } = require("../../utils/auth");
 
-const notificationResolvers = {
+const topicResolvers = {
     Query: {},
-    Mutation: {},
+    Mutation: {
+        async addTopic(parent, args, context) {
+            checkJWT(context);
+            const { name } = args;
+            const topic = new Topic({ name });
+            await topic.save();
+            return topic;
+        },
+    },
     Topic: {
         async posts(parent) {
-            const post = await User.findOne({ _id: parent._id });
-            await post.populate("posts");
-            return post.posts;
+            await parent.populate("posts");
+            return parent.posts;
         },
     },
 };
 
-module.exports = { notificationResolvers };
+module.exports = { topicResolvers };

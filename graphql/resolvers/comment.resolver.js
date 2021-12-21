@@ -7,26 +7,20 @@ const commentResolvers = {
     Mutation: {},
     Comment: {
         async user(parent) {
-            const user = await User.findOne({ _id: parent.user });
-            return user;
+            await parent.populate("user");
+            return parent.user;
         },
         async likes(parent) {
-            const comment = await Comment.findOne({ _id: parent._id });
-            if (comment) {
-                await comment.populate("likes");
-                return comment.likes;
-            } else {
-                return [];
-            }
+            await parent.populate("likes");
+            return parent.likes;
         },
         async replies(parent) {
-            const comment = await Comment.findOne({ _id: parent._id });
-            if (comment) {
-                await comment.populate("replies");
-                return comment.replies;
-            } else {
-                return [];
-            }
+            await parent.populate("replies");
+            return parent.replies;
+        },
+        async parent(parent) {
+            await parent.populate("parent");
+            return parent.parent;
         },
     },
 };

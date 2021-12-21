@@ -65,29 +65,24 @@ const userResolvers = {
     },
     User: {
         async followers(parent) {
-            const user = await User.findOne({ _id: parent._id });
-            await user.populate("followers");
-            return user.followers;
+            await parent.populate("followers");
+            return parent.followers;
         },
         async following(parent) {
-            const user = await User.findOne({ _id: parent._id });
-            await user.populate("following");
-            return user.following;
+            await parent.populate("following");
+            return parent.following;
         },
         async posts(parent) {
-            const post = await User.findOne({ _id: parent._id });
-            await post.populate("posts");
-            return post.posts;
+            await parent.populate("posts");
+            return parent.posts;
         },
         async liked(parent) {
-            const post = await User.findOne({ _id: parent._id });
-            await post.populate("liked");
-            return post.liked;
+            await parent.populate("liked");
+            return parent.liked;
         },
-        async bookmarks(parent) {
-            const post = await User.findOne({ _id: parent._id });
-            await post.populate("bookmarks");
-            return post.bookmarks;
+        async bookmarked(parent) {
+            await parent.populate("bookmarked");
+            return parent.bookmarked;
         },
     },
 };
