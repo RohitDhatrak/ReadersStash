@@ -6,7 +6,7 @@ const { ForbiddenError } = require("apollo-server");
 
 const postResolvers = {
     Query: {
-        async getPosts() {
+        async getPosts(parent, args, context) {
             checkJWT(context);
             const posts = await Post.find();
             return posts;
@@ -38,19 +38,19 @@ const postResolvers = {
         async deletePost(parent, args, context) {
             checkJWT(context);
             const { postId, userId } = args;
-            const post = Post.findOne({ _id: postId });
+            const post = await Post.findOne({ _id: postId });
 
-            if (post.user === userId) {
-                await Post.deleteOne({ _id: postId });
+            if (post.user.valueOf() === userId) {
                 const userDoc = await User.findOne({ _id: userId });
+                await Post.deleteOne({ _id: postId });
                 userDoc.posts = userDoc.posts.filter(
-                    (postId) => postId !== post._id
+                    (postId) => postId.valueOf() !== post._id
                 );
                 userDoc.save();
                 for (const topicId of post.topics) {
                     const topic = await Topic.findOne({ _id: topicId });
                     topic.posts = topic.posts.filter(
-                        (postId) => postId !== post._id
+                        (postId) => postId.valueOf() !== post._id
                     );
                     topic.save();
                 }
@@ -64,7 +64,7 @@ const postResolvers = {
         async likePost(parent, args, context) {
             checkJWT(context);
             const { postId, userId } = args;
-            const post = Post.findOne({ _id: postId });
+            const post = await Post.findOne({ _id: postId });
             post.likes.push(userId);
             await post.save();
             const userDoc = await User.findOne({ _id: userId });
@@ -75,18 +75,20 @@ const postResolvers = {
         async unlikePost(parent, args, context) {
             checkJWT(context);
             const { postId, userId } = args;
-            const post = Post.findOne({ _id: postId });
-            post.likes = post.likes.filter((id) => id !== userId);
+            const post = await Post.findOne({ _id: postId });
+            post.likes = post.likes.filter((id) => id.valueOf() !== userId);
             await post.save();
             const userDoc = await User.findOne({ _id: userId });
-            userDoc.liked = userDoc.liked.filter((id) => id !== postId);
+            userDoc.liked = userDoc.liked.filter(
+                (id) => id.valueOf() !== postId
+            );
             userDoc.save();
             return post;
         },
         async bookmark(parent, args, context) {
             checkJWT(context);
             const { postId, userId } = args;
-            const post = Post.findOne({ _id: postId });
+            const post = await Post.findOne({ _id: postId });
             post.bookmarks.push(userId);
             await post.save();
             const userDoc = await User.findOne({ _id: userId });
@@ -97,12 +99,14 @@ const postResolvers = {
         async removeBookmark(parent, args, context) {
             checkJWT(context);
             const { postId, userId } = args;
-            const post = Post.findOne({ _id: postId });
-            post.bookmarks = post.bookmarks.filter((id) => id !== userId);
+            const post = await Post.findOne({ _id: postId });
+            post.bookmarks = post.bookmarks.filter(
+                (id) => id.valueOf() !== userId
+            );
             await post.save();
             const userDoc = await User.findOne({ _id: userId });
             userDoc.bookmarked = userDoc.bookmarked.filter(
-                (id) => id !== postId
+                (id) => id.valueOf() !== postId
             );
             userDoc.save();
             return post;

@@ -15,7 +15,7 @@ const typeDefs = gql`
         following: [User]
         posts: [Post]
         liked: [Post]
-        bookmarks: [Post]
+        bookmarked: [Post]
         createdAt: String
         updatedAt: String
     }
@@ -25,6 +25,7 @@ const typeDefs = gql`
         body: String!
         user: User!
         likes: [User]
+        bookmarks: [User]
         comments: [Comment]
         topics: [Topic]
         createdAt: String
@@ -36,6 +37,7 @@ const typeDefs = gql`
         user: User!
         likes: [User]!
         replies: [Comment]!
+        parentComment: Comment
         createdAt: String
         updatedAt: String
     }
@@ -51,7 +53,7 @@ const typeDefs = gql`
     type Topic {
         _id: ID!
         name: String!
-        posts: [Post]!
+        posts: [Post]
     }
     input SignupInput {
         userName: String!
@@ -62,25 +64,44 @@ const typeDefs = gql`
     input createPostInput {
         title: String!
         body: String!
-        user: String!
+        userId: String!
         topics: [String]!
+    }
+    input updateProfileInput {
+        userId: ID!
+        email: String!
+        userName: String!
+        name: String!
+        profilePicture: String
+        bio: String
+        location: String
+        url: String
     }
     type Query {
         getPosts: [Post]!
-        getPost(postId: ID): Post!
-        getUser(userId: ID): User!
+        getPost(postId: ID!): Post!
+        getUser(userId: ID!): User!
+        getTopics: [Topic]!
+        getTopic(topicId: ID!): Topic!
+        getComments(postId: ID!): [Comment]!
         # getNotifications
     }
     type Mutation {
-        signup(signupInput: SignupInput): User!
-        login(userName: String, password: String): User!
-        createPost(createPostInput: createPostInput): Post!
-        deletePost(postId: ID, userId: ID): Post!
-        # like/unlike post
-        # bookmark/remove bookmark
-        # add/delete comment
-        # follow/unfollow user
-        # update profile
+        signup(signupInput: SignupInput!): User!
+        login(userName: String!, password: String!): User!
+        createPost(createPostInput: createPostInput!): Post!
+        deletePost(postId: ID!, userId: ID!): Post!
+        likePost(postId: ID!, userId: ID!): Post!
+        unlikePost(postId: ID!, userId: ID!): Post!
+        bookmark(postId: ID!, userId: ID!): Post!
+        removeBookmark(postId: ID!, userId: ID!): Post!
+        addComment(body: String!, userId: ID!, parentCommentId: ID): Comment!
+        deleteComment(commentId: ID!, parentCommentId: ID): Comment!
+        followUser(userId: ID!, otherUserId: ID!): User!
+        unfollowUser(userId: ID!, otherUserId: ID!): User!
+        updateProfile(updateProfileInput: updateProfileInput!): User!
+        addTopic(name: String!): Topic!
+        # set notifications
     }
 `;
 

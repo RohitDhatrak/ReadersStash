@@ -3,8 +3,53 @@ const { Comment } = require("../../models/comment.model");
 const { checkJWT } = require("../../utils/auth");
 
 const commentResolvers = {
-    Query: {},
-    Mutation: {},
+    Query: {
+        async getComments(parent, args, context) {
+            checkJWT(context);
+            const comments = await Comment.find();
+            return comments;
+        },
+    },
+    Mutation: {
+        async addComment(parent, args, context) {
+            checkJWT(context);
+            const { body, userId, parentCommentId } = args;
+            if (parentCommentId) {
+                const comment = new Comment({
+                    body,
+                    user: userId,
+                    parentComment: parentCommentId,
+                });
+                return comment;
+            } else {
+                const comment = new Comment({
+                    body,
+                    user: userId,
+                });
+                return comment;
+            }
+        },
+        async deleteComment(parent, args, context) {
+            checkJWT(context);
+            const { commentId, parentCommentId } = args;
+            if (parentCommentId) {
+                const parentComment = await Comment.findOne({
+                    parentComment: parentCommentId,
+                });
+                parentComment.replies = parentComment.replies.filter(
+                    (id) => id.valueOf() !== commentId
+                );
+                const comment = await Comment.findOne({ _id: commentId });
+                await Comment.deleteOne({ _id: commentId });
+                parentComment.save();
+                return comment;
+            } else {
+                const comment = await Comment.findOne({ _id: commentId });
+                await Comment.deleteOne({ _id: commentId });
+                return comment;
+            }
+        },
+    },
     Comment: {
         async user(parent) {
             await parent.populate("user");
@@ -18,8 +63,8 @@ const commentResolvers = {
             await parent.populate("replies");
             return parent.replies;
         },
-        async parent(parent) {
-            await parent.populate("parent");
+        async parentComment(parent) {
+            await parent.populate("parentComment");
             return parent.parent;
         },
     },

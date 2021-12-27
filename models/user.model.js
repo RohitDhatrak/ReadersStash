@@ -49,7 +49,7 @@ const UserSchema = new Schema(
                 ref: "Post",
             },
         ],
-        bookmarks: [
+        bookmarked: [
             {
                 type: Schema.Types.ObjectId,
                 ref: "Post",

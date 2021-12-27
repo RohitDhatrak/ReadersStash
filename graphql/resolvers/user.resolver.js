@@ -62,6 +62,52 @@ const userResolvers = {
                 });
             }
         },
+        async followUser(parent, args, context) {
+            checkJWT(context);
+            const { userId, otherUserId } = args;
+            const user = await User.findOne({ _id: userId });
+            const otherUser = await User.findOne({ _id: otherUserId });
+            user.following.push(otherUserId);
+            otherUser.followers.push(userId);
+            return user;
+        },
+        async unfollowUser(parent, args, context) {
+            checkJWT(context);
+            const { userId, otherUserId } = args;
+            const user = await User.findOne({ _id: userId });
+            const otherUser = await User.findOne({ _id: otherUserId });
+            user.following = user.following.filter(
+                (id) => id.valueOf() !== otherUserId
+            );
+            otherUser.followers = otherUser.followers.filter(
+                (id) => id.valueOf() !== userId
+            );
+            user.save();
+            otherUser.save();
+            return user;
+        },
+        async updateProfile(parent, args, context) {
+            const {
+                userId,
+                email,
+                userName,
+                name,
+                profilePicture,
+                bio,
+                location,
+                url,
+            } = args;
+            const user = await User.findOne({ _id: userId });
+            user.email = email;
+            user.userName = userName;
+            user.name = name;
+            user.profilePicture = profilePicture;
+            user.bio = bio;
+            user.location = location;
+            user.url = url;
+            await user.save();
+            return user;
+        },
     },
     User: {
         async followers(parent) {

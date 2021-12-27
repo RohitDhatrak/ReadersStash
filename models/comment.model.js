@@ -20,6 +20,10 @@ const CommentSchema = new Schema(
                 ref: "Comment",
             },
         ],
+        parentComment: {
+            type: Schema.Types.ObjectId,
+            ref: "Comment",
+        },
         createdAt: Number,
         updatedAt: Number,
     },
