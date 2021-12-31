@@ -7,7 +7,8 @@ const { checkJWT } = require("../../utils/auth");
 
 const userResolvers = {
     Query: {
-        async getUser(parent, args) {
+        async getUser(parent, args, context) {
+            checkJWT(context);
             const { userId } = args;
             const user = await User.findOne({ _id: userId });
             return user;
@@ -45,7 +46,7 @@ const userResolvers = {
             if (user) {
                 const doesMatch = await decrypt(user.password, password);
                 if (doesMatch) {
-                    const jwt = signToken(user.id);
+                    const jwt = signToken(user._id);
                     return { ...user._doc, jwt };
                 } else {
                     throw new UserInputError("Password does not match", {
