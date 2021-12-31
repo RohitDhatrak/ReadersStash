@@ -25,8 +25,10 @@ const typeDefs = gql`
         body: String!
         user: User!
         likes: [User]
+        likesCount: Int
         bookmarks: [User]
         comments: [Comment]
+        commentsCount: Int
         topics: [Topic]
         createdAt: String
         updatedAt: String

@@ -129,6 +129,12 @@ const postResolvers = {
             await parent.populate("topics");
             return parent.topics;
         },
+        likesCount(parent) {
+            return parent.likes.length;
+        },
+        commentsCount(parent) {
+            return parent.comments.length;
+        },
     },
 };
 
