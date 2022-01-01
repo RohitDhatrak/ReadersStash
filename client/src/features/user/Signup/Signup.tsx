@@ -1,14 +1,13 @@
 import { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useMutation } from "@apollo/client";
-import { FormEvent, InputEvent } from "../../types";
-import { useAppSelector, useAppDispatch } from "../../app/hooks";
-import { RootState } from "../../app/store";
-import { FlexContainer, Container } from "../../components/Shared";
-import { InputBox, ActionButton } from "../../components";
-import { validatePassword } from "../../utils/validatePassword";
-import { SIGN_UP } from "../../graphql/mutation";
-import { login } from "../../features/user/userSlice";
+import { FormEvent, InputEvent } from "../../../types";
+import { useAppSelector, useAppDispatch } from "../../../app/hooks";
+import { FlexContainer, Container } from "../../../components/Shared";
+import { InputBox, ActionButton } from "../../../components";
+import { validatePassword } from "../../../utils/validatePassword";
+import { SIGN_UP } from "../../../graphql/mutations";
+import { login, getUser } from "../userSlice";
 
 export function Signup() {
     const [name, setName] = useState("");
@@ -17,9 +16,11 @@ export function Signup() {
     const [password, setPassword] = useState("");
     const [retypedPassword, setRetypedPassword] = useState("");
     const [errorMessage, setErrorMessage] = useState("");
-    const user = useAppSelector((state: RootState) => state.user);
+    const user = useAppSelector(getUser);
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
+    const { state }: any = useLocation();
+    const previousPath = state?.previousPath || "/";
 
     useEffect(() => {
         window.scrollTo(0, 0);
@@ -27,7 +28,7 @@ export function Signup() {
 
     useEffect(() => {
         if (user?._id) {
-            navigate("/feed", { replace: true });
+            navigate("/", { replace: true });
         }
     }, [user]);
 
@@ -155,7 +156,10 @@ export function Signup() {
                     <Container display="inline" mr="0.2em">
                         Already have an account?
                     </Container>
-                    <Link to="/login">
+                    <Link
+                        to="/login"
+                        state={{ previousPath: `${previousPath}` }}
+                    >
                         <Container
                             display="inline"
                             color="var(--secondary-color)"

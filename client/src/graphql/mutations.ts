@@ -35,3 +35,34 @@ export const LOGIN = gql`
         }
     }
 `;
+
+export const ADD_POST = gql`
+    mutation createPost(
+        $title: String!
+        $body: String!
+        $image: String
+        $userId: ID!
+    ) {
+        createPost(
+            createPostInput: {
+                title: $title
+                body: $body
+                image: $image
+                userId: $userId
+            }
+        ) {
+            _id
+            title
+            body
+            image
+            user {
+                _id
+                userName
+                name
+                profilePicture
+            }
+            likesCount
+            commentsCount
+        }
+    }
+`;

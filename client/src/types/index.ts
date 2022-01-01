@@ -3,9 +3,12 @@ export interface Post {
     title: string;
     body: string;
     user: User;
+    image?: string;
     likes: Array<User>;
+    likesCount: number;
     bookmarks: Array<User>;
     comments: Array<Comment>;
+    commentsCount: number;
     topics: Array<Topic>;
     createdAt: string;
     updatedAt: string;
@@ -61,3 +64,4 @@ export type ButtonEvent =
     | React.MouseEvent<HTMLButtonElement>
     | React.MouseEvent<HTMLDivElement, MouseEvent>;
 export type FormEvent = React.FormEvent;
+export type TextAreaEvent = React.ChangeEvent<HTMLTextAreaElement>;

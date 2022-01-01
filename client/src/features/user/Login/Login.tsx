@@ -1,13 +1,12 @@
 import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useMutation } from "@apollo/client";
-import { InputEvent, FormEvent } from "../../types";
-import { useAppSelector, useAppDispatch } from "../../app/hooks";
-import { RootState } from "../../app/store";
-import { FlexContainer, Container } from "../../components/Shared";
-import { InputBox, ActionButton } from "../../components";
-import { LOGIN } from "../../graphql/mutation";
-import { login } from "../../features/user/userSlice";
+import { InputEvent, FormEvent } from "../../../types";
+import { useAppSelector, useAppDispatch } from "../../../app/hooks";
+import { FlexContainer, Container } from "../../../components/Shared";
+import { InputBox, ActionButton } from "../../../components";
+import { LOGIN } from "../../../graphql/mutations";
+import { login, getUser } from "../userSlice";
 
 export function Login() {
     const [userName, setUserName] = useState(
@@ -18,9 +17,11 @@ export function Login() {
     );
     const [errorMessage, setErrorMessage] = useState("");
     const [asGuest, setAsGuest] = useState(true);
-    const user = useAppSelector((state: RootState) => state.user);
+    const user = useAppSelector(getUser);
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
+    const { state }: any = useLocation();
+    const previousPath = state?.previousPath || "/";
 
     useEffect(() => {
         window.scrollTo(0, 0);
@@ -28,7 +29,7 @@ export function Login() {
 
     useEffect(() => {
         if (user?._id) {
-            navigate("/feed", { replace: true });
+            navigate(previousPath, { replace: true });
         }
     }, [user]);
 
@@ -110,7 +111,10 @@ export function Login() {
                     <Container display="inline" mr="0.2em">
                         Don't have an account yet?
                     </Container>
-                    <Link to="/signup">
+                    <Link
+                        to="/signup"
+                        state={{ previousPath: `${previousPath}` }}
+                    >
                         <Container
                             display="inline"
                             color="var(--secondary-color)"

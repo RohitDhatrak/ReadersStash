@@ -26,7 +26,7 @@ export function LandingPage() {
             >
                 <FlexContainer
                     align="center"
-                    onClick={() => navigate("/")}
+                    onClick={() => navigate("/", { replace: true })}
                     cursor="pointer"
                 >
                     <Image src={logo} w="2em" mr="1em" />
@@ -47,7 +47,7 @@ export function LandingPage() {
                         cursor="pointer"
                         p="0.5em 1em"
                         mr="1em"
-                        onClick={() => navigate("/login")}
+                        onClick={() => navigate("/login", { replace: true })}
                     >
                         Login
                     </Container>
@@ -62,7 +62,7 @@ export function LandingPage() {
                         fw={600}
                         cursor="pointer"
                         p="0.5em 1em"
-                        onClick={() => navigate("/signup")}
+                        onClick={() => navigate("/signup", { replace: true })}
                     >
                         Get Started
                     </HeaderButtonContainer>
@@ -77,7 +77,10 @@ export function LandingPage() {
                     <Container fs="1.2rem" mt="1em" mb="1em">
                         Share Ideas from books, articles, & podcasts
                     </Container>
-                    <ActionButton w="10em" onClick={() => navigate("/signup")}>
+                    <ActionButton
+                        w="10em"
+                        onClick={() => navigate("/signup", { replace: true })}
+                    >
                         Get Started
                     </ActionButton>
                 </FlexContainer>

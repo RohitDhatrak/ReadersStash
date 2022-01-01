@@ -1,4 +1,5 @@
-import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { RootState } from "../../app/store";
 import { User } from "../../types";
 
 const initialState: User = {
@@ -40,6 +41,8 @@ export const userSlice = createSlice({
         },
     },
 });
+
+export const getUser = (state: RootState) => state.user;
 
 export default userSlice.reducer;
 

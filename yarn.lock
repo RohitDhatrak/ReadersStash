@@ -628,6 +628,21 @@ clone-response@^1.0.2:
   dependencies:
     mimic-response "^1.0.0"
 
+cloudinary-core@^2.10.2:
+  version "2.12.0"
+  resolved "https://registry.yarnpkg.com/cloudinary-core/-/cloudinary-core-2.12.0.tgz#fe20231e7bf6a52116c61a2a03c04fcc60b968a3"
+  integrity sha512-EXvnWuq3Ah6pZHB2vEfkrJ4tCGlccZo3xsmt1f+bmrB53jU42ZrnX+v8xKRMot9c/STSO7GPbxbhJQ/z/xRazg==
+
+cloudinary@^1.27.1:
+  version "1.27.1"
+  resolved "https://registry.yarnpkg.com/cloudinary/-/cloudinary-1.27.1.tgz#41abace12827dd1edc06ff511d8da2e261b3845f"
+  integrity sha512-NrSVdzD2yJUMwL4UTfOjlq+bkc88SaNoZjhibLnpI40c46vfIlz2Y77R9HfgYIQ1Lx/k+U1WKZuiQ5Z2Wd2Dsg==
+  dependencies:
+    cloudinary-core "^2.10.2"
+    core-js "3.6.5"
+    lodash "^4.17.11"
+    q "^1.5.1"
+
 color-convert@^2.0.1:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/color-convert/-/color-convert-2.0.1.tgz#72d3a68d598c9bdb3af2ad1e84f21d896abd4de3"
@@ -698,6 +713,11 @@ core-js-pure@^3.10.2:
   version "3.20.0"
   resolved "https://registry.yarnpkg.com/core-js-pure/-/core-js-pure-3.20.0.tgz#7253feccf8bb05b72c153ddccdbe391ddbffbe03"
   integrity sha512-qsrbIwWSEEYOM7z616jAVgwhuDDtPLwZSpUsU3vyUkHYqKTf/uwOJBZg2V7lMurYWkpVlaVOxBrfX0Q3ppvjfg==
+
+core-js@3.6.5:
+  version "3.6.5"
+  resolved "https://registry.yarnpkg.com/core-js/-/core-js-3.6.5.tgz#7395dc273af37fb2e50e9bd3d9fe841285231d1a"
+  integrity sha512-vZVEEwZoIsI+vPEuoF9Iqf5H7/M3eeQqWlQnYa8FSKKePuYTf5MWnxb5SDAzCa60b3JBRS5g9b+Dq7b1y/RCrA==
 
 cors@^2.8.5:
   version "2.8.5"
@@ -1310,6 +1330,11 @@ lodash.sortby@^4.7.0:
   resolved "https://registry.yarnpkg.com/lodash.sortby/-/lodash.sortby-4.7.0.tgz#edd14c824e2cc9c1e0b0a1b42bb5210516a42438"
   integrity sha1-7dFMgk4sycHgsKG0K7UhBRakJDg=
 
+lodash@^4.17.11:
+  version "4.17.21"
+  resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.21.tgz#679591c564c3bffaae8454cf0b3df370c3d6911c"
+  integrity sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==
+
 loglevel@^1.6.8:
   version "1.8.0"
   resolved "https://registry.yarnpkg.com/loglevel/-/loglevel-1.8.0.tgz#e7ec73a57e1e7b419cb6c6ac06bf050b67356114"
@@ -1644,6 +1669,11 @@ pupa@^2.1.1:
   integrity sha512-l1jNAspIBSFqbT+y+5FosojNpVpF94nlI+wDUpqP9enwOTfHx9f0gh5nB96vl+6yTpsJsypeNrwfzPrKuHB41A==
   dependencies:
     escape-goat "^2.0.0"
+
+q@^1.5.1:
+  version "1.5.1"
+  resolved "https://registry.yarnpkg.com/q/-/q-1.5.1.tgz#7e32f75b41381291d04611f1bf14109ac00651d7"
+  integrity sha1-fjL3W0E4EpHQRhHxvxQQmsAGUdc=
 
 qs@6.7.0:
   version "6.7.0"

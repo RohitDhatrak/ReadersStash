@@ -21,6 +21,7 @@
     "dependencies": {
         "apollo-server": "^3.5.0",
         "bcrypt": "^5.0.1",
+        "cloudinary": "^1.27.1",
         "dotenv": "^10.0.0",
         "graphql": "^16.1.0",
         "jsonwebtoken": "^8.5.1",

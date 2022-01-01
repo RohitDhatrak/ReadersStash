@@ -3,12 +3,13 @@ const { Post } = require("../../models/post.model");
 const { Topic } = require("../../models/topic.model");
 const { checkJWT } = require("../../utils/auth");
 const { ForbiddenError } = require("apollo-server");
+const { cloudinary } = require("../../utils/cloudinary");
 
 const postResolvers = {
     Query: {
         async getPosts(parent, args, context) {
             checkJWT(context);
-            const posts = await Post.find();
+            const posts = await Post.find().sort({ createdAt: -1 });
             return posts;
         },
         async getPost(parent, args) {
@@ -20,19 +21,25 @@ const postResolvers = {
     Mutation: {
         async createPost(parent, args, context) {
             checkJWT(context);
-            const {
-                createPostInput: { title, body, userId, topics },
+            let {
+                createPostInput: { title, body, userId, topics, image },
             } = args;
-            const post = new Post({ title, body, user: userId, topics });
+            if (image) {
+                const { url } = await cloudinary.uploader.upload(image, {
+                    upload_preset: "social_media",
+                });
+                image = url;
+            }
+            const post = new Post({ title, body, user: userId, image });
             await post.save();
             const userDoc = await User.findOne({ _id: userId });
             userDoc.posts.push(post._id);
             await userDoc.save();
-            for (const topicId of topics) {
-                const topic = await Topic.findOne({ _id: topicId });
-                topic.posts.push(post._id);
-                await topic.save();
-            }
+            // for (const topicId of topics) {
+            //     const topic = await Topic.findOne({ _id: topicId });
+            //     topic.posts.push(post._id);
+            //     await topic.save();
+            // }
             return post;
         },
         async deletePost(parent, args, context) {
@@ -47,13 +54,13 @@ const postResolvers = {
                     (postId) => postId.valueOf() !== post._id
                 );
                 userDoc.save();
-                for (const topicId of post.topics) {
-                    const topic = await Topic.findOne({ _id: topicId });
-                    topic.posts = topic.posts.filter(
-                        (postId) => postId.valueOf() !== post._id
-                    );
-                    topic.save();
-                }
+                // for (const topicId of post.topics) {
+                //     const topic = await Topic.findOne({ _id: topicId });
+                //     topic.posts = topic.posts.filter(
+                //         (postId) => postId.valueOf() !== post._id
+                //     );
+                //     topic.save();
+                // }
                 return post;
             } else {
                 throw new ForbiddenError(

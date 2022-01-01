@@ -1,14 +1,6 @@
 import styled, { css } from "styled-components";
 import { ContainerCommonProps, CommonContainer } from "./CommonContainer";
 
-type ContainerProps = ContainerCommonProps & {
-    display?: "inline" | "inline-block" | "block";
-};
+type ContainerProps = ContainerCommonProps & {};
 
-export const Container = styled(CommonContainer)<ContainerProps>`
-    ${(props) =>
-        props.display &&
-        css`
-            display: ${() => props.display};
-        `}
-`;
+export const Container = styled(CommonContainer)<ContainerProps>``;

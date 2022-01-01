@@ -9,14 +9,8 @@ export const LandingPageContainer = styled(FlexContainer)`
     margin: auto;
     max-width: 80%;
     width: 60em;
-    ${media.tablet} {
-    }
-    ${media.custom(800)} {
-    }
     ${media.largeTablet} {
         flex-direction: row;
-    }
-    ${media.desktop} {
     }
 `;
 
@@ -24,10 +18,6 @@ export const ImageContainer = styled(Container)`
     width: 20em;
     max-width: 90vw;
     margin-bottom: 2em;
-    ${media.tablet} {
-    }
-    ${media.custom(800)} {
-    }
     ${media.largeTablet} {
         width: 30em;
     }

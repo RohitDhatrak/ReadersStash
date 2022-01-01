@@ -24,6 +24,7 @@ const typeDefs = gql`
         title: String!
         body: String!
         user: User!
+        image: String
         likes: [User]
         likesCount: Int
         bookmarks: [User]
@@ -63,13 +64,14 @@ const typeDefs = gql`
         email: String!
         name: String!
     }
-    input createPostInput {
+    input CreatePostInput {
         title: String!
         body: String!
-        userId: String!
-        topics: [String]!
+        image: String
+        userId: ID!
+        topics: [String]
     }
-    input updateProfileInput {
+    input UpdateProfileInput {
         userId: ID!
         email: String!
         userName: String!
@@ -91,7 +93,7 @@ const typeDefs = gql`
     type Mutation {
         signup(signupInput: SignupInput!): User!
         login(userName: String!, password: String!): User!
-        createPost(createPostInput: createPostInput!): Post!
+        createPost(createPostInput: CreatePostInput!): Post!
         deletePost(postId: ID!, userId: ID!): Post!
         likePost(postId: ID!, userId: ID!): Post!
         unlikePost(postId: ID!, userId: ID!): Post!
@@ -101,7 +103,7 @@ const typeDefs = gql`
         deleteComment(commentId: ID!, parentCommentId: ID): Comment!
         followUser(userId: ID!, otherUserId: ID!): User!
         unfollowUser(userId: ID!, otherUserId: ID!): User!
-        updateProfile(updateProfileInput: updateProfileInput!): User!
+        updateProfile(updateProfileInput: UpdateProfileInput!): User!
         addTopic(name: String!): Topic!
         # set notifications
     }

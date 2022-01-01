@@ -6,17 +6,14 @@
     --secondary-color: #743c7a;
     --bg-color: #f2efeb;
     --font-color: #323130;
+    --font-color-2: #9197a3;
+    --card-color: #fff;
     --border-color: #35312b;
     --success-color: #22c55e;
     --error-color: #b91c1c;
     --icon-color: #e8e6e3;
     --z-index-1: 1;
     --z-index-2: 2;
-}
-
-.hero-image-styles {
-    fill: none;
-    width: 100%;
 }
 
 body {
@@ -29,6 +26,41 @@ body {
 a {
     text-decoration: none;
     color: unset;
+}
+
+textarea {
+    resize: none;
+}
+
+.hero-image-styles {
+    fill: none;
+    width: 100%;
+}
+
+.inputWrapper {
+    height: 32px;
+    width: 64px;
+    overflow: hidden;
+    position: relative;
+    cursor: pointer;
+}
+
+.fileInput {
+    cursor: pointer;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 99;
+    font-size: 50px;
+    opacity: 0;
+    -moz-opacity: 0;
+    filter: progid:DXImageTransform.Microsoft.Alpha(opacity=0);
+}
+
+.post-body:focus,
+.post-title:focus {
+    outline: none;
 }
 
 .scale-11 {
