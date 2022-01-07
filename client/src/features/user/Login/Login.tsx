@@ -46,9 +46,11 @@ export function Login() {
 
     const [loginUser] = useMutation(LOGIN, {
         onCompleted(data) {
-            const { _id, userName, name, profilePicture, jwt } = data.login;
-            dispatch(login(_id, userName, name, profilePicture, jwt));
-            localStorage.setItem("user", JSON.stringify({ _id, jwt }));
+            dispatch(login(data.login));
+            localStorage.setItem(
+                "user",
+                JSON.stringify({ _id: data.login._id, jwt: data.login.jwt })
+            );
         },
         onError(error) {
             setErrorMessage(

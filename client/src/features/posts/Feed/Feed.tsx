@@ -7,6 +7,7 @@ import { FlexContainer, Container } from "../../../components/Shared";
 import { InputBox, ActionButton, Post } from "../../../components";
 import { GET_POSTS } from "../../../graphql/queries";
 import { postsLoaded } from "../postsSlice";
+import { PageContainer } from "./style.feed";
 
 export function Feed() {
     const dispatch = useAppDispatch();
@@ -17,10 +18,12 @@ export function Feed() {
     });
 
     return (
-        <FlexContainer direction="column" align="center">
-            {data?.getPosts?.map((post: PostType) => (
-                <Post post={post} />
-            ))}
-        </FlexContainer>
+        <PageContainer mb="2em" justify="center">
+            <FlexContainer direction="column" align="center">
+                {data?.getPosts?.map((post: PostType) => (
+                    <Post post={post} key={post._id} />
+                ))}
+            </FlexContainer>
+        </PageContainer>
     );
 }

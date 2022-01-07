@@ -11,7 +11,6 @@ export function PrivateRoute({
     path: string;
 }) {
     const user = useAppSelector(getUser);
-    console.log(user);
 
     return user?._id ? (
         children

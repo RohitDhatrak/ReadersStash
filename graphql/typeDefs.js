@@ -12,12 +12,17 @@ const typeDefs = gql`
         location: String
         url: String
         followers: [User]
+        followersCount: Int
         following: [User]
+        followingCount: Int
         posts: [Post]
         liked: [Post]
         bookmarked: [Post]
         createdAt: String
         updatedAt: String
+    }
+    type HashMap {
+        _id: Boolean
     }
     type Post {
         _id: ID!
@@ -84,7 +89,7 @@ const typeDefs = gql`
     type Query {
         getPosts: [Post]!
         getPost(postId: ID!): Post!
-        getUser(userId: ID!): User!
+        getUser(userId: ID, userName: String): User!
         getTopics: [Topic]!
         getTopic(topicId: ID!): Topic!
         getComments(postId: ID!): [Comment]!

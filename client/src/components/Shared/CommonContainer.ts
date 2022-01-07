@@ -52,6 +52,7 @@ export type ContainerCommonProps = {
     hover?: string;
     overflow?: "auto";
     display?: "inline" | "inline-block" | "block" | "none";
+    whiteSpace?: "pre" | "pre-wrap";
 };
 
 export const CommonContainer = styled.div<ContainerCommonProps>`
@@ -241,6 +242,11 @@ export const CommonContainer = styled.div<ContainerCommonProps>`
         props.display &&
         css`
             display: ${() => props.display};
+        `}
+    ${(props) =>
+        props.whiteSpace &&
+        css`
+            white-space: ${() => props.whiteSpace};
         `}
     &:hover {
         ${(props) => props.hover}

@@ -6,7 +6,7 @@ type FlexContainerProps = ContainerCommonProps & {
     justify?: "center" | "baseline" | "space-between" | "space-around";
     align?: "center" | "baseline";
     wrap?: "wrap";
-    direction?: "column";
+    direction?: "column" | "row";
     gap?: string;
 };
 

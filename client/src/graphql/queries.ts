@@ -26,6 +26,71 @@ export const GET_INITIAL_DATA = gql`
             userName
             name
             profilePicture
+            liked {
+                _id
+            }
+            bookmarked {
+                _id
+            }
+        }
+    }
+`;
+
+export const GET_PROFILE_DATA = gql`
+    query Profile($userName: String!) {
+        getUser(userName: $userName) {
+            _id
+            email
+            userName
+            name
+            profilePicture
+            bio
+            location
+            url
+            followersCount
+            followingCount
+            posts {
+                _id
+                title
+                body
+                image
+                user {
+                    _id
+                    userName
+                    name
+                    profilePicture
+                }
+                likesCount
+                commentsCount
+            }
+            liked {
+                _id
+                title
+                body
+                image
+                user {
+                    _id
+                    userName
+                    name
+                    profilePicture
+                }
+                likesCount
+                commentsCount
+            }
+            bookmarked {
+                _id
+                title
+                body
+                image
+                user {
+                    _id
+                    userName
+                    name
+                    profilePicture
+                }
+                likesCount
+                commentsCount
+            }
         }
     }
 `;

@@ -23,21 +23,11 @@ export const userSlice = createSlice({
     name: "user",
     initialState,
     reducers: {
-        login: {
-            reducer(state, action: PayloadAction<User>) {
-                return { ...state, ...action.payload };
-            },
-            prepare(_id, userName, name, profilePicture, jwt) {
-                return {
-                    payload: {
-                        _id,
-                        userName,
-                        name,
-                        profilePicture,
-                        jwt,
-                    },
-                };
-            },
+        login(state, action: PayloadAction<User>) {
+            return { ...state, ...action.payload };
+        },
+        profileLoaded(state, action: PayloadAction<User>) {
+            return { ...state, ...action.payload };
         },
     },
 });
@@ -46,4 +36,4 @@ export const getUser = (state: RootState) => state.user;
 
 export default userSlice.reducer;
 
-export const { login } = userSlice.actions;
+export const { login, profileLoaded } = userSlice.actions;

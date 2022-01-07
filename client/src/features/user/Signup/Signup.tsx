@@ -44,9 +44,11 @@ export function Signup() {
 
     const [addUser] = useMutation(SIGN_UP, {
         onCompleted(data) {
-            const { _id, userName, name, profilePicture, jwt } = data.signup;
-            dispatch(login(_id, userName, name, profilePicture, jwt));
-            localStorage.setItem("user", JSON.stringify({ _id, jwt }));
+            dispatch(login(data.signup));
+            localStorage.setItem(
+                "user",
+                JSON.stringify({ _id: data.signup._id, jwt: data.signup.jwt })
+            );
         },
         onError(error) {
             setErrorMessage(

@@ -9,9 +9,14 @@ const userResolvers = {
     Query: {
         async getUser(parent, args, context) {
             checkJWT(context);
-            const { userId } = args;
-            const user = await User.findOne({ _id: userId });
-            return user;
+            const { userId, userName } = args;
+            if (userId) {
+                const user = await User.findOne({ _id: userId });
+                return user;
+            } else {
+                const user = await User.findOne({ userName });
+                return user;
+            }
         },
     },
     Mutation: {
@@ -115,9 +120,15 @@ const userResolvers = {
             await parent.populate("followers");
             return parent.followers;
         },
+        followersCount(parent) {
+            return parent.followers.length;
+        },
         async following(parent) {
             await parent.populate("following");
             return parent.following;
+        },
+        followingCount(parent) {
+            return parent.following.length;
         },
         async posts(parent) {
             await parent.populate("posts");

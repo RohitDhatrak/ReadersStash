@@ -90,7 +90,7 @@ export function NewPost() {
 
     return (
         <FlexContainer
-            h="100vh"
+            h="80vh"
             align="center"
             justify="center"
             direction="column"

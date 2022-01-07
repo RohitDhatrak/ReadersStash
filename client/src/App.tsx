@@ -3,19 +3,25 @@ import { useQuery } from "@apollo/client";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Routes, Route, useNavigate, useLocation } from "react-router-dom";
-import { PrivateRoute } from "./components";
+import {
+    PrivateRoute,
+    Header,
+    SidePannel,
+    SidePannelMinimal,
+} from "./components";
+import { Container } from "./components/Shared";
 import { Post } from "./types";
 import { GET_INITIAL_DATA } from "./graphql/queries";
 import { getUserFromLocalStorage } from "./utils/localStorageOperations";
 import { useAppDispatch } from "./app/hooks";
 import { Page404, LandingPage } from "./pages";
-import { Feed, Login, Signup, NewPost } from "./features";
+import { Feed, Login, Signup, NewPost, Profile } from "./features";
 import { login } from "./features/user/userSlice";
 
 function App() {
     const user = JSON.parse(getUserFromLocalStorage());
-    console.log({ user });
     const dispatch = useAppDispatch();
+    const { pathname } = useLocation();
     const navigate = useNavigate();
     const [isLoading, setIsLoading] = useState(true);
 
@@ -31,15 +37,12 @@ function App() {
                     "user",
                     JSON.stringify({ _id: null, jwt: null })
                 );
-                console.log("auth error");
             }
             setIsLoading(false);
         },
         onCompleted(data) {
-            const { _id, userName, name, profilePicture, jwt } = data.getUser;
-            dispatch(login(_id, userName, name, profilePicture, jwt));
+            dispatch(login(data.getUser));
             setIsLoading(false);
-            console.log("logged in");
         },
         variables: {
             userId: user?._id ? user._id : "",
@@ -49,7 +52,10 @@ function App() {
     if (isLoading) return <p>Loading...</p>;
 
     return (
-        <div>
+        <Container>
+            <Header />
+            <SidePannel />
+            <SidePannelMinimal />
             <Routes>
                 <Route
                     path="/"
@@ -64,6 +70,14 @@ function App() {
                     element={
                         <PrivateRoute path="/newpost">
                             <NewPost />
+                        </PrivateRoute>
+                    }
+                />
+                <Route
+                    path="/:userName"
+                    element={
+                        <PrivateRoute path={`${pathname}`}>
+                            <Profile />
                         </PrivateRoute>
                     }
                 />
@@ -84,7 +98,7 @@ function App() {
                 pauseOnHover
                 theme="light"
             />
-        </div>
+        </Container>
     );
 }
 
