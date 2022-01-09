@@ -43,6 +43,7 @@ function App() {
         onCompleted(data) {
             dispatch(login(data.getUser));
             setIsLoading(false);
+            // console.log({ data });
         },
         variables: {
             userId: user?._id ? user._id : "",

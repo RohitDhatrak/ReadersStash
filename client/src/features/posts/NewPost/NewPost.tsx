@@ -17,7 +17,7 @@ import {
 } from "../../../components/Shared";
 // import {Header} from "../../../components";
 import { ADD_POST } from "../../../graphql/mutations";
-import { postAdded } from "../postsSlice";
+import { added } from "../postsSlice";
 import { getUser } from "../../user/userSlice";
 import { AddImageSvg, CloseSvg } from "../../../assets/svg";
 
@@ -58,7 +58,7 @@ export function NewPost() {
 
     const [addPost] = useMutation(ADD_POST, {
         onCompleted(data) {
-            dispatch(postAdded(data.createPost));
+            dispatch(added(data.createPost));
             toast.success("Post added successfully", {
                 position: "bottom-right",
                 autoClose: 2000,

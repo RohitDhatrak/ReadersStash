@@ -66,3 +66,79 @@ export const ADD_POST = gql`
         }
     }
 `;
+
+export const LIKE_POST = gql`
+    mutation likePost($postId: ID!, $userId: ID!) {
+        likePost(postId: $postId, userId: $userId) {
+            _id
+            title
+            body
+            image
+            user {
+                _id
+                userName
+                name
+                profilePicture
+            }
+            likesCount
+            commentsCount
+        }
+    }
+`;
+
+export const UNLIKE_POST = gql`
+    mutation unlikePost($postId: ID!, $userId: ID!) {
+        unlikePost(postId: $postId, userId: $userId) {
+            _id
+            title
+            body
+            image
+            user {
+                _id
+                userName
+                name
+                profilePicture
+            }
+            likesCount
+            commentsCount
+        }
+    }
+`;
+
+export const BOOKMARK = gql`
+    mutation bookmark($postId: ID!, $userId: ID!) {
+        bookmark(postId: $postId, userId: $userId) {
+            _id
+            title
+            body
+            image
+            user {
+                _id
+                userName
+                name
+                profilePicture
+            }
+            likesCount
+            commentsCount
+        }
+    }
+`;
+
+export const REMOVE_BOOKMARK = gql`
+    mutation removeBookmark($postId: ID!, $userId: ID!) {
+        removeBookmark(postId: $postId, userId: $userId) {
+            _id
+            title
+            body
+            image
+            user {
+                _id
+                userName
+                name
+                profilePicture
+            }
+            likesCount
+            commentsCount
+        }
+    }
+`;

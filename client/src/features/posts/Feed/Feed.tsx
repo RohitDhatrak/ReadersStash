@@ -6,21 +6,26 @@ import { useAppSelector, useAppDispatch } from "../../../app/hooks";
 import { FlexContainer, Container } from "../../../components/Shared";
 import { InputBox, ActionButton, Post } from "../../../components";
 import { GET_POSTS } from "../../../graphql/queries";
-import { postsLoaded } from "../postsSlice";
+import { loaded, getPosts } from "../postsSlice";
 import { PageContainer } from "./style.feed";
 
 export function Feed() {
     const dispatch = useAppDispatch();
-    const { data } = useQuery(GET_POSTS, {
+    const posts = useAppSelector(getPosts);
+
+    useQuery(GET_POSTS, {
         onCompleted(data) {
-            dispatch(postsLoaded(data.getPosts));
+            if (posts.length === 0) {
+                console.log("posts loaded");
+                dispatch(loaded(data.getPosts));
+            }
         },
     });
 
     return (
         <PageContainer mb="2em" justify="center">
             <FlexContainer direction="column" align="center">
-                {data?.getPosts?.map((post: PostType) => (
+                {posts.map((post: PostType) => (
                     <Post post={post} key={post._id} />
                 ))}
             </FlexContainer>

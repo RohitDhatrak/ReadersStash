@@ -142,6 +142,27 @@ const userResolvers = {
             await parent.populate("bookmarked");
             return parent.bookmarked;
         },
+        likesHashMap(parent) {
+            const map = {};
+            for (const postId of parent.liked) {
+                map[postId] = true;
+            }
+            return map;
+        },
+        bookmarksHashMap(parent) {
+            const map = {};
+            for (const postId of parent.bookmarked) {
+                map[postId] = true;
+            }
+            return map;
+        },
+        followingHashMap(parent) {
+            const map = {};
+            for (const userId of parent.following) {
+                map[userId] = true;
+            }
+            return map;
+        },
     },
 };
 

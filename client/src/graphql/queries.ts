@@ -26,12 +26,9 @@ export const GET_INITIAL_DATA = gql`
             userName
             name
             profilePicture
-            liked {
-                _id
-            }
-            bookmarked {
-                _id
-            }
+            likesHashMap
+            bookmarksHashMap
+            followingHashMap
         }
     }
 `;

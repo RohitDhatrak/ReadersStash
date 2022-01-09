@@ -1,6 +1,8 @@
 const gql = require("graphql-tag");
+const { GraphQLJSON, GraphQLJSONObject } = require("graphql-type-json");
 
 const typeDefs = gql`
+    scalar JSON
     type User {
         _id: ID!
         email: String!
@@ -20,9 +22,9 @@ const typeDefs = gql`
         bookmarked: [Post]
         createdAt: String
         updatedAt: String
-    }
-    type HashMap {
-        _id: Boolean
+        likesHashMap: JSON
+        bookmarksHashMap: JSON
+        followingHashMap: JSON
     }
     type Post {
         _id: ID!

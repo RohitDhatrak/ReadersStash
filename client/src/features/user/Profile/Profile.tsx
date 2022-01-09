@@ -17,7 +17,7 @@ export function Profile() {
     const [is404, set404] = useState(false);
     const [selectedSection, setSelectedSection] = useState("posts");
 
-    const { data } = useQuery(GET_PROFILE_DATA, {
+    useQuery(GET_PROFILE_DATA, {
         onCompleted(data) {
             dispatch(profileLoaded(data.getUser));
             set404(false);
@@ -32,23 +32,23 @@ export function Profile() {
         return <Page404 />;
     }
 
-    return !!data?.getUser ? (
+    return !!user ? (
         <PageContainer direction="column">
             <FlexContainer>
-                <Image src={data?.getUser?.profilePicture} />
+                <Image src={user?.profilePicture} />
                 <FlexContainer direction="column">
-                    <Container>{data?.getUser?.name}</Container>
-                    <Container>{data?.getUser?.userName}</Container>
-                    <Container>{data?.getUser?.bio}</Container>
-                    <a href={data?.getUser?.url}>{data?.getUser?.url}</a>
-                    <Container>{data?.getUser?.location}</Container>
+                    <Container>{user?.name}</Container>
+                    <Container>{user?.userName}</Container>
+                    <Container>{user?.bio}</Container>
+                    <a href={user?.url}>{user?.url}</a>
+                    <Container>{user?.location}</Container>
                     <FlexContainer>
                         <FlexContainer direction="row">
-                            {data?.getUser?.followersCount}
+                            {user?.followersCount}
                             <Container>Followers</Container>
                         </FlexContainer>
                         <FlexContainer direction="row">
-                            {data?.getUser?.followingCount}
+                            {user?.followingCount}
                             <Container>Following</Container>
                         </FlexContainer>
                     </FlexContainer>
@@ -69,20 +69,23 @@ export function Profile() {
             </FlexContainer>
             <FlexContainer direction="column" align="center">
                 {selectedSection === "posts" &&
-                    [...data?.getUser?.posts]
+                    user?.posts &&
+                    [...user.posts]
                         .reverse()
                         .map((post: PostType) => (
                             <Post post={post} key={post?._id} />
                         ))}
                 {selectedSection === "liked" &&
-                    [...data?.getUser?.liked]
+                    user?.liked &&
+                    [...user.liked]
                         .reverse()
                         .map((post: PostType) => (
                             <Post post={post} key={post?._id} />
                         ))}
                 {user?.userName === userName &&
+                    user?.bookmarked &&
                     selectedSection === "bookmarked" &&
-                    [...data?.getUser?.bookmarked]
+                    [...user.bookmarked]
                         .reverse()
                         .map((post: PostType) => (
                             <Post post={post} key={post?._id} />

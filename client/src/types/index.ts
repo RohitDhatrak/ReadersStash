@@ -1,3 +1,7 @@
+interface HashMap {
+    [key: string]: any;
+}
+
 export interface Post {
     _id: string;
     title: string;
@@ -25,10 +29,15 @@ export interface User {
     location?: string;
     url?: string;
     followers?: Array<User>;
+    followersCount?: number;
     following?: Array<User>;
+    followingCount?: number;
     posts?: Array<Post>;
     liked?: Array<Post>;
     bookmarked?: Array<Post>;
+    likesHashMap: HashMap;
+    bookmarksHashMap: HashMap;
+    followingHashMap: HashMap;
 }
 
 export interface Comment {
