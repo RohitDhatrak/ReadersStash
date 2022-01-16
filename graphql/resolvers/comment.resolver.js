@@ -20,12 +20,14 @@ const commentResolvers = {
                     user: userId,
                     parentComment: parentCommentId,
                 });
+                await comment.save();
                 return comment;
             } else {
                 const comment = new Comment({
                     body,
                     user: userId,
                 });
+                await comment.save();
                 return comment;
             }
         },

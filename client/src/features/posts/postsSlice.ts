@@ -12,7 +12,7 @@ export const postsSlice = createSlice({
             return [...state, ...action.payload];
         },
         added(state, action: PayloadAction<Post>) {
-            state.push(action.payload);
+            return [action.payload, ...state];
         },
         liked(state, action: PayloadAction<Post>) {
             const index = state.findIndex(
@@ -30,6 +30,9 @@ export const postsSlice = createSlice({
                 state[index].likesCount--;
             }
         },
+        remove(state, action: PayloadAction<Post>) {
+            return state.filter((post) => post._id !== action.payload._id);
+        },
     },
 });
 
@@ -37,4 +40,4 @@ export const getPosts = (state: RootState) => state.posts;
 
 export default postsSlice.reducer;
 
-export const { loaded, added, liked, unliked } = postsSlice.actions;
+export const { loaded, added, liked, unliked, remove } = postsSlice.actions;

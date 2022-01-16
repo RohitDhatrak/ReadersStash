@@ -19,7 +19,9 @@ export function Profile() {
 
     useQuery(GET_PROFILE_DATA, {
         onCompleted(data) {
-            dispatch(profileLoaded(data.getUser));
+            if (!user?.email) {
+                dispatch(profileLoaded(data.getUser));
+            }
             set404(false);
         },
         onError() {

@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { AddPostSvg } from "../../assets/svg";
 import { FlexContainer, Image, Container } from "../Shared";
 import {
@@ -12,8 +12,11 @@ import { InputEvent } from "../../types";
 
 export function Header() {
     const navigate = useNavigate();
+    const { pathname } = useLocation();
 
-    return (
+    return pathname !== "/landing" &&
+        pathname !== "/login" &&
+        pathname !== "/signup" ? (
         <HeaderContainer
             as="header"
             justify="space-between"
@@ -60,5 +63,5 @@ export function Header() {
                 </Link>
             </AddPostButtonContainer>
         </HeaderContainer>
-    );
+    ) : null;
 }

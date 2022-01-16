@@ -5,6 +5,7 @@ type ActionButtonPropTypes = {
     onClick?: React.MouseEventHandler;
     w?: string;
     m?: string;
+    disabled?: boolean;
 };
 
 export function ActionButton({
@@ -12,6 +13,7 @@ export function ActionButton({
     onClick,
     w = "100%",
     m,
+    ...props
 }: ActionButtonPropTypes) {
     return (
         <Container
@@ -26,6 +28,7 @@ export function ActionButton({
             bgc="var(--primary-color)"
             fw={600}
             cursor="pointer"
+            {...props}
         >
             {children}
         </Container>

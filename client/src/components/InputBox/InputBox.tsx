@@ -1,11 +1,12 @@
 import { Input } from "../Shared";
 
 type InputProps = {
-    label: string;
     type: string;
     onChangeFunction: Function;
+    label?: string;
     placeholder?: string;
     value?: string;
+    color?: string;
 };
 
 export function InputBox({
@@ -14,10 +15,11 @@ export function InputBox({
     placeholder = label,
     onChangeFunction,
     value,
+    ...props
 }: InputProps) {
     return (
         <>
-            <label htmlFor="email">{label}</label>
+            {label && <label htmlFor="email">{label}</label>}
             <Input
                 type={type}
                 id={label}
@@ -32,6 +34,7 @@ export function InputBox({
                 color="var(--font-color)"
                 fs="1rem"
                 br="0.4em"
+                {...props}
             />
         </>
     );

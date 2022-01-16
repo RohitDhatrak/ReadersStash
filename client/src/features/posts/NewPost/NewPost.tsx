@@ -15,11 +15,11 @@ import {
     Input,
     Image,
 } from "../../../components/Shared";
-// import {Header} from "../../../components";
 import { ADD_POST } from "../../../graphql/mutations";
 import { added } from "../postsSlice";
 import { getUser } from "../../user/userSlice";
 import { AddImageSvg, CloseSvg } from "../../../assets/svg";
+import { PageContainer } from "./style.newpost";
 
 export function NewPost() {
     const [title, setTitle] = useState("");
@@ -68,7 +68,7 @@ export function NewPost() {
                 draggable: true,
                 progress: undefined,
             });
-            navigate("/profile");
+            navigate(`/${user.userName}`);
         },
         onError() {
             toast.error("Some error occured please try again later", {
@@ -89,7 +89,7 @@ export function NewPost() {
     }
 
     return (
-        <FlexContainer
+        <PageContainer
             h="80vh"
             align="center"
             justify="center"
@@ -205,6 +205,6 @@ export function NewPost() {
             >
                 Post
             </Container>
-        </FlexContainer>
+        </PageContainer>
     );
 }

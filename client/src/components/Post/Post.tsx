@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import { useMutation } from "@apollo/client";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import { toast } from "react-toastify";
+import { raiseErrorToast, raiseToast } from "./toast";
 import { useAppSelector, useAppDispatch } from "../../app/hooks";
 import { FlexContainer, Container, Image } from "../../components/Shared";
 import { Post as PostType, ButtonEvent } from "../../types";
@@ -11,14 +11,17 @@ import {
     BookmarkSvg,
     BookmarkFilledSvg,
     ShareSvg,
+    MoreSvg,
+    DeleteSvg,
 } from "../../assets/svg";
 import {
     LIKE_POST,
     UNLIKE_POST,
     BOOKMARK,
     REMOVE_BOOKMARK,
+    DELETE_POST,
 } from "../../graphql/mutations";
-import { liked, unliked } from "../../features/posts/postsSlice";
+import { liked, unliked, remove } from "../../features/posts/postsSlice";
 import {
     getUser,
     bookmark,
@@ -28,95 +31,115 @@ import {
 export function Post({ post }: { post: PostType }) {
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
+    const { pathname } = useLocation();
     const user = useAppSelector(getUser);
+    const [showDeleteMenu, setShowDeleteMenu] = useState("");
+    const isPostPage = pathname.includes("/post/");
 
-    const [likePost] = useMutation(LIKE_POST, {
+    const [likePost, { loading: likeLoading }] = useMutation(LIKE_POST, {
         onCompleted(data) {
             dispatch(liked(data.likePost));
         },
-        onError() {
-            toast.error("Some error occured please try again later", {
-                position: "bottom-right",
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-            });
-        },
+        onError: raiseErrorToast("Some error occured please try again later"),
         variables: { postId: post._id, userId: user._id },
     });
 
-    const [unlikePost] = useMutation(UNLIKE_POST, {
+    const [unlikePost, { loading: unlikeLoading }] = useMutation(UNLIKE_POST, {
         onCompleted(data) {
             dispatch(unliked(data.unlikePost));
         },
-        onError() {
-            toast.error("Some error occured please try again later", {
-                position: "bottom-right",
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-            });
-        },
+        onError: raiseErrorToast("Some error occured please try again later"),
         variables: { postId: post._id, userId: user._id },
     });
 
-    const [bookmarkPost] = useMutation(BOOKMARK, {
+    const [bookmarkPost, { loading: bookmarkLoading }] = useMutation(BOOKMARK, {
         onCompleted(data) {
             dispatch(bookmark(data.bookmark));
         },
-        onError() {
-            toast.error("Some error occured please try again later", {
-                position: "bottom-right",
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-            });
-        },
+        onError: raiseErrorToast("Some error occured please try again later"),
         variables: { postId: post._id, userId: user._id },
     });
 
-    const [removePostBookmark] = useMutation(REMOVE_BOOKMARK, {
+    const [removePostBookmark, { loading: removeBookmarkLoading }] =
+        useMutation(REMOVE_BOOKMARK, {
+            onCompleted(data) {
+                dispatch(removeBookmark(data.removeBookmark));
+            },
+            onError: raiseErrorToast(
+                "Some error occured please try again later"
+            ),
+            variables: { postId: post._id, userId: user._id },
+        });
+
+    const [removePost] = useMutation(DELETE_POST, {
         onCompleted(data) {
-            dispatch(removeBookmark(data.removeBookmark));
+            dispatch(remove(data.deletePost));
         },
-        onError() {
-            toast.error("Some error occured please try again later", {
-                position: "bottom-right",
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-            });
-        },
+        onError: raiseErrorToast("Some error occured could not delete post"),
         variables: { postId: post._id, userId: user._id },
     });
 
     function toggleLike(e: ButtonEvent) {
-        e.preventDefault();
-        if (user.likesHashMap[post._id]) {
-            unlikePost();
-        } else {
-            likePost();
+        e.stopPropagation();
+        if (!likeLoading && !unlikeLoading) {
+            if (user.likesHashMap[post._id]) {
+                unlikePost();
+            } else {
+                likePost();
+            }
         }
     }
 
     function toggleBookmark(e: ButtonEvent) {
-        e.preventDefault();
-        if (user.bookmarksHashMap[post._id]) {
-            removePostBookmark();
+        e.stopPropagation();
+        if (!bookmarkLoading && !removeBookmarkLoading) {
+            if (user.bookmarksHashMap[post._id]) {
+                removePostBookmark();
+            } else {
+                bookmarkPost();
+            }
+        }
+    }
+
+    function copyLink(e: ButtonEvent) {
+        e.stopPropagation();
+        navigator.clipboard.writeText(
+            `https://readers-stash.netlify.app/post/${post._id}`
+        );
+        raiseToast("Link Copied");
+    }
+
+    function visitProfile(e: ButtonEvent, userName: string) {
+        e.stopPropagation();
+        navigate(`/${userName}`);
+    }
+
+    function toggleShowMenu(e: ButtonEvent) {
+        e.stopPropagation();
+        if (showDeleteMenu) {
+            setShowDeleteMenu("");
         } else {
-            bookmarkPost();
+            setShowDeleteMenu(post._id);
+        }
+    }
+
+    function openPostPage() {
+        setShowDeleteMenu("");
+        if (!isPostPage) {
+            navigate(`/post/${post._id}`);
+        }
+    }
+
+    function deletePost() {
+        setShowDeleteMenu("");
+        const isConfirmed = window.confirm(
+            "Are you sure you want to delete this post?"
+        );
+        if (isConfirmed) {
+            removePost();
+            if (isPostPage) {
+                navigate("/");
+            }
         }
     }
 
@@ -129,15 +152,82 @@ export function Post({ post }: { post: PostType }) {
             mb="2em"
             br="2em"
             p="0.3em 0"
+            cursor={isPostPage ? "default" : "pointer"}
+            onClick={openPostPage}
         >
-            <FlexContainer p="1em 2em" align="center">
-                <Image src={post.user.profilePicture} h="3em" br="50%" />
-                <FlexContainer direction="column" ml="0.5em">
-                    <Container>{post.user.name}</Container>
-                    <Container color="var(--font-color-2)">
-                        @{post.user.userName}
-                    </Container>
+            <FlexContainer p="1em 2em" align="center" justify="space-between">
+                <FlexContainer align="center">
+                    <Image
+                        src={post.user.profilePicture}
+                        h="3em"
+                        br="50%"
+                        cursor="pointer"
+                        onClick={(e: ButtonEvent) =>
+                            visitProfile(e, post.user.userName)
+                        }
+                    />
+                    <FlexContainer
+                        direction="column"
+                        ml="0.5em"
+                        justify="space-between"
+                    >
+                        <Container
+                            cursor="pointer"
+                            onClick={(e: ButtonEvent) =>
+                                visitProfile(e, post.user.userName)
+                            }
+                        >
+                            {post.user.name}
+                        </Container>
+                        <Container
+                            color="var(--font-color-2)"
+                            cursor="pointer"
+                            onClick={(e: ButtonEvent) =>
+                                visitProfile(e, post.user.userName)
+                            }
+                        >
+                            @{post.user.userName}
+                        </Container>
+                    </FlexContainer>
                 </FlexContainer>
+                {post.user._id === user._id && (
+                    <FlexContainer
+                        onClick={toggleShowMenu}
+                        cursor="pointer"
+                        position="relative"
+                    >
+                        <FlexContainer
+                            align="center"
+                            justify="center"
+                            br="50%"
+                            p="0.5em 0.55em"
+                            hover="background-color: var(--nav-hover-color)"
+                        >
+                            <MoreSvg className="scale-14" />
+                        </FlexContainer>
+                        {showDeleteMenu && (
+                            <FlexContainer
+                                position="absolute"
+                                right="2.3em"
+                                bgc="var(--bg-color)"
+                                p="0.8em 1em"
+                                br="1em"
+                                onClick={deletePost}
+                            >
+                                <DeleteSvg
+                                    className="scale-14"
+                                    color="var(--error-color)"
+                                />
+                                <Container
+                                    color="var(--error-color)"
+                                    ml="0.5em"
+                                >
+                                    Delete
+                                </Container>
+                            </FlexContainer>
+                        )}
+                    </FlexContainer>
+                )}
             </FlexContainer>
             {post.image && (
                 <Image src={post.image} h="12em" mb="2em" objectFit="cover" />
@@ -171,7 +261,7 @@ export function Post({ post }: { post: PostType }) {
                         <BookmarkSvg className="scale-14" />
                     )}
                 </Container>
-                <Container cursor="pointer">
+                <Container cursor="pointer" onClick={(e) => copyLink(e)}>
                     <ShareSvg className="scale-12" />
                 </Container>
             </FlexContainer>

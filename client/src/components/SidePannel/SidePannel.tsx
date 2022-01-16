@@ -16,7 +16,9 @@ export function SidePannel() {
     const user = useAppSelector(getUser);
     const isProfile = pathname.split("/")[1] === user?.userName;
 
-    return (
+    return pathname !== "/landing" &&
+        pathname !== "/login" &&
+        pathname !== "/signup" ? (
         <SidePannelContainer
             as="nav"
             position="fixed"
@@ -120,5 +122,5 @@ export function SidePannel() {
                 </FlexContainer>
             </Link>
         </SidePannelContainer>
-    );
+    ) : null;
 }

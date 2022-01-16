@@ -16,7 +16,6 @@ export function Feed() {
     useQuery(GET_POSTS, {
         onCompleted(data) {
             if (posts.length === 0) {
-                console.log("posts loaded");
                 dispatch(loaded(data.getPosts));
             }
         },
