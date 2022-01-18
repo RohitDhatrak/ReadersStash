@@ -46,7 +46,8 @@ export interface Comment {
     user: User;
     likes: Array<User>;
     replies: Array<Comment>;
-    parentComment: Comment;
+    level: number;
+    parentComment: string;
     createdAt: string;
     updatedAt: string;
 }

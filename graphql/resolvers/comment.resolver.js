@@ -22,6 +22,7 @@ const commentResolvers = {
                     body,
                     user: userId,
                     parentComment: parentCommentId,
+                    level: 2,
                 });
                 await reply.save();
                 comment.replies.push(reply._id);
@@ -32,6 +33,7 @@ const commentResolvers = {
                 const comment = new Comment({
                     body,
                     user: userId,
+                    level: 1,
                 });
                 await comment.save();
                 post.comments.push(comment._id);
@@ -42,6 +44,7 @@ const commentResolvers = {
         async deleteComment(parent, args, context) {
             checkJWT(context);
             const { commentId, postId, parentCommentId } = args;
+
             if (parentCommentId) {
                 const parentComment = await Comment.findOne({
                     _id: parentCommentId,
@@ -49,10 +52,9 @@ const commentResolvers = {
                 parentComment.replies = parentComment.replies.filter(
                     (id) => id.valueOf() !== commentId
                 );
-                const comment = await Comment.findOne({ _id: commentId });
                 await Comment.deleteOne({ _id: commentId });
-                parentComment.save();
-                return comment;
+                await parentComment.save();
+                return parentComment;
             } else {
                 const comment = await Comment.findOne({ _id: commentId });
                 const post = await Post.findOne({ _id: postId });
@@ -77,10 +79,6 @@ const commentResolvers = {
         async replies(parent) {
             await parent.populate("replies");
             return parent.replies;
-        },
-        async parentComment(parent) {
-            await parent.populate("parentComment");
-            return parent.parent;
         },
     },
 };

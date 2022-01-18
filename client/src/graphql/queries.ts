@@ -18,9 +18,18 @@ export const GET_POST = gql`
             comments {
                 _id
                 body
+                level
                 replies {
                     _id
                     body
+                    level
+                    user {
+                        _id
+                        userName
+                        name
+                        profilePicture
+                    }
+                    parentComment
                 }
                 user {
                     _id

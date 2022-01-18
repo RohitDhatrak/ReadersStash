@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useMutation } from "@apollo/client";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import { raiseErrorToast, raiseToast } from "./toast";
+import { raiseErrorToast, raiseToast } from "../../utils/toast";
 import { useAppSelector, useAppDispatch } from "../../app/hooks";
 import { FlexContainer, Container, Image } from "../../components/Shared";
 import { Post as PostType, ButtonEvent } from "../../types";

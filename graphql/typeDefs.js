@@ -47,7 +47,8 @@ const typeDefs = gql`
         user: User!
         likes: [User]!
         replies: [Comment]!
-        parentComment: Comment
+        level: Int!
+        parentComment: ID
         createdAt: String
         updatedAt: String
     }

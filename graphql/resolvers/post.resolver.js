@@ -141,6 +141,11 @@ const postResolvers = {
             const promises = parent.comments.map(async (comment) => {
                 await comment.populate("replies");
                 await comment.populate("user");
+
+                const promises = comment.replies.map(async (reply) => {
+                    await comment.populate("user");
+                });
+                await Promise.all(promises);
             });
             await Promise.all(promises);
             return parent.comments;

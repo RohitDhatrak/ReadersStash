@@ -166,11 +166,60 @@ export const ADD_COMMENT = gql`
         ) {
             _id
             body
+            level
             user {
                 _id
                 userName
                 name
                 profilePicture
+            }
+            replies {
+                _id
+                body
+                level
+                user {
+                    _id
+                    userName
+                    name
+                    profilePicture
+                }
+                parentComment
+            }
+        }
+    }
+`;
+
+export const DELETE_COMMENT = gql`
+    mutation deleteComment(
+        $commentId: ID!
+        $postId: ID!
+        $parentCommentId: ID
+    ) {
+        deleteComment(
+            commentId: $commentId
+            postId: $postId
+            parentCommentId: $parentCommentId
+        ) {
+            _id
+            body
+            level
+            user {
+                _id
+                userName
+                name
+                profilePicture
+            }
+            replies {
+                _id
+                body
+                level
+                user {
+                    _id
+                    userName
+                    name
+                    profilePicture
+                }
+                parentComment
             }
         }
     }

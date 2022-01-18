@@ -37,8 +37,6 @@ export function PostPage() {
         variables: { postId },
     });
 
-    console.log({ post });
-
     const [addComment] = useMutation(ADD_COMMENT, {
         onCompleted(data) {
             if (post) {
@@ -77,32 +75,40 @@ export function PostPage() {
             <FlexContainer direction="column">
                 {post && <Post post={post} key={post._id} />}
                 <FlexContainer direction="column">
-                    <FlexContainer fs="1.1rem">Comments</FlexContainer>
-                    <InputBox
-                        type="text"
-                        placeholder="Write your comment here"
-                        onChangeFunction={(e: InputEvent) =>
-                            setComment(e.target.value)
-                        }
-                        color={
-                            comment.length > COMMENT_LIMIT
-                                ? "var(--error-color)"
-                                : "initial"
-                        }
-                    />
-                    {!!comment && (
+                    <Container fs="1.1rem">Comments</Container>
+                    <FlexContainer align="center">
+                        <InputBox
+                            type="text"
+                            placeholder="Write your comment here"
+                            value={comment}
+                            onChangeFunction={(e: InputEvent) =>
+                                setComment(e.target.value)
+                            }
+                            color={
+                                comment.length > COMMENT_LIMIT
+                                    ? "var(--error-color)"
+                                    : "initial"
+                            }
+                            w="100%"
+                        />
                         <ActionButton
                             w="5em"
                             m="0.5em"
-                            disabled={comment.length > COMMENT_LIMIT}
+                            disabled={
+                                !comment || comment.length > COMMENT_LIMIT
+                            }
                             onClick={postComment}
                         >
                             Post
                         </ActionButton>
-                    )}
+                    </FlexContainer>
                     {post?.comments && (
-                        <Container mt="2em">
-                            <RenderComments comments={post?.comments} />
+                        <Container mt="1em">
+                            <RenderComments
+                                comments={post?.comments}
+                                post={post}
+                                setPost={setPost}
+                            />
                         </Container>
                     )}
                 </FlexContainer>

@@ -21,8 +21,11 @@ const CommentSchema = new Schema(
             },
         ],
         parentComment: {
-            type: Schema.Types.ObjectId,
-            ref: "Comment",
+            type: String,
+        },
+        level: {
+            type: String,
+            required: [true, "Comment level is required"],
         },
         createdAt: Number,
         updatedAt: Number,
