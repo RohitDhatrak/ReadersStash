@@ -1,5 +1,6 @@
 const { User } = require("../../models/user.model");
 const { Comment } = require("../../models/comment.model");
+const { Post } = require("../../models/post.model");
 const { checkJWT } = require("../../utils/auth");
 
 const commentResolvers = {
@@ -13,30 +14,37 @@ const commentResolvers = {
     Mutation: {
         async addComment(parent, args, context) {
             checkJWT(context);
-            const { body, userId, parentCommentId } = args;
+            const { body, userId, postId, parentCommentId } = args;
+
             if (parentCommentId) {
-                const comment = new Comment({
+                const comment = await Comment.findOne({ _id: parentCommentId });
+                const reply = new Comment({
                     body,
                     user: userId,
                     parentComment: parentCommentId,
                 });
+                await reply.save();
+                comment.replies.push(reply._id);
                 await comment.save();
                 return comment;
             } else {
+                const post = await Post.findOne({ _id: postId });
                 const comment = new Comment({
                     body,
                     user: userId,
                 });
                 await comment.save();
+                post.comments.push(comment._id);
+                await post.save();
                 return comment;
             }
         },
         async deleteComment(parent, args, context) {
             checkJWT(context);
-            const { commentId, parentCommentId } = args;
+            const { commentId, postId, parentCommentId } = args;
             if (parentCommentId) {
                 const parentComment = await Comment.findOne({
-                    parentComment: parentCommentId,
+                    _id: parentCommentId,
                 });
                 parentComment.replies = parentComment.replies.filter(
                     (id) => id.valueOf() !== commentId
@@ -47,6 +55,11 @@ const commentResolvers = {
                 return comment;
             } else {
                 const comment = await Comment.findOne({ _id: commentId });
+                const post = await Post.findOne({ _id: postId });
+                post.comments = post.comments.filter(
+                    (id) => id.valueOf() !== commentId
+                );
+                post.save();
                 await Comment.deleteOne({ _id: commentId });
                 return comment;
             }

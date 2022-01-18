@@ -22,6 +22,12 @@ export const GET_POST = gql`
                     _id
                     body
                 }
+                user {
+                    _id
+                    userName
+                    name
+                    profilePicture
+                }
             }
         }
     }

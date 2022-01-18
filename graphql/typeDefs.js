@@ -106,8 +106,17 @@ const typeDefs = gql`
         unlikePost(postId: ID!, userId: ID!): Post!
         bookmark(postId: ID!, userId: ID!): Post!
         removeBookmark(postId: ID!, userId: ID!): Post!
-        addComment(body: String!, userId: ID!, parentCommentId: ID): Comment!
-        deleteComment(commentId: ID!, parentCommentId: ID): Comment!
+        addComment(
+            body: String!
+            userId: ID!
+            postId: ID!
+            parentCommentId: ID
+        ): Comment!
+        deleteComment(
+            commentId: ID!
+            postId: ID!
+            parentCommentId: ID
+        ): Comment!
         followUser(userId: ID!, otherUserId: ID!): User!
         unfollowUser(userId: ID!, otherUserId: ID!): User!
         updateProfile(updateProfileInput: UpdateProfileInput!): User!

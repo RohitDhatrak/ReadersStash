@@ -2,10 +2,11 @@ import { useState } from "react";
 import { useMutation } from "@apollo/client";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { FlexContainer, Container, Image } from "../Shared";
+import { InputBox, ActionButton } from "../";
 import { DeleteSvg, MoreSvg } from "../../assets/svg";
 import { useAppSelector, useAppDispatch } from "../../app/hooks";
 import { getUser } from "../../features/user/userSlice";
-import { Comment, ButtonEvent } from "../../types";
+import { Comment, ButtonEvent, InputEvent } from "../../types";
 
 interface RenderCommentsProps {
     comments: Array<Comment>;
@@ -13,9 +14,11 @@ interface RenderCommentsProps {
 
 export function RenderComments({ comments }: RenderCommentsProps) {
     const navigate = useNavigate();
-    const dispatch = useAppDispatch();
     const user = useAppSelector(getUser);
+    const [reply, setReply] = useState("");
     const [showDeleteMenu, setShowDeleteMenu] = useState("");
+    const [replyInput, setReplyInput] = useState("");
+    const REPLY_LIMIT = 300;
 
     // const [removePost] = useMutation(DELETE_POST, {
     //     onCompleted(data) {
@@ -38,97 +41,111 @@ export function RenderComments({ comments }: RenderCommentsProps) {
         }
     }
 
+    function toggleReply(comment: Comment) {
+        if (replyInput) {
+            setReplyInput("");
+        } else {
+            setReplyInput(comment._id);
+        }
+    }
+
+    function postReply() {}
+
     function deleteComment() {}
 
     return (
         <>
             {comments.map((comment) => (
-                <FlexContainer>
+                <Container key={comment._id}>
                     <FlexContainer
-                        p="1em 2em"
-                        align="center"
-                        justify="space-between"
+                        direction="row"
+                        w="40em"
+                        maxW="90vw"
+                        mt="1.5em"
                     >
-                        <FlexContainer align="center">
-                            <Image
-                                src={comment.user.profilePicture}
-                                h="3em"
-                                br="50%"
+                        <Image
+                            src={comment.user?.profilePicture}
+                            h="3em"
+                            br="50%"
+                            cursor="pointer"
+                            onClick={(e: ButtonEvent) =>
+                                visitProfile(e, comment.user?.userName)
+                            }
+                        />
+                        <Container ml="1em">
+                            <FlexContainer
+                                mb="0.3em"
                                 cursor="pointer"
                                 onClick={(e: ButtonEvent) =>
-                                    visitProfile(e, comment.user.userName)
+                                    visitProfile(e, comment.user?.userName)
                                 }
-                            />
-                            <FlexContainer
-                                direction="column"
-                                ml="0.5em"
-                                justify="space-between"
                             >
-                                <Container
-                                    cursor="pointer"
-                                    onClick={(e: ButtonEvent) =>
-                                        visitProfile(e, comment.user.userName)
-                                    }
-                                >
+                                <Container fw={600}>
                                     {comment.user.name}
                                 </Container>
                                 <Container
+                                    ml="0.4em"
                                     color="var(--font-color-2)"
-                                    cursor="pointer"
-                                    onClick={(e: ButtonEvent) =>
-                                        visitProfile(e, comment.user.userName)
-                                    }
                                 >
                                     @{comment.user.userName}
                                 </Container>
                             </FlexContainer>
-                        </FlexContainer>
-                        {comment.user._id === user._id && (
+                            <Container whiteSpace="pre-wrap">
+                                {comment.body}
+                            </Container>
                             <FlexContainer
-                                onClick={() => toggleShowMenu(comment)}
-                                cursor="pointer"
-                                position="relative"
+                                mt="0.5em"
+                                fs="0.9rem"
+                                color="var(--font-color-2)"
                             >
-                                <FlexContainer
-                                    align="center"
-                                    justify="center"
-                                    br="50%"
-                                    p="0.5em 0.55em"
-                                    hover="background-color: var(--nav-hover-color)"
+                                <Container
+                                    cursor="pointer"
+                                    onClick={() => toggleReply(comment)}
                                 >
-                                    <MoreSvg className="scale-14" />
-                                </FlexContainer>
-                                {showDeleteMenu && (
-                                    <FlexContainer
-                                        position="absolute"
-                                        right="2.3em"
-                                        bgc="var(--bg-color)"
-                                        p="0.8em 1em"
-                                        br="1em"
-                                        onClick={deleteComment}
-                                    >
-                                        <DeleteSvg
-                                            className="scale-14"
-                                            color="var(--error-color)"
-                                        />
-                                        <Container
-                                            color="var(--error-color)"
-                                            ml="0.5em"
-                                        >
-                                            Delete
-                                        </Container>
-                                    </FlexContainer>
+                                    {replyInput ? "Close" : "Reply"}
+                                </Container>
+                                {comment.user.userName === user.userName && (
+                                    <Container ml="1em" cursor="pointer">
+                                        Delete
+                                    </Container>
                                 )}
                             </FlexContainer>
-                        )}
-                    </FlexContainer>
-                    <Container key={comment._id}>
-                        <Container pl="2em">
-                            {comment.replies &&
-                                RenderComments({ comments: comment.replies })}
                         </Container>
+                    </FlexContainer>
+                    {replyInput === comment._id && (
+                        <FlexContainer w="40em" maxW="90vw" ml="3.5em">
+                            <InputBox
+                                type="text"
+                                placeholder="Write your comment here"
+                                onChangeFunction={(e: InputEvent) =>
+                                    setReply(e.target.value)
+                                }
+                                color={
+                                    reply.length > REPLY_LIMIT
+                                        ? "var(--error-color)"
+                                        : "initial"
+                                }
+                                w="80%"
+                            />
+                            {!!reply && (
+                                <ActionButton
+                                    w="5em"
+                                    m="0.5em"
+                                    disabled={reply.length > REPLY_LIMIT}
+                                    onClick={postReply}
+                                >
+                                    Post
+                                </ActionButton>
+                            )}
+                        </FlexContainer>
+                    )}
+                    <Container pl="2em">
+                        {comment?.replies &&
+                            RenderComments({
+                                comments: comment.replies,
+                            })}
                     </Container>
-                </FlexContainer>
+                </Container>
             ))}
         </>
     );

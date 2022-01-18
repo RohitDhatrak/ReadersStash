@@ -7,6 +7,7 @@ type InputProps = {
     placeholder?: string;
     value?: string;
     color?: string;
+    w?: string;
 };
 
 export function InputBox({

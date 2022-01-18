@@ -150,3 +150,28 @@ export const REMOVE_BOOKMARK = gql`
         }
     }
 `;
+
+export const ADD_COMMENT = gql`
+    mutation addComment(
+        $body: String!
+        $userId: ID!
+        $postId: ID!
+        $parentCommentId: ID
+    ) {
+        addComment(
+            body: $body
+            userId: $userId
+            postId: $postId
+            parentCommentId: $parentCommentId
+        ) {
+            _id
+            body
+            user {
+                _id
+                userName
+                name
+                profilePicture
+            }
+        }
+    }
+`;

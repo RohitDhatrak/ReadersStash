@@ -136,6 +136,15 @@ const postResolvers = {
             await parent.populate("topics");
             return parent.topics;
         },
+        async comments(parent) {
+            await parent.populate("comments");
+            const promises = parent.comments.map(async (comment) => {
+                await comment.populate("replies");
+                await comment.populate("user");
+            });
+            await Promise.all(promises);
+            return parent.comments;
+        },
         likesCount(parent) {
             return parent.likes.length;
         },

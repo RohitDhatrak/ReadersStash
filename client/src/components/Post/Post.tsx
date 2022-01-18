@@ -261,7 +261,7 @@ export function Post({ post }: { post: PostType }) {
                         <BookmarkSvg className="scale-14" />
                     )}
                 </Container>
-                <Container cursor="pointer" onClick={(e) => copyLink(e)}>
+                <Container cursor="pointer" onClick={copyLink}>
                     <ShareSvg className="scale-12" />
                 </Container>
             </FlexContainer>
