@@ -71,13 +71,18 @@ export function Post({ post }: { post: PostType }) {
             variables: { postId: post._id, userId: user._id },
         });
 
-    const [removePost] = useMutation(DELETE_POST, {
-        onCompleted(data) {
-            dispatch(remove(data.deletePost));
-        },
-        onError: raiseErrorToast("Some error occured could not delete post"),
-        variables: { postId: post._id, userId: user._id },
-    });
+    const [removePost, { loading: loadingDeletePost }] = useMutation(
+        DELETE_POST,
+        {
+            onCompleted(data) {
+                dispatch(remove(data.deletePost));
+            },
+            onError: raiseErrorToast(
+                "Some error occured could not delete post"
+            ),
+            variables: { postId: post._id, userId: user._id },
+        }
+    );
 
     function toggleLike(e: ButtonEvent) {
         e.stopPropagation();
@@ -131,14 +136,16 @@ export function Post({ post }: { post: PostType }) {
     }
 
     function deletePost() {
-        setShowDeleteMenu("");
-        const isConfirmed = window.confirm(
-            "Are you sure you want to delete this post?"
-        );
-        if (isConfirmed) {
-            removePost();
-            if (isPostPage) {
-                navigate("/");
+        if (!loadingDeletePost) {
+            setShowDeleteMenu("");
+            const isConfirmed = window.confirm(
+                "Are you sure you want to delete this post?"
+            );
+            if (isConfirmed) {
+                removePost();
+                if (isPostPage) {
+                    navigate("/");
+                }
             }
         }
     }

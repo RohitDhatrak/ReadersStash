@@ -37,37 +37,42 @@ export function PostPage() {
         variables: { postId },
     });
 
-    const [addComment] = useMutation(ADD_COMMENT, {
-        onCompleted(data) {
-            if (post) {
-                const updatedPost = {
-                    ...post,
-                    comments: [...post.comments, data.addComment],
-                };
-                setPost(updatedPost);
-            }
-        },
-        onError() {
-            toast.error("Some error occured while saving your comment", {
-                position: "bottom-right",
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-            });
-        },
-        variables: { body: comment, postId, userId: user._id },
-    });
+    const [addComment, { loading: loadingAddComment }] = useMutation(
+        ADD_COMMENT,
+        {
+            onCompleted(data) {
+                if (post) {
+                    const updatedPost = {
+                        ...post,
+                        comments: [...post.comments, data.addComment],
+                    };
+                    setPost(updatedPost);
+                }
+            },
+            onError() {
+                toast.error("Some error occured while saving your comment", {
+                    position: "bottom-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                });
+            },
+            variables: { body: comment, postId, userId: user._id },
+        }
+    );
 
     if (isError) {
         return <Page404 />;
     }
 
     function postComment() {
-        addComment();
-        setComment("");
+        if (!loadingAddComment) {
+            addComment();
+            setComment("");
+        }
     }
 
     return (

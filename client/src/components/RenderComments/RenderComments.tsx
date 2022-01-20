@@ -28,60 +28,69 @@ export function RenderComments({
     const [replyInput, setReplyInput] = useState("");
     const REPLY_LIMIT = 300;
 
-    const [addReply] = useMutation(ADD_COMMENT, {
-        onCompleted(data) {
-            if (post) {
-                const updatedPost = {
-                    ...post,
-                    comments: post.comments.map((comment) =>
-                        comment._id === data.addComment._id
-                            ? data.addComment
-                            : comment
-                    ),
-                };
-                setPost(updatedPost);
-            }
-        },
-        onError: raiseErrorToast(
-            "Some error occured while saving your comment"
-        ),
-    });
+    const [addReply, { loading: loadingAddComment }] = useMutation(
+        ADD_COMMENT,
+        {
+            onCompleted(data) {
+                if (post) {
+                    const updatedPost = {
+                        ...post,
+                        comments: post.comments.map((comment) =>
+                            comment._id === data.addComment._id
+                                ? data.addComment
+                                : comment
+                        ),
+                    };
+                    setPost(updatedPost);
+                }
+            },
+            onError: raiseErrorToast(
+                "Some error occured while saving your comment"
+            ),
+        }
+    );
 
-    const [deleteReply] = useMutation(DELETE_COMMENT, {
-        onCompleted(data) {
-            if (post) {
-                const updatedPost = {
-                    ...post,
-                    comments: post.comments.map((comment) =>
-                        comment._id === data.deleteComment._id
-                            ? data.deleteComment
-                            : comment
-                    ),
-                };
-                setPost(updatedPost);
-            }
-        },
-        onError: raiseErrorToast(
-            "Some error occured while deleteing your comment"
-        ),
-    });
+    const [deleteReply, { loading: loadingDeleteReply }] = useMutation(
+        DELETE_COMMENT,
+        {
+            onCompleted(data) {
+                if (post) {
+                    const updatedPost = {
+                        ...post,
+                        comments: post.comments.map((comment) =>
+                            comment._id === data.deleteComment._id
+                                ? data.deleteComment
+                                : comment
+                        ),
+                    };
+                    setPost(updatedPost);
+                }
+            },
+            onError: raiseErrorToast(
+                "Some error occured while deleteing your comment"
+            ),
+        }
+    );
 
-    const [deleteRootComment] = useMutation(DELETE_COMMENT, {
-        onCompleted(data) {
-            if (post) {
-                const updatedPost = {
-                    ...post,
-                    comments: post.comments.filter(
-                        (comment) => comment._id !== data.deleteComment._id
-                    ),
-                };
-                setPost(updatedPost);
-            }
-        },
-        onError: raiseErrorToast(
-            "Some error occured while deleteing your comment"
-        ),
-    });
+    const [deleteRootComment, { loading: loadingDeleteComment }] = useMutation(
+        DELETE_COMMENT,
+        {
+            onCompleted(data) {
+                if (post) {
+                    const updatedPost = {
+                        ...post,
+                        comments: post.comments.filter(
+                            (comment) => comment._id !== data.deleteComment._id
+                        ),
+                    };
+                    setPost(updatedPost);
+                }
+            },
+            onError: raiseErrorToast(
+                "Some error occured while deleteing your comment"
+            ),
+        }
+    );
 
     function visitProfile(e: ButtonEvent, userName: string) {
         e.stopPropagation();
@@ -97,38 +106,42 @@ export function RenderComments({
     }
 
     function postReply(comment: Comment) {
-        addReply({
-            variables: {
-                body: reply,
-                postId: post._id,
-                userId: user._id,
-                parentCommentId: comment._id,
-            },
-        });
-        setReply("");
-        setReplyInput("");
+        if (!loadingAddComment) {
+            addReply({
+                variables: {
+                    body: reply,
+                    postId: post._id,
+                    userId: user._id,
+                    parentCommentId: comment._id,
+                },
+            });
+            setReply("");
+            setReplyInput("");
+        }
     }
 
     function deleteComment(comment: Comment) {
-        const isConfirmed = window.confirm(
-            "Are you sure you want to delete this comment?"
-        );
-        if (isConfirmed) {
-            if (comment?.parentComment) {
-                deleteReply({
-                    variables: {
-                        commentId: comment._id,
-                        postId: post._id,
-                        parentCommentId: comment.parentComment,
-                    },
-                });
-            } else {
-                deleteRootComment({
-                    variables: {
-                        commentId: comment._id,
-                        postId: post._id,
-                    },
-                });
+        if (!loadingDeleteReply && !loadingDeleteComment) {
+            const isConfirmed = window.confirm(
+                "Are you sure you want to delete this comment?"
+            );
+            if (isConfirmed) {
+                if (comment?.parentComment) {
+                    deleteReply({
+                        variables: {
+                            commentId: comment._id,
+                            postId: post._id,
+                            parentCommentId: comment.parentComment,
+                        },
+                    });
+                } else {
+                    deleteRootComment({
+                        variables: {
+                            commentId: comment._id,
+                            postId: post._id,
+                        },
+                    });
+                }
             }
         }
     }

@@ -15,7 +15,17 @@ import { GET_INITIAL_DATA } from "./graphql/queries";
 import { getUserFromLocalStorage } from "./utils/localStorageOperations";
 import { useAppDispatch } from "./app/hooks";
 import { Page404, LandingPage } from "./pages";
-import { Feed, Login, Signup, NewPost, Profile, PostPage } from "./features";
+import {
+    Feed,
+    Login,
+    Signup,
+    NewPost,
+    Profile,
+    PostPage,
+    Settings,
+    Notifications,
+    Explore,
+} from "./features";
 import { login } from "./features/user/userSlice";
 
 function App() {
@@ -71,6 +81,30 @@ function App() {
                     element={
                         <PrivateRoute path="/newpost">
                             <NewPost />
+                        </PrivateRoute>
+                    }
+                />
+                <Route
+                    path="/settings"
+                    element={
+                        <PrivateRoute path="/settings">
+                            <Settings />
+                        </PrivateRoute>
+                    }
+                />
+                <Route
+                    path="/explore"
+                    element={
+                        <PrivateRoute path="/explore">
+                            <Explore />
+                        </PrivateRoute>
+                    }
+                />
+                <Route
+                    path="/notifications"
+                    element={
+                        <PrivateRoute path="/notifications">
+                            <Notifications />
                         </PrivateRoute>
                     }
                 />

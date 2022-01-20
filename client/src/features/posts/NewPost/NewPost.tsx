@@ -56,7 +56,7 @@ export function NewPost() {
         };
     }
 
-    const [addPost] = useMutation(ADD_POST, {
+    const [addPost, { loading: loadingAddPost }] = useMutation(ADD_POST, {
         onCompleted(data) {
             dispatch(added(data.createPost));
             toast.success("Post added successfully", {
@@ -85,7 +85,7 @@ export function NewPost() {
     });
 
     function handlePost(e: ButtonEvent) {
-        addPost();
+        if (!loadingAddPost) addPost();
     }
 
     return (
