@@ -14,7 +14,9 @@ const initialState: User = {
     location: "",
     url: "",
     followers: [],
+    followersCount: 0,
     following: [],
+    followingCount: 0,
     posts: [],
     liked: [],
     bookmarked: [],
@@ -47,6 +49,14 @@ export const userSlice = createSlice({
                 delete state.bookmarksHashMap[action.payload._id];
             }
         },
+        followed(state, action: PayloadAction<User>) {
+            if (state?.followingCount !== undefined) state.followingCount++;
+            state.followingHashMap[action.payload._id] = true;
+        },
+        unfollowed(state, action: PayloadAction<User>) {
+            if (state?.followingCount !== undefined) state.followingCount--;
+            delete state.followingHashMap[action.payload._id];
+        },
     },
     extraReducers: (builder) => {
         builder.addCase(liked, (state, action) => {
@@ -70,5 +80,11 @@ export const getUser = (state: RootState) => state.user;
 
 export default userSlice.reducer;
 
-export const { login, profileLoaded, bookmark, removeBookmark } =
-    userSlice.actions;
+export const {
+    login,
+    profileLoaded,
+    bookmark,
+    removeBookmark,
+    followed,
+    unfollowed,
+} = userSlice.actions;

@@ -75,7 +75,9 @@ const userResolvers = {
             const otherUser = await User.findOne({ _id: otherUserId });
             user.following.push(otherUserId);
             otherUser.followers.push(userId);
-            return user;
+            await user.save();
+            await otherUser.save();
+            return otherUser;
         },
         async unfollowUser(parent, args, context) {
             checkJWT(context);
@@ -88,9 +90,9 @@ const userResolvers = {
             otherUser.followers = otherUser.followers.filter(
                 (id) => id.valueOf() !== userId
             );
-            user.save();
-            otherUser.save();
-            return user;
+            await user.save();
+            await otherUser.save();
+            return otherUser;
         },
         async updateProfile(parent, args, context) {
             const {

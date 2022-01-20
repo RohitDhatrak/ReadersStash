@@ -4,3 +4,6 @@ export { Feed } from "./posts/Feed/Feed";
 export { NewPost } from "./posts/NewPost/NewPost";
 export { Profile } from "./user/Profile/Profile";
 export { PostPage } from "./posts/PostPage/PostPage";
+export { Settings } from "./user/Settings/Settings";
+export { Explore } from "./posts/Explore/Explore";
+export { Notifications } from "./notifications/Notifications/Notification";

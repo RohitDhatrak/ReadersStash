@@ -224,3 +224,19 @@ export const DELETE_COMMENT = gql`
         }
     }
 `;
+
+export const FOLLOW_USER = gql`
+    mutation followUser($userId: ID!, $otherUserId: ID!) {
+        followUser(userId: $userId, otherUserId: $otherUserId) {
+            _id
+        }
+    }
+`;
+
+export const UNFOLLOW_USER = gql`
+    mutation unfollowUser($userId: ID!, $otherUserId: ID!) {
+        unfollowUser(userId: $userId, otherUserId: $otherUserId) {
+            _id
+        }
+    }
+`;
