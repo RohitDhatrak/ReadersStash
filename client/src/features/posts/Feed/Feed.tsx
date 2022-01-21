@@ -12,17 +12,8 @@ import checkIcon from "../../../assets/checked.png";
 import { getUser } from "../../user/userSlice";
 
 export function Feed() {
-    const dispatch = useAppDispatch();
     const posts = useAppSelector(getPosts);
     const user = useAppSelector(getUser);
-
-    useQuery(GET_POSTS, {
-        onCompleted(data) {
-            if (posts.length === 0) {
-                dispatch(loaded(data.getPosts));
-            }
-        },
-    });
 
     return (
         <PageContainer mb="2em" justify="center">

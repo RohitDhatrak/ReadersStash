@@ -11,9 +11,9 @@ import {
 } from "./components";
 import { Container } from "./components/Shared";
 import { Post } from "./types";
-import { GET_INITIAL_DATA } from "./graphql/queries";
+import { GET_INITIAL_DATA, GET_POSTS } from "./graphql/queries";
 import { getUserFromLocalStorage } from "./utils/localStorageOperations";
-import { useAppDispatch } from "./app/hooks";
+import { useAppDispatch, useAppSelector } from "./app/hooks";
 import { Page404, LandingPage } from "./pages";
 import {
     Feed,
@@ -27,6 +27,7 @@ import {
     Explore,
 } from "./features";
 import { login } from "./features/user/userSlice";
+import { loaded, getPosts } from "./features/posts/postsSlice";
 
 function App() {
     const user = JSON.parse(getUserFromLocalStorage());
@@ -34,6 +35,7 @@ function App() {
     const { pathname } = useLocation();
     const navigate = useNavigate();
     const [isLoading, setIsLoading] = useState(true);
+    const posts = useAppSelector(getPosts);
 
     useEffect(() => {
         window.scrollTo(0, 0);
@@ -53,10 +55,17 @@ function App() {
         onCompleted(data) {
             dispatch(login(data.getUser));
             setIsLoading(false);
-            // console.log({ data });
         },
         variables: {
             userId: user?._id ? user._id : "",
+        },
+    });
+
+    useQuery(GET_POSTS, {
+        onCompleted(data) {
+            if (posts.length === 0) {
+                dispatch(loaded(data.getPosts));
+            }
         },
     });
 
