@@ -1,5 +1,11 @@
 import { useEffect, useState } from "react";
-import { Link, useNavigate, useLocation, useParams } from "react-router-dom";
+import {
+    Link,
+    useNavigate,
+    useLocation,
+    useParams,
+    Navigate,
+} from "react-router-dom";
 import { useQuery, useLazyQuery, useMutation } from "@apollo/client";
 import { useMediaQuery } from "react-responsive";
 import { InputEvent, FormEvent, Post as PostType, User } from "../../../types";
@@ -21,6 +27,7 @@ import { raiseErrorToast } from "../../../utils/toast";
 
 export function Profile() {
     const dispatch = useAppDispatch();
+    const navigate = useNavigate();
     const user = useAppSelector(getUser);
     const { userName } = useParams();
     const [is404, set404] = useState(false);
@@ -121,6 +128,7 @@ export function Profile() {
                                 fw={500}
                                 fs="0.9rem"
                                 cursor="pointer"
+                                onClick={() => navigate("/settings")}
                             >
                                 Edit Profile
                             </Container>

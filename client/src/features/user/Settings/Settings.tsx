@@ -83,7 +83,7 @@ export function Settings() {
         }
     );
 
-    const [changeProfileData, { loading: profileLoading }] = useMutation(
+    let [changeProfileData, { loading: profileLoading }] = useMutation(
         UPDATE_PROFILE,
         {
             onCompleted(data) {
@@ -94,12 +94,11 @@ export function Settings() {
                 setUrl(data.updateProfile.url);
                 dispatch(profileLoaded(data.getUser));
                 setProfileMessage("Profile updated successfully");
+                profileLoading = false;
             },
-            onError() {
-                setProfileError(
-                    "Some error occurred while updating your profile please try again later"
-                );
-            },
+            onError: raiseErrorToast(
+                "Some error occured while updating your profile please try again later"
+            ),
             variables: {
                 userId: user._id,
                 email,
@@ -152,8 +151,12 @@ export function Settings() {
         }
     }
 
-    function updateProfile() {
-        if (!profileLoading) changeProfileData();
+    function updateProfile(e: FormEvent) {
+        e.preventDefault();
+        if (!profileLoading) {
+            setProfileMessage("");
+            changeProfileData();
+        }
     }
 
     return (
@@ -247,7 +250,9 @@ export function Settings() {
                         </Container>
                     </Container>
                     {!profileError && (
-                        <ActionButton w="unset">Update Profile</ActionButton>
+                        <ActionButton w="unset" disabled={profileLoading}>
+                            {profileLoading ? "Updating..." : "Update Profile"}
+                        </ActionButton>
                     )}
                 </FlexContainer>
                 <Container fs="1.2rem" m="1.5em 0">

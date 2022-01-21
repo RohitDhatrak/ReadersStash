@@ -4,6 +4,7 @@ const { User } = require("../../models/user.model");
 const { Post } = require("../../models/post.model");
 const { UserInputError } = require("apollo-server");
 const { checkJWT } = require("../../utils/auth");
+const { cloudinary } = require("../../utils/cloudinary");
 
 const userResolvers = {
     Query: {
@@ -95,14 +96,30 @@ const userResolvers = {
             return otherUser;
         },
         async updateProfile(parent, args, context) {
-            const { userId, email, name, profilePicture, bio, url } = args;
+            let {
+                updateProfileInput: {
+                    userId,
+                    email,
+                    name,
+                    profilePicture,
+                    bio,
+                    url,
+                },
+            } = args;
             const user = await User.findOne({ _id: userId });
+            if (profilePicture !== user.profilePicture) {
+                const { url } = await cloudinary.uploader.upload(
+                    profilePicture,
+                    {
+                        upload_preset: "social_media",
+                    }
+                );
+                profilePicture = url;
+                user.profilePicture = profilePicture;
+            }
             user.email = email;
-            user.userName = userName;
             user.name = name;
-            user.profilePicture = profilePicture;
             user.bio = bio;
-            user.location = location;
             user.url = url;
             await user.save();
             return user;
