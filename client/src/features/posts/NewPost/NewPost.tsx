@@ -125,16 +125,19 @@ export function NewPost() {
 
                 {previewSource && (
                     <Container h="12em" mb="1em" position="relative">
-                        <Container
+                        <FlexContainer
                             position="absolute"
                             right="1em"
                             top="1em"
-                            className="scale-14"
                             cursor="pointer"
+                            p="0.3em"
+                            bgc="#fff"
+                            align="center"
+                            br="50%"
                             onClick={() => setPreviewSource(null)}
                         >
                             <CloseSvg />
-                        </Container>
+                        </FlexContainer>
                         <Image
                             src={previewSource}
                             h="100%"
