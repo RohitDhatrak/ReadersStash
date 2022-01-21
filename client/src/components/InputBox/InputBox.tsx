@@ -20,7 +20,7 @@ export function InputBox({
 }: InputProps) {
     return (
         <>
-            {label && <label htmlFor="email">{label}</label>}
+            {label && <label htmlFor={label}>{label}</label>}
             <Input
                 type={type}
                 id={label}

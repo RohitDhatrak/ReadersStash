@@ -38,22 +38,22 @@ export function Profile() {
         variables: { userName },
     });
 
-    useEffect(() => {
-        if (userName === user.userName) {
-            setProfile(user);
-        } else {
-            setProfile(data?.getUser);
-        }
-    }, [data]);
-
     useQuery(GET_PROFILE_DATA, {
         onCompleted(data) {
-            if (!data?.email) {
+            if (!user?.email) {
                 dispatch(profileLoaded(data.getUser));
             }
         },
         variables: { userName: user.userName },
     });
+
+    useEffect(() => {
+        if (userName === user.userName && user?.bio) {
+            setProfile(user);
+        } else {
+            setProfile(data?.getUser);
+        }
+    }, [data]);
 
     const [followUser, { loading: loadingFollow }] = useMutation(FOLLOW_USER, {
         onCompleted(data) {
@@ -149,6 +149,7 @@ export function Profile() {
                         </Container>
                         <Container
                             as="a"
+                            target="_blank"
                             href={profile?.url}
                             color="#00376b"
                             fw={600}
@@ -179,7 +180,13 @@ export function Profile() {
             <MobileProfileContainer>
                 <Container fw={600}>{profile?.name}</Container>
                 <Container whiteSpace="pre-wrap">{profile?.bio}</Container>
-                <Container as="a" href={profile?.url} color="#00376b" fw={600}>
+                <Container
+                    as="a"
+                    target="_blank"
+                    href={profile?.url}
+                    color="#00376b"
+                    fw={600}
+                >
                     {profile?.url}
                 </Container>
                 <FlexContainer mt="0.5em">

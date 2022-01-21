@@ -15,11 +15,11 @@
     --icon-color: #e8e6e3;
     --z-index-1: 1;
     --z-index-2: 2;
+    font-family: "Montserrat", sans-serif;
 }
 
 body {
     margin: 0;
-    font-family: "Montserrat", sans-serif;
     background-color: var(--bg-color);
     color: var(--font-color);
 }

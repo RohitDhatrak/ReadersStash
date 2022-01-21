@@ -9,30 +9,9 @@ export const PageContainer = styled(FlexContainer)`
     }
 `;
 
-export const DesktopProfileContainer = styled(Container)`
-    display: none;
-    margin-top: 1em;
-    font-weight: 500;
-    line-height: 1.5em;
-    ${media.tablet} {
-        display: block;
-    }
-`;
-
-export const MobileProfileContainer = styled(Container)`
-    display: block;
-    margin: 0 auto;
-    max-width: 80vw;
-    margin-top: 1em;
-    font-weight: 500;
-    line-height: 1.5em;
-    ${media.tablet} {
-        display: none;
-    }
-`;
-
 export const ImageContainer = styled(Container)`
     width: 7em;
+    margin: 0 auto;
     ${media.tablet} {
     }
     ${media.custom(800)} {

@@ -82,12 +82,10 @@ const typeDefs = gql`
     input UpdateProfileInput {
         userId: ID!
         email: String!
-        userName: String!
         name: String!
-        profilePicture: String
-        bio: String
-        location: String
-        url: String
+        profilePicture: String!
+        bio: String!
+        url: String!
     }
     type Query {
         getPosts: [Post]!
@@ -101,6 +99,11 @@ const typeDefs = gql`
     type Mutation {
         signup(signupInput: SignupInput!): User!
         login(userName: String!, password: String!): User!
+        changePassword(
+            userId: ID!
+            password: String!
+            newPassword: String!
+        ): User!
         createPost(createPostInput: CreatePostInput!): Post!
         deletePost(postId: ID!, userId: ID!): Post!
         likePost(postId: ID!, userId: ID!): Post!

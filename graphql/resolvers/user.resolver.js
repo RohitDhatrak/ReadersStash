@@ -95,16 +95,7 @@ const userResolvers = {
             return otherUser;
         },
         async updateProfile(parent, args, context) {
-            const {
-                userId,
-                email,
-                userName,
-                name,
-                profilePicture,
-                bio,
-                location,
-                url,
-            } = args;
+            const { userId, email, name, profilePicture, bio, url } = args;
             const user = await User.findOne({ _id: userId });
             user.email = email;
             user.userName = userName;
@@ -115,6 +106,39 @@ const userResolvers = {
             user.url = url;
             await user.save();
             return user;
+        },
+        async changePassword(parent, args) {
+            const { userId, password, newPassword } = args;
+            const user = await User.findOne({ _id: userId });
+
+            if (user) {
+                const doesMatch = await decrypt(user.password, password);
+                if (doesMatch) {
+                    const encryptedPassword = await encrypt(newPassword);
+                    user.password = encryptedPassword;
+                    await user.save();
+                    return user._doc;
+                } else {
+                    throw new UserInputError(
+                        "The old password does not match",
+                        {
+                            errors: {
+                                password: "The old password does not match",
+                            },
+                        }
+                    );
+                }
+            } else {
+                throw new UserInputError(
+                    "Some error occured please try again later",
+                    {
+                        errors: {
+                            username:
+                                "Some error occured please try again later",
+                        },
+                    }
+                );
+            }
         },
     },
     User: {

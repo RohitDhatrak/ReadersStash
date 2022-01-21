@@ -240,3 +240,48 @@ export const UNFOLLOW_USER = gql`
         }
     }
 `;
+
+export const CHANGE_PASSWORD = gql`
+    mutation changePassword(
+        $userId: ID!
+        $password: String!
+        $newPassword: String!
+    ) {
+        changePassword(
+            userId: $userId
+            password: $password
+            newPassword: $newPassword
+        ) {
+            _id
+        }
+    }
+`;
+
+export const UPDATE_PROFILE = gql`
+    mutation updateProfile(
+        $userId: ID!
+        $email: String!
+        $name: String!
+        $profilePicture: String!
+        $bio: String!
+        $url: String!
+    ) {
+        updateProfile(
+            updateProfileInput: {
+                userId: $userId
+                email: $email
+                name: $name
+                profilePicture: $profilePicture
+                bio: $bio
+                url: $url
+            }
+        ) {
+            _id
+            email
+            name
+            profilePicture
+            bio
+            url
+        }
+    }
+`;
