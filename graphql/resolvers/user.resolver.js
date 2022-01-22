@@ -114,6 +114,8 @@ const userResolvers = {
                         upload_preset: "social_media",
                     }
                 );
+                const imageId = user.profilePicture.split("/")[7].split(".")[0];
+                await cloudinary.uploader.destroy(imageId);
                 profilePicture = url;
                 user.profilePicture = profilePicture;
             }
