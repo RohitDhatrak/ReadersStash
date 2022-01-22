@@ -34,11 +34,14 @@ const userResolvers = {
                 });
             } else {
                 const encryptedPassword = await encrypt(password);
+                const profilePicture =
+                    "https://res.cloudinary.com/rohitdhatrak/image/upload/v1641039008/uctgqsdfcgesusplshme.png";
                 const newUser = new User({
                     userName,
                     password: encryptedPassword,
                     email,
                     name,
+                    profilePicture,
                 });
                 await newUser.save();
                 const jwt = signToken(newUser._id);
