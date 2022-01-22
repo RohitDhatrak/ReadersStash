@@ -118,7 +118,8 @@ const userResolvers = {
                     }
                 );
                 const imageId = user.profilePicture.split("/")[7].split(".")[0];
-                await cloudinary.uploader.destroy(imageId);
+                if (imageId !== "uctgqsdfcgesusplshme")
+                    await cloudinary.uploader.destroy(imageId);
                 profilePicture = url;
                 user.profilePicture = profilePicture;
             }
