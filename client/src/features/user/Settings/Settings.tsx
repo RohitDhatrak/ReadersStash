@@ -172,7 +172,13 @@ export function Settings() {
                     Profile
                 </Container>
                 <ImageContainer position="relative" cursor="pointer">
-                    <Image src={image} w="100%" br="50%" />
+                    <Image
+                        src={image}
+                        w="100%"
+                        h="100%"
+                        br="50%"
+                        objectFit="cover"
+                    />
                     <FlexContainer
                         bgc="#fff"
                         br="50%"

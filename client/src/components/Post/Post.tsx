@@ -27,6 +27,7 @@ import {
     bookmark,
     removeBookmark,
 } from "../../features/user/userSlice";
+import { ImageContainer } from "./style.post";
 
 export function Post({ post }: { post: PostType }) {
     const navigate = useNavigate();
@@ -164,15 +165,19 @@ export function Post({ post }: { post: PostType }) {
         >
             <FlexContainer p="1em 2em" align="center" justify="space-between">
                 <FlexContainer align="center">
-                    <Image
-                        src={post.user.profilePicture}
-                        h="3em"
-                        br="50%"
-                        cursor="pointer"
-                        onClick={(e: ButtonEvent) =>
-                            visitProfile(e, post.user.userName)
-                        }
-                    />
+                    <ImageContainer>
+                        <Image
+                            src={post.user.profilePicture}
+                            h="100%"
+                            w="100%"
+                            br="50%"
+                            objectFit="cover"
+                            cursor="pointer"
+                            onClick={(e: ButtonEvent) =>
+                                visitProfile(e, post.user.userName)
+                            }
+                        />
+                    </ImageContainer>
                     <FlexContainer
                         direction="column"
                         ml="0.5em"

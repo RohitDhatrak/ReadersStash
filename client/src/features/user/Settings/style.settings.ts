@@ -11,10 +11,10 @@ export const PageContainer = styled(FlexContainer)`
 
 export const ImageContainer = styled(Container)`
     width: 7em;
+    height: 7em;
     margin: 0 auto;
-    ${media.tablet} {
-    }
     ${media.custom(800)} {
         width: 10em;
+        height: 10em;
     }
 `;

@@ -113,7 +113,13 @@ export function Profile() {
         <PageContainer direction="column">
             <FlexContainer w="40em" maxW="80vw" m="0 auto">
                 <ImageContainer>
-                    <Image src={profile?.profilePicture} w="100%" br="50%" />
+                    <Image
+                        src={profile?.profilePicture}
+                        w="100%"
+                        h="100%"
+                        br="50%"
+                        objectFit="cover"
+                    />
                 </ImageContainer>
                 <FlexContainer direction="column" ml="2em">
                     <FlexContainer wrap="wrap" gap="0.5em">
