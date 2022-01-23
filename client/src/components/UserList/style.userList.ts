@@ -1,5 +1,6 @@
 import styled, { css } from "styled-components";
 import { Container } from "../Shared";
+import { media } from "../Shared/mediaQueries";
 
 type ImageDivProps = {
     bgImg: string;
@@ -12,8 +13,8 @@ export const ImageContainer = styled(Container)`
 `;
 
 export const ImageDiv = styled(Container)<ImageDivProps>`
-    width: 4.5em;
-    height: 4.5em;
+    width: 4em;
+    height: 4em;
     display: inline-block;
     border-radius: 50%;
     background-size: cover;
@@ -23,4 +24,8 @@ export const ImageDiv = styled(Container)<ImageDivProps>`
         css`
             background-image: ${() => props.bgImg};
         `}
+    ${media.tablet} {
+        width: 4.5em;
+        height: 4.5em;
+    }
 `;

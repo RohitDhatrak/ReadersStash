@@ -23,7 +23,13 @@ import {
     MobileProfileContainer,
 } from "./style.profile";
 import { Page404 } from "../../../pages";
-import { LikeSvg, BookmarkSvg, PostSvg, LoaderSvg } from "../../../assets/svg";
+import {
+    LikeSvg,
+    BookmarkSvg,
+    PostSvg,
+    LoaderSvg,
+    EmptyPageSvg,
+} from "../../../assets/svg";
 import { raiseErrorToast } from "../../../utils/toast";
 
 export function Profile() {
@@ -33,7 +39,9 @@ export function Profile() {
     const { userName } = useParams();
     const [is404, set404] = useState(false);
     const [profile, setProfile] = useState<User>();
-    const [selectedSection, setSelectedSection] = useState("posts");
+    const [selectedSection, setSelectedSection] = useState<
+        "posts" | "liked" | "bookmarked"
+    >("posts");
     const isTabletOrMobile = useMediaQuery({ query: "(max-width: 600px)" });
     const isFollowing = profile?._id
         ? user?.followingHashMap?.[profile?._id]
@@ -119,7 +127,11 @@ export function Profile() {
 
     return !!profile?.userName ? (
         <PageContainer direction="column" mb="5em">
-            <FlexContainer w="40em" maxW="80vw" m="0 auto">
+            <FlexContainer
+                w="40em"
+                maxW="80vw"
+                m={isTabletOrMobile ? "0 2.5em" : "0 auto"}
+            >
                 <ImageContainer>
                     <ImageDiv bgImg={`url(${profile?.profilePicture})`} />
                 </ImageContainer>
@@ -326,28 +338,20 @@ export function Profile() {
                 )}
             </FlexContainer>
             <FlexContainer direction="column" align="center">
-                {selectedSection === "posts" &&
-                    profile?.posts &&
-                    [...profile.posts]
+                {profile?.[selectedSection] &&
+                    [...profile?.[selectedSection]]
                         .reverse()
                         .map((post: PostType) => (
                             <Post post={post} key={post?._id} />
                         ))}
-                {selectedSection === "liked" &&
-                    profile?.liked &&
-                    [...profile.liked]
-                        .reverse()
-                        .map((post: PostType) => (
-                            <Post post={post} key={post?._id} />
-                        ))}
-                {profile?.userName === userName &&
-                    profile?.bookmarked &&
-                    selectedSection === "bookmarked" &&
-                    [...profile.bookmarked]
-                        .reverse()
-                        .map((post: PostType) => (
-                            <Post post={post} key={post?._id} />
-                        ))}
+                {profile?.[selectedSection]?.length === 0 && (
+                    <FlexContainer direction="column" mt="2em" maxW="90vw">
+                        <EmptyPageSvg height="12em" />
+                        <Container fs="1.2rem" mt="1em" textAlign="center">
+                            Whoops! looks like there is nothing in here.
+                        </Container>
+                    </FlexContainer>
+                )}
             </FlexContainer>
         </PageContainer>
     ) : null;

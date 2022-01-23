@@ -6,8 +6,21 @@ import { useAppSelector, useAppDispatch } from "../../../app/hooks";
 import { FlexContainer, Container } from "../../../components/Shared";
 import { InputBox, ActionButton, Post } from "../../../components";
 import { GET_POSTS } from "../../../graphql/queries";
+import { PageContainer } from "./style.notifications";
+import { EmptyPageSvg } from "../../../assets/svg";
 
 export function Notifications() {
-    // return <PageContainer mb="5em">Notifications</PageContainer>;
-    return <div></div>;
+    const notifications: any = [];
+    return (
+        <PageContainer mb="5em" justify="center">
+            {notifications.length === 0 && (
+                <FlexContainer direction="column" maxW="90vw">
+                    <EmptyPageSvg height="15em" />
+                    <Container fs="1.4rem" mt="1em" textAlign="center">
+                        Looks like you are all caught up!
+                    </Container>
+                </FlexContainer>
+            )}
+        </PageContainer>
+    );
 }

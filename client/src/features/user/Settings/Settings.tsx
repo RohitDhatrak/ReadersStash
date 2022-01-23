@@ -36,10 +36,10 @@ export function Settings() {
     const [confirmPassword, setConfirmPassword] = useState("");
     const [error, setError] = useState("");
     const [message, setMessage] = useState("");
-    const [name, setName] = useState(user.name);
-    const [bio, setBio] = useState(user.bio);
-    const [email, setEmail] = useState(user.email);
-    const [url, setUrl] = useState(user.url);
+    const [name, setName] = useState(user.name || "");
+    const [bio, setBio] = useState(user.bio || "");
+    const [email, setEmail] = useState(user.email || "");
+    const [url, setUrl] = useState(user.url || "");
     const [image, setImage] = useState<string | ArrayBuffer | null>(
         user.profilePicture
     );
@@ -238,7 +238,7 @@ export function Settings() {
                     <Container
                         as="textarea"
                         id="bio"
-                        placeholder="What inspiring idea you want to share with the world today?"
+                        placeholder="Tell us more about yourself."
                         fs="1rem"
                         minH="7em"
                         bgc="transparent"

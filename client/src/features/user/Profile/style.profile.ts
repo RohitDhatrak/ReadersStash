@@ -25,7 +25,7 @@ export const DesktopProfileContainer = styled(Container)`
 
 export const MobileProfileContainer = styled(Container)`
     display: block;
-    margin: 0 auto;
+    margin-left: 3em;
     max-width: 80vw;
     margin-top: 1em;
     font-weight: 500;

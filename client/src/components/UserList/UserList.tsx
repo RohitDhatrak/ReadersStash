@@ -10,6 +10,7 @@ import { liked, unliked, remove } from "../../features/posts/postsSlice";
 import { getUser, followed, unfollowed } from "../../features/user/userSlice";
 import { ImageContainer, ImageDiv } from "./style.userList";
 import { FOLLOW_USER, UNFOLLOW_USER } from "../../graphql/mutations";
+import { EmptyPageSvg } from "../../assets/svg";
 
 export function UserList({ userList }: { userList: Array<User> }) {
     const navigate = useNavigate();
@@ -57,8 +58,8 @@ export function UserList({ userList }: { userList: Array<User> }) {
     }
 
     return (
-        <FlexContainer direction="column" m="0 auto" w="45em" maxW="90vw">
-            {userList.map((user) => (
+        <FlexContainer direction="column" m="0 auto" w="40em" maxW="90vw">
+            {[...userList].reverse().map((user) => (
                 <FlexContainer
                     key={user?._id}
                     onClick={() => navigate(`/${user?.userName}`)}
@@ -69,7 +70,11 @@ export function UserList({ userList }: { userList: Array<User> }) {
                         <ImageDiv bgImg={`url(${user?.profilePicture})`} />
                     </ImageContainer>
                     <Container ml="1em">
-                        <FlexContainer justify="space-between">
+                        <FlexContainer
+                            justify="space-between"
+                            w="40em"
+                            maxW="67vw"
+                        >
                             <Container>
                                 <Container fw={600}>{user?.name}</Container>
                                 <Container color="var(--font-color-2)">
@@ -114,6 +119,14 @@ export function UserList({ userList }: { userList: Array<User> }) {
                     </Container>
                 </FlexContainer>
             ))}
+            {userList?.length === 0 && (
+                <FlexContainer direction="column">
+                    <EmptyPageSvg height="15em" />
+                    <Container fs="1.4rem" mt="1em" textAlign="center">
+                        Whoops! looks like there is nothing in here.
+                    </Container>
+                </FlexContainer>
+            )}
         </FlexContainer>
     );
 }

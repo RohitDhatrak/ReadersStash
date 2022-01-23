@@ -50,8 +50,8 @@ export function Feed() {
                         You are all caught up!
                     </Container>
                     <Container fw={500} m="0 1.5em">
-                        Empty Feed? Discover new content and people in the
-                        explore section.
+                        Empty Feed? Find new content and people on the explore
+                        page.
                     </Container>
                 </FlexContainer>
             </FlexContainer>

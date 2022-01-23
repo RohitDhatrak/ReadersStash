@@ -32,9 +32,9 @@ export interface User {
     followersCount?: number;
     following?: Array<User>;
     followingCount?: number;
-    posts?: Array<Post>;
-    liked?: Array<Post>;
-    bookmarked?: Array<Post>;
+    posts: Array<Post>;
+    liked: Array<Post>;
+    bookmarked: Array<Post>;
     likesHashMap: HashMap;
     bookmarksHashMap: HashMap;
     followingHashMap: HashMap;
