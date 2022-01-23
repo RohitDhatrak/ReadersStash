@@ -179,6 +179,10 @@ export function Settings() {
                         br="50%"
                         objectFit="cover"
                     />
+                    {/* <ImageDiv
+                        bgImg={`url(${image})`}
+                        loading="lazy"
+                    /> */}
                     <FlexContainer
                         bgc="#fff"
                         br="50%"

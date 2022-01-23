@@ -7,3 +7,6 @@ export { PostPage } from "./posts/PostPage/PostPage";
 export { Settings } from "./user/Settings/Settings";
 export { Explore } from "./posts/Explore/Explore";
 export { Notifications } from "./notifications/Notifications/Notification";
+export { Following } from "./user/Following/Following";
+export { Followers } from "./user/Followers/Followers";
+export { Likes } from "./posts/Likes/Likes";

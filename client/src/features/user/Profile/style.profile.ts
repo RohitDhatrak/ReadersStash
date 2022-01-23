@@ -1,6 +1,10 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { media } from "../../../components/Shared/mediaQueries";
-import { FlexContainer, Container } from "../../../components/Shared";
+import { FlexContainer, Container, Image } from "../../../components/Shared";
+
+type ImageDivProps = {
+    bgImg: string;
+};
 
 export const PageContainer = styled(FlexContainer)`
     margin-left: 0;
@@ -32,21 +36,22 @@ export const MobileProfileContainer = styled(Container)`
 `;
 
 export const ImageContainer = styled(Container)`
-    width: 8em;
-    height: 5em;
-    ${media.custom(410)} {
-        width: 8.3em;
-        height: 6em;
-    }
-    ${media.custom(468)} {
-        width: 6.2em;
-        height: 6em;
-    }
+    text-align: center;
+`;
+
+export const ImageDiv = styled(Image)<ImageDivProps>`
+    display: inline-block;
+    border-radius: 50%;
+    background-size: cover;
+    background-position: center;
+    ${(props) =>
+        props.bgImg &&
+        css`
+            background-image: ${() => props.bgImg};
+        `}
+    width: 5.5em;
+    height: 5.5em;
     ${media.tablet} {
-        width: 8.8em;
-        height: 8em;
-    }
-    ${media.custom(680)} {
         width: 8em;
         height: 8em;
     }

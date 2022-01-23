@@ -2,7 +2,7 @@ import styled, { css } from "styled-components";
 import { ContainerCommonProps, CommonContainer } from "./CommonContainer";
 
 type ImageProps = ContainerCommonProps & {
-    objectFit?: "cover";
+    objectFit?: "cover" | "fill" | "contain" | "none" | "scale-down";
 };
 
 const ImageStyledComponent = styled(CommonContainer)<ImageProps>`

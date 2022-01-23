@@ -18,6 +18,7 @@ import { profileLoaded, getUser, followed, unfollowed } from "../userSlice";
 import {
     PageContainer,
     ImageContainer,
+    ImageDiv,
     DesktopProfileContainer,
     MobileProfileContainer,
 } from "./style.profile";
@@ -113,12 +114,9 @@ export function Profile() {
         <PageContainer direction="column">
             <FlexContainer w="40em" maxW="80vw" m="0 auto">
                 <ImageContainer>
-                    <Image
-                        src={profile?.profilePicture}
-                        w="100%"
-                        h="100%"
-                        br="50%"
-                        objectFit="cover"
+                    <ImageDiv
+                        bgImg={`url(${profile?.profilePicture})`}
+                        loading="lazy"
                     />
                 </ImageContainer>
                 <FlexContainer direction="column" ml="2em">
@@ -126,7 +124,7 @@ export function Profile() {
                         <Container fs="1.3rem" fw={500} mr="1em">
                             @{profile?.userName}
                         </Container>
-                        {user.userName === userName ? (
+                        {user?.userName === userName ? (
                             <Container
                                 as="button"
                                 bgc="transparent"
@@ -134,6 +132,8 @@ export function Profile() {
                                 fw={500}
                                 fs="0.9rem"
                                 cursor="pointer"
+                                p="0em 1.5em"
+                                br="1em"
                                 onClick={() => navigate("/settings")}
                             >
                                 Edit Profile
@@ -149,6 +149,8 @@ export function Profile() {
                                 b={isFollowing ? "1px solid #cecdcd" : "none"}
                                 fw={500}
                                 fs="0.9rem"
+                                p="0em 1.5em"
+                                br="1em"
                                 cursor="pointer"
                                 onClick={toggleFollowing}
                             >
@@ -171,7 +173,11 @@ export function Profile() {
                             {profile?.url}
                         </Container>
                         <FlexContainer>
-                            <FlexContainer direction="row" cursor="pointer">
+                            <FlexContainer
+                                direction="row"
+                                cursor="pointer"
+                                onClick={() => navigate("/followers")}
+                            >
                                 <Container fw={600}>
                                     {profile?.followersCount}
                                 </Container>
@@ -181,6 +187,7 @@ export function Profile() {
                                 direction="row"
                                 ml="1em"
                                 cursor="pointer"
+                                onClick={() => navigate("/following")}
                             >
                                 <Container fw={600}>
                                     {profile?.followingCount}
@@ -204,13 +211,22 @@ export function Profile() {
                     {profile?.url}
                 </Container>
                 <FlexContainer mt="0.5em">
-                    <FlexContainer direction="row" cursor="pointer">
+                    <FlexContainer
+                        direction="row"
+                        cursor="pointer"
+                        onClick={() => navigate("/followers")}
+                    >
                         <Container fw={600}>
                             {profile?.followersCount}
                         </Container>
                         <Container ml="0.5em">Followers</Container>
                     </FlexContainer>
-                    <FlexContainer direction="row" ml="1em" cursor="pointer">
+                    <FlexContainer
+                        direction="row"
+                        ml="1em"
+                        cursor="pointer"
+                        onClick={() => navigate("/following")}
+                    >
                         <Container fw={600}>
                             {profile?.followingCount}
                         </Container>

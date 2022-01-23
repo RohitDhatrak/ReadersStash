@@ -133,3 +133,45 @@ export const GET_PROFILE_DATA = gql`
         }
     }
 `;
+
+export const GET_FOLLOWERS = gql`
+    query getFollowers($userName: String!) {
+        getUser(userName: $userName) {
+            followers {
+                _id
+                name
+                userName
+                profilePicture
+                bio
+            }
+        }
+    }
+`;
+
+export const GET_FOLLOWING = gql`
+    query getFollowing($userName: String!) {
+        getUser(userName: $userName) {
+            following {
+                _id
+                name
+                userName
+                profilePicture
+                bio
+            }
+        }
+    }
+`;
+
+export const GET_LIKES = gql`
+    query getLikes($postId: ID!) {
+        getPost(postId: $postId) {
+            likes {
+                _id
+                name
+                userName
+                profilePicture
+                bio
+            }
+        }
+    }
+`;

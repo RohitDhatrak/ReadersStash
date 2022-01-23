@@ -27,7 +27,7 @@ import {
     bookmark,
     removeBookmark,
 } from "../../features/user/userSlice";
-import { ImageContainer } from "./style.post";
+import { ImageContainer, ImageDiv } from "./style.post";
 
 export function Post({ post }: { post: PostType }) {
     const navigate = useNavigate();
@@ -166,12 +166,9 @@ export function Post({ post }: { post: PostType }) {
             <FlexContainer p="1em 2em" align="center" justify="space-between">
                 <FlexContainer align="center">
                     <ImageContainer>
-                        <Image
-                            src={post.user.profilePicture}
-                            h="100%"
-                            w="100%"
-                            br="50%"
-                            objectFit="cover"
+                        <ImageDiv
+                            bgImg={`url(${post.user?.profilePicture})`}
+                            loading="lazy"
                             cursor="pointer"
                             onClick={(e: ButtonEvent) =>
                                 visitProfile(e, post.user.userName)
@@ -242,7 +239,13 @@ export function Post({ post }: { post: PostType }) {
                 )}
             </FlexContainer>
             {post.image && (
-                <Image src={post.image} h="12em" mb="2em" objectFit="cover" />
+                <Image
+                    src={post.image}
+                    h="12em"
+                    mb="2em"
+                    objectFit="cover"
+                    loading="lazy"
+                />
             )}
             <Container p="0em 2.5em">
                 <Container fs="1.4rem" mb="1em">
@@ -260,7 +263,16 @@ export function Post({ post }: { post: PostType }) {
                         color={user.likesHashMap?.[post._id] ? "red" : "none"}
                         className="scale-12"
                     />
-                    <Container ml="1em">{post.likesCount}</Container>
+                    <Container
+                        ml="1em"
+                        hover={"text-decoration: underline"}
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            navigate(`/likes?${post._id}`);
+                        }}
+                    >
+                        {post.likesCount}
+                    </Container>
                 </FlexContainer>
                 <FlexContainer align="center" cursor="pointer">
                     <CommentSvg className="scale-11" />

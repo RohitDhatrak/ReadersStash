@@ -10,7 +10,6 @@ import {
     SidePannelMinimal,
 } from "./components";
 import { Container } from "./components/Shared";
-import { Post } from "./types";
 import { GET_INITIAL_DATA, GET_POSTS } from "./graphql/queries";
 import { getUserFromLocalStorage } from "./utils/localStorageOperations";
 import { useAppDispatch, useAppSelector } from "./app/hooks";
@@ -25,6 +24,9 @@ import {
     Settings,
     Notifications,
     Explore,
+    Following,
+    Followers,
+    Likes,
 } from "./features";
 import { login } from "./features/user/userSlice";
 import { loaded, getPosts } from "./features/posts/postsSlice";
@@ -118,13 +120,30 @@ function App() {
                     }
                 />
                 <Route
-                    path="/:userName"
+                    path="/following"
                     element={
-                        <PrivateRoute path={`${pathname}`}>
-                            <Profile />
+                        <PrivateRoute path="/following">
+                            <Following />
                         </PrivateRoute>
                     }
                 />
+                <Route
+                    path="/followers"
+                    element={
+                        <PrivateRoute path="/followers">
+                            <Followers />
+                        </PrivateRoute>
+                    }
+                />
+                <Route
+                    path="/likes"
+                    element={
+                        <PrivateRoute path="/likes">
+                            <Likes />
+                        </PrivateRoute>
+                    }
+                />
+                <Route path="/:userName" element={<Profile />} />
                 <Route path="/post/:postId" element={<PostPage />} />
                 <Route path="/landing" element={<LandingPage />} />
                 <Route path="/login" element={<Login />} />
