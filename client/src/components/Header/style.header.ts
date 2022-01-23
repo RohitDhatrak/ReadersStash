@@ -4,7 +4,7 @@ import { FlexContainer, Container, Input } from "../Shared";
 
 export const HeaderContainer = styled(FlexContainer)`
     justify-content: space-around;
-    padding: 0.5em 1em;
+    padding: 0.5em;
     ${media.custom(800)} {
         justify-content: space-between;
         padding: 0.5em 2em;
@@ -25,7 +25,7 @@ export const AddPostButtonContainer = styled(FlexContainer)`
 `;
 
 export const SearchContainer = styled(Input)`
-    width: 65vw;
+    width: 75vw;
     ${media.custom(800)} {
         display: block;
         width: 40vw;

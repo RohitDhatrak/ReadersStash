@@ -30,8 +30,10 @@ export function Header() {
         >
             <Link to="/">
                 <FlexContainer align="center">
-                    <Image src={logo} alt="" mr="1em" h="2em" />
-                    <Logo fw={600}>ReadersStash</Logo>
+                    <Image src={logo} alt="" h="2em" />
+                    <Logo fw={600} ml="1em">
+                        ReadersStash
+                    </Logo>
                 </FlexContainer>
             </Link>
 
@@ -57,7 +59,7 @@ export function Header() {
                 fw={600}
                 bgc="var(--primary-color)"
             >
-                <AddPostSvg className="scale-13" />
+                <AddPostSvg className="scale-13" color="var(--font-color)" />
                 <Link to="/newpost">
                     <Container ml="0.5em">New Post</Container>
                 </Link>

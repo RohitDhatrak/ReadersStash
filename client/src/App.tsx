@@ -8,6 +8,7 @@ import {
     Header,
     SidePannel,
     SidePannelMinimal,
+    MobileNav,
 } from "./components";
 import { Container } from "./components/Shared";
 import { GET_INITIAL_DATA, GET_POSTS } from "./graphql/queries";
@@ -150,6 +151,7 @@ function App() {
                 <Route path="/signup" element={<Signup />} />
                 <Route path="*" element={<Page404 />} />
             </Routes>
+            <MobileNav />
             <ToastContainer
                 position="bottom-right"
                 autoClose={5000}

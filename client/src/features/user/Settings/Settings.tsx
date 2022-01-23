@@ -179,10 +179,6 @@ export function Settings() {
                         br="50%"
                         objectFit="cover"
                     />
-                    {/* <ImageDiv
-                        bgImg={`url(${image})`}
-                        loading="lazy"
-                    /> */}
                     <FlexContainer
                         bgc="#fff"
                         br="50%"
@@ -192,8 +188,12 @@ export function Settings() {
                         align="center"
                         onClick={removePhoto}
                     >
-                        {image === user.profilePicture && <EditSvg />}
-                        {image !== user.profilePicture && <CloseSvg />}
+                        {image === user.profilePicture && (
+                            <EditSvg color="var(--font-color)" />
+                        )}
+                        {image !== user.profilePicture && (
+                            <CloseSvg color="var(--font-color)" />
+                        )}
                     </FlexContainer>
                     {image === user.profilePicture && (
                         <Input

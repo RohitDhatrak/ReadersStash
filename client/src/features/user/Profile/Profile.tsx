@@ -111,13 +111,10 @@ export function Profile() {
     }
 
     return !!profile?.userName ? (
-        <PageContainer direction="column">
+        <PageContainer direction="column" mb="5em">
             <FlexContainer w="40em" maxW="80vw" m="0 auto">
                 <ImageContainer>
-                    <ImageDiv
-                        bgImg={`url(${profile?.profilePicture})`}
-                        loading="lazy"
-                    />
+                    <ImageDiv bgImg={`url(${profile?.profilePicture})`} />
                 </ImageContainer>
                 <FlexContainer direction="column" ml="2em">
                     <FlexContainer wrap="wrap" gap="0.5em">
@@ -247,7 +244,9 @@ export function Profile() {
                     cursor="pointer"
                 >
                     <FlexContainer align="center" gap="0.5em">
-                        {!isTabletOrMobile && <PostSvg />}
+                        {!isTabletOrMobile && (
+                            <PostSvg color="var(--font-color)" />
+                        )}
                         <Container>Posts</Container>
                     </FlexContainer>
                     {selectedSection === "posts" && (
@@ -268,7 +267,11 @@ export function Profile() {
                 >
                     <FlexContainer align="center" gap="0.5em">
                         {!isTabletOrMobile && (
-                            <LikeSvg color="none" strokeWidth={5} />
+                            <LikeSvg
+                                fill="none"
+                                color="var(--font-color)"
+                                strokeWidth={5}
+                            />
                         )}
                         <Container>Liked</Container>
                     </FlexContainer>
@@ -291,7 +294,10 @@ export function Profile() {
                     >
                         <FlexContainer align="center" gap="0.5em">
                             {!isTabletOrMobile && (
-                                <BookmarkSvg className="scale-12" />
+                                <BookmarkSvg
+                                    className="scale-12"
+                                    color="var(--font-color)"
+                                />
                             )}
                             <Container>Bookmarked</Container>
                         </FlexContainer>

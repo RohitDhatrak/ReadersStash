@@ -1,6 +1,6 @@
 import styled, { css } from "styled-components";
 import { media } from "../../../components/Shared/mediaQueries";
-import { FlexContainer, Container, Image } from "../../../components/Shared";
+import { FlexContainer, Container } from "../../../components/Shared";
 
 type ImageDivProps = {
     bgImg: string;
@@ -39,7 +39,7 @@ export const ImageContainer = styled(Container)`
     text-align: center;
 `;
 
-export const ImageDiv = styled(Image)<ImageDivProps>`
+export const ImageDiv = styled(Container)<ImageDivProps>`
     display: inline-block;
     border-radius: 50%;
     background-size: cover;

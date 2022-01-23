@@ -168,7 +168,6 @@ export function Post({ post }: { post: PostType }) {
                     <ImageContainer>
                         <ImageDiv
                             bgImg={`url(${post.user?.profilePicture})`}
-                            loading="lazy"
                             cursor="pointer"
                             onClick={(e: ButtonEvent) =>
                                 visitProfile(e, post.user.userName)
@@ -212,7 +211,10 @@ export function Post({ post }: { post: PostType }) {
                             p="0.5em 0.55em"
                             hover="background-color: var(--nav-hover-color)"
                         >
-                            <MoreSvg className="scale-14" />
+                            <MoreSvg
+                                className="scale-14"
+                                color={"var(--font-color)"}
+                            />
                         </FlexContainer>
                         {showDeleteMenu && (
                             <FlexContainer
@@ -260,7 +262,12 @@ export function Post({ post }: { post: PostType }) {
                     onClick={(e) => toggleLike(e)}
                 >
                     <LikeSvg
-                        color={user.likesHashMap?.[post._id] ? "red" : "none"}
+                        fill={user.likesHashMap?.[post._id] ? "red" : "none"}
+                        color={
+                            user.likesHashMap?.[post._id]
+                                ? "red"
+                                : "var(--font-color)"
+                        }
                         className="scale-12"
                     />
                     <Container
@@ -275,18 +282,30 @@ export function Post({ post }: { post: PostType }) {
                     </Container>
                 </FlexContainer>
                 <FlexContainer align="center" cursor="pointer">
-                    <CommentSvg className="scale-11" />
+                    <CommentSvg
+                        className="scale-11"
+                        color={"var(--font-color)"}
+                    />
                     <Container ml="1em">{post.commentsCount}</Container>
                 </FlexContainer>
                 <Container cursor="pointer" onClick={(e) => toggleBookmark(e)}>
                     {user.bookmarksHashMap?.[post._id] ? (
-                        <BookmarkFilledSvg className="scale-14" />
+                        <BookmarkFilledSvg
+                            className="scale-14"
+                            color={"var(--font-color)"}
+                        />
                     ) : (
-                        <BookmarkSvg className="scale-14" />
+                        <BookmarkSvg
+                            className="scale-14"
+                            color={"var(--font-color)"}
+                        />
                     )}
                 </Container>
                 <Container cursor="pointer" onClick={copyLink}>
-                    <ShareSvg className="scale-12" />
+                    <ShareSvg
+                        className="scale-12"
+                        color={"var(--font-color)"}
+                    />
                 </Container>
             </FlexContainer>
         </FlexContainer>

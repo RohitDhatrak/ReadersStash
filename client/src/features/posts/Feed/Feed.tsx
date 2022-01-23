@@ -16,7 +16,7 @@ export function Feed() {
     const user = useAppSelector(getUser);
 
     return (
-        <PageContainer mb="2em" justify="center">
+        <PageContainer mb="5em" justify="center">
             <FlexContainer direction="column" align="center">
                 {posts.map((post: PostType) =>
                     user.followingHashMap?.[post.user._id] ? (
@@ -27,6 +27,7 @@ export function Feed() {
                     direction="column"
                     textAlign="center"
                     w="100%"
+                    maxW="90vw"
                     bgc="var(--card-color)"
                     pb="1em"
                 >

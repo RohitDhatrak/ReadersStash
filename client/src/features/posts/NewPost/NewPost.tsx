@@ -94,6 +94,7 @@ export function NewPost() {
             align="center"
             justify="center"
             direction="column"
+            mb="5em"
         >
             <FlexContainer
                 bgc="var(--card-color)"

@@ -8,5 +8,6 @@ import { InputBox, ActionButton, Post } from "../../../components";
 import { GET_POSTS } from "../../../graphql/queries";
 
 export function Notifications() {
-    return <Container>Notifications</Container>;
+    // return <PageContainer mb="5em">Notifications</PageContainer>;
+    return <div></div>;
 }

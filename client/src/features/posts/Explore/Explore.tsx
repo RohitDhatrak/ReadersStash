@@ -13,7 +13,7 @@ export function Explore() {
     const posts = useAppSelector(getPosts);
 
     return (
-        <PageContainer mb="2em" justify="center">
+        <PageContainer mb="5em" justify="center">
             <FlexContainer direction="column" align="center">
                 {posts.map((post: PostType) => (
                     <Post post={post} key={post._id} />

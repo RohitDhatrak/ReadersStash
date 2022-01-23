@@ -66,10 +66,7 @@ export function UserList({ userList }: { userList: Array<User> }) {
                     cursor="pointer"
                 >
                     <ImageContainer>
-                        <ImageDiv
-                            bgImg={`url(${user?.profilePicture})`}
-                            loading="lazy"
-                        />
+                        <ImageDiv bgImg={`url(${user?.profilePicture})`} />
                     </ImageContainer>
                     <Container ml="1em">
                         <FlexContainer justify="space-between">
