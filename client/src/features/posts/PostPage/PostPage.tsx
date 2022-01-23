@@ -17,6 +17,7 @@ import { loaded, getPosts } from "../postsSlice";
 import { PageContainer } from "./style.postpage";
 import { Page404 } from "../../../pages";
 import { getUser } from "../../user/userSlice";
+import { LoaderSvg } from "../../../assets/svg";
 
 export function PostPage() {
     const [comment, setComment] = useState("");
@@ -27,7 +28,7 @@ export function PostPage() {
     const COMMENT_LIMIT = 300;
     const user = useAppSelector(getUser);
 
-    useQuery(GET_POST, {
+    const { loading } = useQuery(GET_POST, {
         onCompleted(data) {
             if (!post) setPost(data.getPost);
         },
@@ -63,6 +64,13 @@ export function PostPage() {
             variables: { body: comment, postId, userId: user._id },
         }
     );
+
+    if (loading)
+        return (
+            <FlexContainer h="70vh" justify="center" align="center">
+                <LoaderSvg />
+            </FlexContainer>
+        );
 
     if (isError) {
         return <Page404 />;

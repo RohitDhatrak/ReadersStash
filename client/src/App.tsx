@@ -10,7 +10,7 @@ import {
     SidePannelMinimal,
     MobileNav,
 } from "./components";
-import { Container } from "./components/Shared";
+import { Container, FlexContainer } from "./components/Shared";
 import { GET_INITIAL_DATA, GET_POSTS } from "./graphql/queries";
 import { getUserFromLocalStorage } from "./utils/localStorageOperations";
 import { useAppDispatch, useAppSelector } from "./app/hooks";
@@ -31,6 +31,7 @@ import {
 } from "./features";
 import { login } from "./features/user/userSlice";
 import { loaded, getPosts } from "./features/posts/postsSlice";
+import { LoaderSvg } from "./assets/svg";
 
 function App() {
     const user = JSON.parse(getUserFromLocalStorage());
@@ -72,7 +73,12 @@ function App() {
         },
     });
 
-    if (isLoading) return <p>Loading...</p>;
+    if (isLoading)
+        return (
+            <FlexContainer h="100vh" justify="center" align="center">
+                <LoaderSvg />
+            </FlexContainer>
+        );
 
     return (
         <Container>

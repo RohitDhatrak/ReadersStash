@@ -135,8 +135,8 @@ export const GET_PROFILE_DATA = gql`
 `;
 
 export const GET_FOLLOWERS = gql`
-    query getFollowers($userName: String!) {
-        getUser(userName: $userName) {
+    query getFollowers($userId: ID!) {
+        getUser(userId: $userId) {
             followers {
                 _id
                 name
@@ -149,8 +149,8 @@ export const GET_FOLLOWERS = gql`
 `;
 
 export const GET_FOLLOWING = gql`
-    query getFollowing($userName: String!) {
-        getUser(userName: $userName) {
+    query getFollowing($userId: ID!) {
+        getUser(userId: $userId) {
             following {
                 _id
                 name

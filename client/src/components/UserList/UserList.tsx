@@ -76,31 +76,37 @@ export function UserList({ userList }: { userList: Array<User> }) {
                                     @{user?.userName}
                                 </Container>
                             </Container>
-                            <Container
-                                as="button"
-                                bgc={
-                                    userProfile?.followingHashMap?.[user?._id]
-                                        ? "transparent"
-                                        : "var(--primary-color)"
-                                }
-                                b={
-                                    userProfile?.followingHashMap?.[user?._id]
-                                        ? "1px solid #cecdcd"
-                                        : "none"
-                                }
-                                fw={500}
-                                fs="0.9rem"
-                                cursor="pointer"
-                                p="0 1em"
-                                br="1em"
-                                onClick={(e: ButtonEvent) =>
-                                    toggleFollowing(e, user)
-                                }
-                            >
-                                {userProfile?.followingHashMap?.[user?._id]
-                                    ? "Following"
-                                    : "Follow"}
-                            </Container>
+                            {user._id !== userProfile._id && (
+                                <Container
+                                    as="button"
+                                    bgc={
+                                        userProfile?.followingHashMap?.[
+                                            user?._id
+                                        ]
+                                            ? "transparent"
+                                            : "var(--primary-color)"
+                                    }
+                                    b={
+                                        userProfile?.followingHashMap?.[
+                                            user?._id
+                                        ]
+                                            ? "1px solid #cecdcd"
+                                            : "none"
+                                    }
+                                    fw={500}
+                                    fs="0.9rem"
+                                    cursor="pointer"
+                                    p="0 1em"
+                                    br="1em"
+                                    onClick={(e: ButtonEvent) =>
+                                        toggleFollowing(e, user)
+                                    }
+                                >
+                                    {userProfile?.followingHashMap?.[user?._id]
+                                        ? "Following"
+                                        : "Follow"}
+                                </Container>
+                            )}
                         </FlexContainer>
                         <Container fw={500} mt="0.5em">
                             {user?.bio}

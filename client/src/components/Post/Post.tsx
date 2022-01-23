@@ -275,7 +275,7 @@ export function Post({ post }: { post: PostType }) {
                         hover={"text-decoration: underline"}
                         onClick={(e) => {
                             e.stopPropagation();
-                            navigate(`/likes?${post._id}`);
+                            navigate(`/likes?id=${post._id}`);
                         }}
                     >
                         {post.likesCount}

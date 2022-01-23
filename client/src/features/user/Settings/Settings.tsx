@@ -22,7 +22,7 @@ import { GET_PROFILE_DATA } from "../../../graphql/queries";
 import { CHANGE_PASSWORD, UPDATE_PROFILE } from "../../../graphql/mutations";
 import { profileLoaded, getUser, followed, unfollowed } from "../userSlice";
 import { Page404 } from "../../../pages";
-import { LikeSvg, CloseSvg, EditSvg } from "../../../assets/svg";
+import { LikeSvg, CloseSvg, EditSvg, LoaderSvg } from "../../../assets/svg";
 import { raiseErrorToast } from "../../../utils/toast";
 import { validatePassword } from "../../../utils/validatePassword";
 import { ImageContainer, PageContainer } from "./style.settings";
@@ -50,7 +50,7 @@ export function Settings() {
         window.scrollTo(0, 0);
     }, []);
 
-    useQuery(GET_PROFILE_DATA, {
+    const { loading } = useQuery(GET_PROFILE_DATA, {
         onCompleted(data) {
             if (!data?.email) {
                 setEmail(data.getUser.email);
@@ -158,6 +158,13 @@ export function Settings() {
             changeProfileData();
         }
     }
+
+    if (loading)
+        return (
+            <FlexContainer h="75vh" justify="center" align="center">
+                <LoaderSvg />
+            </FlexContainer>
+        );
 
     return (
         <PageContainer>

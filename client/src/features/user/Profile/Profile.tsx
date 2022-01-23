@@ -23,7 +23,7 @@ import {
     MobileProfileContainer,
 } from "./style.profile";
 import { Page404 } from "../../../pages";
-import { LikeSvg, BookmarkSvg, PostSvg } from "../../../assets/svg";
+import { LikeSvg, BookmarkSvg, PostSvg, LoaderSvg } from "../../../assets/svg";
 import { raiseErrorToast } from "../../../utils/toast";
 
 export function Profile() {
@@ -39,7 +39,7 @@ export function Profile() {
         ? user?.followingHashMap?.[profile?._id]
         : false;
 
-    const { data } = useQuery(GET_PROFILE_DATA, {
+    const { data, loading } = useQuery(GET_PROFILE_DATA, {
         onError() {
             set404(true);
         },
@@ -105,6 +105,13 @@ export function Profile() {
             }
         }
     }
+
+    if (loading)
+        return (
+            <FlexContainer h="75vh" justify="center" align="center">
+                <LoaderSvg />
+            </FlexContainer>
+        );
 
     if (is404) {
         return <Page404 />;
@@ -173,7 +180,9 @@ export function Profile() {
                             <FlexContainer
                                 direction="row"
                                 cursor="pointer"
-                                onClick={() => navigate("/followers")}
+                                onClick={() =>
+                                    navigate(`/followers?id=${profile._id}`)
+                                }
                             >
                                 <Container fw={600}>
                                     {profile?.followersCount}
@@ -184,7 +193,9 @@ export function Profile() {
                                 direction="row"
                                 ml="1em"
                                 cursor="pointer"
-                                onClick={() => navigate("/following")}
+                                onClick={() =>
+                                    navigate(`/following?id=${profile._id}`)
+                                }
                             >
                                 <Container fw={600}>
                                     {profile?.followingCount}
@@ -211,7 +222,7 @@ export function Profile() {
                     <FlexContainer
                         direction="row"
                         cursor="pointer"
-                        onClick={() => navigate("/followers")}
+                        onClick={() => navigate(`/followers?id=${profile._id}`)}
                     >
                         <Container fw={600}>
                             {profile?.followersCount}
@@ -222,7 +233,7 @@ export function Profile() {
                         direction="row"
                         ml="1em"
                         cursor="pointer"
-                        onClick={() => navigate("/following")}
+                        onClick={() => navigate(`/following?id=${profile._id}`)}
                     >
                         <Container fw={600}>
                             {profile?.followingCount}
