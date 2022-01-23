@@ -49,8 +49,10 @@ const postResolvers = {
 
             if (post.user.valueOf() === userId) {
                 const userDoc = await User.findOne({ _id: userId });
-                const imageId = post.image.split("/")[7].split(".")[0];
-                await cloudinary.uploader.destroy(imageId);
+                if (post?.image) {
+                    const imageId = post.image.split("/")[7].split(".")[0];
+                    await cloudinary.uploader.destroy(imageId);
+                }
                 await Post.deleteOne({ _id: postId });
                 userDoc.posts = userDoc.posts.filter(
                     (postId) => postId.valueOf() !== post._id
