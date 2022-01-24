@@ -37,46 +37,53 @@ export function Post({ post }: { post: PostType }) {
     const [showDeleteMenu, setShowDeleteMenu] = useState("");
     const isPostPage = pathname.includes("/post/");
 
-    const [likePost, { loading: likeLoading }] = useMutation(LIKE_POST, {
+    let [likePost, { loading: likeLoading }] = useMutation(LIKE_POST, {
         onCompleted(data) {
             dispatch(liked(data.likePost));
+            likeLoading = false;
         },
         onError: raiseErrorToast("Some error occured please try again later"),
         variables: { postId: post._id, userId: user._id },
     });
 
-    const [unlikePost, { loading: unlikeLoading }] = useMutation(UNLIKE_POST, {
+    let [unlikePost, { loading: unlikeLoading }] = useMutation(UNLIKE_POST, {
         onCompleted(data) {
             dispatch(unliked(data.unlikePost));
+            unlikeLoading = false;
         },
         onError: raiseErrorToast("Some error occured please try again later"),
         variables: { postId: post._id, userId: user._id },
     });
 
-    const [bookmarkPost, { loading: bookmarkLoading }] = useMutation(BOOKMARK, {
+    let [bookmarkPost, { loading: bookmarkLoading }] = useMutation(BOOKMARK, {
         onCompleted(data) {
             dispatch(bookmark(data.bookmark));
+            bookmarkLoading = false;
         },
         onError: raiseErrorToast("Some error occured please try again later"),
         variables: { postId: post._id, userId: user._id },
     });
 
-    const [removePostBookmark, { loading: removeBookmarkLoading }] =
-        useMutation(REMOVE_BOOKMARK, {
+    let [removePostBookmark, { loading: removeBookmarkLoading }] = useMutation(
+        REMOVE_BOOKMARK,
+        {
             onCompleted(data) {
                 dispatch(removeBookmark(data.removeBookmark));
+                removeBookmarkLoading = false;
             },
             onError: raiseErrorToast(
                 "Some error occured please try again later"
             ),
             variables: { postId: post._id, userId: user._id },
-        });
+        }
+    );
 
-    const [removePost, { loading: loadingDeletePost }] = useMutation(
+    let [removePost, { loading: loadingDeletePost }] = useMutation(
         DELETE_POST,
         {
             onCompleted(data) {
                 dispatch(remove(data.deletePost));
+                loadingDeletePost = false;
                 if (isPostPage) {
                     navigate("/");
                 }
@@ -164,40 +171,46 @@ export function Post({ post }: { post: PostType }) {
             onClick={openPostPage}
         >
             <FlexContainer p="0.7em 2em" align="center" justify="space-between">
-                <FlexContainer align="center">
-                    <ImageContainer>
-                        <ImageDiv
-                            bgImg={`url(${post.user?.profilePicture})`}
-                            cursor="pointer"
-                            onClick={(e: ButtonEvent) =>
-                                visitProfile(e, post.user.userName)
-                            }
-                        />
-                    </ImageContainer>
-                    <FlexContainer
-                        direction="column"
-                        ml="0.5em"
-                        justify="space-between"
-                    >
-                        <Container
-                            cursor="pointer"
-                            onClick={(e: ButtonEvent) =>
-                                visitProfile(e, post.user.userName)
-                            }
-                        >
-                            {post.user.name}
-                        </Container>
-                        <Container
-                            color="var(--font-color-2)"
-                            cursor="pointer"
-                            onClick={(e: ButtonEvent) =>
-                                visitProfile(e, post.user.userName)
-                            }
-                        >
-                            @{post.user.userName}
-                        </Container>
-                    </FlexContainer>
-                </FlexContainer>
+                <Container
+                    onClick={(e: ButtonEvent) =>
+                        visitProfile(e, post.user.userName)
+                    }
+                >
+                    <Link to={`/${post.user.userName}`}>
+                        <FlexContainer align="center">
+                            <ImageContainer>
+                                <ImageDiv
+                                    bgImg={`url(${post.user?.profilePicture})`}
+                                    cursor="pointer"
+                                />
+                            </ImageContainer>
+                            <FlexContainer
+                                direction="column"
+                                ml="0.5em"
+                                justify="space-between"
+                            >
+                                <Container
+                                    cursor="pointer"
+                                    onClick={(e: ButtonEvent) =>
+                                        visitProfile(e, post.user.userName)
+                                    }
+                                >
+                                    {post.user.name}
+                                </Container>
+                                <Container
+                                    color="var(--font-color-2)"
+                                    cursor="pointer"
+                                    onClick={(e: ButtonEvent) =>
+                                        visitProfile(e, post.user.userName)
+                                    }
+                                >
+                                    @{post.user.userName}
+                                </Container>
+                            </FlexContainer>
+                        </FlexContainer>
+                    </Link>
+                </Container>
+
                 {post.user._id === user._id && (
                     <FlexContainer
                         onClick={toggleShowMenu}
@@ -205,9 +218,13 @@ export function Post({ post }: { post: PostType }) {
                         position="relative"
                     >
                         <FlexContainer
+                            as="button"
                             align="center"
                             justify="center"
+                            fs="1rem"
                             br="50%"
+                            b="none"
+                            bgc="transparent"
                             p="0.5em 0.55em"
                             hover="background-color: var(--nav-hover-color)"
                         >
@@ -218,6 +235,8 @@ export function Post({ post }: { post: PostType }) {
                         </FlexContainer>
                         {showDeleteMenu && (
                             <FlexContainer
+                                as="button"
+                                b="none"
                                 position="absolute"
                                 right="2.3em"
                                 bgc="var(--bg-color)"
@@ -259,9 +278,13 @@ export function Post({ post }: { post: PostType }) {
             </Container>
             <FlexContainer p="1em 3em" justify="space-between" mt="0.5em">
                 <FlexContainer
+                    as="button"
+                    b="none"
+                    bgc="transparent"
+                    fs="1rem"
                     align="center"
                     cursor="pointer"
-                    onClick={(e) => toggleLike(e)}
+                    onClick={(e: ButtonEvent) => toggleLike(e)}
                 >
                     <LikeSvg
                         fill={user.likesHashMap?.[post._id] ? "red" : "none"}
@@ -283,29 +306,50 @@ export function Post({ post }: { post: PostType }) {
                         {post.likesCount}
                     </Container>
                 </FlexContainer>
-                <FlexContainer align="center" cursor="pointer">
+                <FlexContainer
+                    as="button"
+                    b="none"
+                    bgc="transparent"
+                    fs="1rem"
+                    align="center"
+                    cursor="pointer"
+                >
                     <CommentSvg
                         className="scale-11"
                         color={"var(--font-color)"}
                     />
                     <Container ml="1em">{post.commentsCount}</Container>
                 </FlexContainer>
-                <Container cursor="pointer" onClick={(e) => toggleBookmark(e)}>
+                <Container
+                    as="button"
+                    b="none"
+                    bgc="transparent"
+                    fs="1rem"
+                    cursor="pointer"
+                    onClick={(e: ButtonEvent) => toggleBookmark(e)}
+                >
                     {user.bookmarksHashMap?.[post._id] ? (
                         <BookmarkFilledSvg
-                            className="scale-14"
+                            className="scale-13"
                             color={"var(--font-color)"}
                         />
                     ) : (
                         <BookmarkSvg
-                            className="scale-14"
+                            className="scale-13"
                             color={"var(--font-color)"}
                         />
                     )}
                 </Container>
-                <Container cursor="pointer" onClick={copyLink}>
+                <Container
+                    as="button"
+                    b="none"
+                    bgc="transparent"
+                    fs="1rem"
+                    cursor="pointer"
+                    onClick={copyLink}
+                >
                     <ShareSvg
-                        className="scale-12"
+                        className="scale-11"
                         color={"var(--font-color)"}
                     />
                 </Container>

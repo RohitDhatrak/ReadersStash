@@ -52,7 +52,14 @@ export function Search() {
                     direction="column"
                     cursor="pointer"
                 >
-                    <FlexContainer align="center" gap="0.5em">
+                    <FlexContainer
+                        as="button"
+                        b="none"
+                        bgc="transparent"
+                        fs="1rem"
+                        align="center"
+                        gap="0.5em"
+                    >
                         {!isTabletOrMobile && (
                             <ProfileSvg
                                 fill="none"
@@ -78,7 +85,14 @@ export function Search() {
                     direction="column"
                     cursor="pointer"
                 >
-                    <FlexContainer align="center" gap="0.5em">
+                    <FlexContainer
+                        as="button"
+                        b="none"
+                        bgc="transparent"
+                        fs="1rem"
+                        align="center"
+                        gap="0.5em"
+                    >
                         {!isTabletOrMobile && (
                             <PostSvg color="var(--font-color)" />
                         )}

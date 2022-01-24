@@ -23,18 +23,20 @@ export function UserList({
     const dispatch = useAppDispatch();
     const userProfile = useAppSelector(getUser);
 
-    const [followUser, { loading: loadingFollow }] = useMutation(FOLLOW_USER, {
+    let [followUser, { loading: loadingFollow }] = useMutation(FOLLOW_USER, {
         onCompleted(data) {
             dispatch(followed(data.followUser));
+            loadingFollow = false;
         },
         onError: raiseErrorToast("Some error occured please try again later"),
     });
 
-    const [unfollowUser, { loading: loadingUnfollow }] = useMutation(
+    let [unfollowUser, { loading: loadingUnfollow }] = useMutation(
         UNFOLLOW_USER,
         {
             onCompleted(data) {
                 dispatch(unfollowed(data.unfollowUser));
+                loadingUnfollow = false;
             },
             onError: raiseErrorToast(
                 "Some error occured please try again later"
@@ -81,12 +83,14 @@ export function UserList({
                             w="40em"
                             maxW="67vw"
                         >
-                            <Container>
-                                <Container fw={600}>{user?.name}</Container>
-                                <Container color="var(--font-color-2)">
-                                    @{user?.userName}
+                            <Link to={`/${user?.userName}`}>
+                                <Container>
+                                    <Container fw={600}>{user?.name}</Container>
+                                    <Container color="var(--font-color-2)">
+                                        @{user?.userName}
+                                    </Container>
                                 </Container>
-                            </Container>
+                            </Link>
                             {user._id !== userProfile._id && (
                                 <Container
                                     as="button"

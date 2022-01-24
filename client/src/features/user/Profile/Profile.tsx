@@ -266,7 +266,7 @@ export function Profile() {
                 </FlexContainer>
             </MobileProfileContainer>
             <FlexContainer
-                gap="3em"
+                gap="2em"
                 maxW="80vw"
                 m="0 auto"
                 mt="2em"
@@ -277,7 +277,14 @@ export function Profile() {
                     direction="column"
                     cursor="pointer"
                 >
-                    <FlexContainer align="center" gap="0.5em">
+                    <FlexContainer
+                        as="button"
+                        b="none"
+                        bgc="transparent"
+                        fs="1rem"
+                        align="center"
+                        gap="0.5em"
+                    >
                         {!isTabletOrMobile && (
                             <PostSvg color="var(--font-color)" />
                         )}
@@ -299,7 +306,14 @@ export function Profile() {
                     direction="column"
                     cursor="pointer"
                 >
-                    <FlexContainer align="center" gap="0.5em">
+                    <FlexContainer
+                        as="button"
+                        b="none"
+                        bgc="transparent"
+                        fs="1rem"
+                        align="center"
+                        gap="0.5em"
+                    >
                         {!isTabletOrMobile && (
                             <LikeSvg
                                 fill="none"
@@ -326,7 +340,14 @@ export function Profile() {
                         direction="column"
                         cursor="pointer"
                     >
-                        <FlexContainer align="center" gap="0.5em">
+                        <FlexContainer
+                            as="button"
+                            b="none"
+                            bgc="transparent"
+                            fs="1rem"
+                            align="center"
+                            gap="0.5em"
+                        >
                             {!isTabletOrMobile && (
                                 <BookmarkSvg
                                     className="scale-12"

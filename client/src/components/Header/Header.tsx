@@ -71,11 +71,11 @@ export function Header() {
                 p="1em"
                 fw={600}
                 bgc="var(--primary-color)"
+                cursor="pointer"
+                onClick={() => navigate("/newpost")}
             >
                 <AddPostSvg className="scale-13" color="var(--font-color)" />
-                <Link to="/newpost">
-                    <Container ml="0.5em">New Post</Container>
-                </Link>
+                <Container ml="0.5em">New Post</Container>
             </AddPostButtonContainer>
         </HeaderContainer>
     ) : null;

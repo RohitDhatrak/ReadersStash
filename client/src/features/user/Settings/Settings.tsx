@@ -188,6 +188,14 @@ export function Settings() {
                         br="50%"
                         objectFit="cover"
                     />
+                    {image === user.profilePicture && (
+                        <Input
+                            type="file"
+                            w="100%"
+                            className="fileInput"
+                            onChange={handleImageSelection}
+                        />
+                    )}
                     <FlexContainer
                         bgc="#fff"
                         br="50%"
@@ -204,14 +212,6 @@ export function Settings() {
                             <CloseSvg color="var(--font-color)" />
                         )}
                     </FlexContainer>
-                    {image === user.profilePicture && (
-                        <Input
-                            type="file"
-                            w="100%"
-                            className="fileInput"
-                            onChange={handleImageSelection}
-                        />
-                    )}
                 </ImageContainer>
                 <FlexContainer
                     direction="column"
