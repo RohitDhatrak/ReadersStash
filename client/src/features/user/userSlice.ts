@@ -1,7 +1,14 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../../app/store";
 import { User, Post } from "../../types";
-import { liked, unliked, remove, added } from "../posts/postsSlice";
+import {
+    liked,
+    unliked,
+    remove,
+    added,
+    commentAdded,
+    commentDeleted,
+} from "../posts/postsSlice";
 
 const initialState: User = {
     _id: "",
@@ -63,7 +70,7 @@ export const userSlice = createSlice({
             if (state?.liked) {
                 state.liked.push(action.payload);
                 state.likesHashMap[action.payload._id] = true;
-                state.posts = state.posts.map((post) => {
+                state.posts.map((post) => {
                     if (post._id === action.payload._id) post.likesCount++;
                     return post;
                 });
@@ -75,7 +82,7 @@ export const userSlice = createSlice({
                     (post) => post._id !== action.payload._id
                 );
                 delete state.likesHashMap[action.payload._id];
-                state.posts = state.posts.map((post) => {
+                state.posts.map((post) => {
                     if (post._id === action.payload._id) post.likesCount--;
                     return post;
                 });
@@ -87,7 +94,35 @@ export const userSlice = createSlice({
             );
         });
         builder.addCase(added, (state, action) => {
-            state.posts = [...state.posts, action.payload];
+            state.posts.push(action.payload);
+        });
+        builder.addCase(commentAdded, (state, action) => {
+            state.posts.map((post) => {
+                if (post._id === action.payload._id) post.commentsCount++;
+                return post;
+            });
+            state.liked.map((post) => {
+                if (post._id === action.payload._id) post.commentsCount++;
+                return post;
+            });
+            state.bookmarked.map((post) => {
+                if (post._id === action.payload._id) post.commentsCount++;
+                return post;
+            });
+        });
+        builder.addCase(commentDeleted, (state, action) => {
+            state.posts.map((post) => {
+                if (post._id === action.payload._id) post.commentsCount--;
+                return post;
+            });
+            state.liked.map((post) => {
+                if (post._id === action.payload._id) post.commentsCount--;
+                return post;
+            });
+            state.bookmarked.map((post) => {
+                if (post._id === action.payload._id) post.commentsCount--;
+                return post;
+            });
         });
     },
 });

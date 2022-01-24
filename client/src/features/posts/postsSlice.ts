@@ -15,23 +15,31 @@ export const postsSlice = createSlice({
             return [action.payload, ...state];
         },
         liked(state, action: PayloadAction<Post>) {
-            const index = state.findIndex(
-                (post) => post._id === action.payload._id
-            );
-            if (index !== -1) {
-                state[index].likesCount++;
-            }
+            state.map((post) => {
+                if (post._id === action.payload._id) post.likesCount++;
+                return post;
+            });
         },
         unliked(state, action: PayloadAction<Post>) {
-            const index = state.findIndex(
-                (post) => post._id === action.payload._id
-            );
-            if (index !== -1) {
-                state[index].likesCount--;
-            }
+            state.map((post) => {
+                if (post._id === action.payload._id) post.likesCount--;
+                return post;
+            });
         },
         remove(state, action: PayloadAction<Post>) {
-            return state.filter((post) => post._id !== action.payload._id);
+            state = state.filter((post) => post._id !== action.payload._id);
+        },
+        commentAdded(state, action: PayloadAction<Post>) {
+            state.map((post) => {
+                if (post._id === action.payload._id) post.commentsCount++;
+                return post;
+            });
+        },
+        commentDeleted(state, action: PayloadAction<Post>) {
+            state.map((post) => {
+                if (post._id === action.payload._id) post.commentsCount--;
+                return post;
+            });
         },
     },
 });
@@ -40,4 +48,12 @@ export const getPosts = (state: RootState) => state.posts;
 
 export default postsSlice.reducer;
 
-export const { loaded, added, liked, unliked, remove } = postsSlice.actions;
+export const {
+    loaded,
+    added,
+    liked,
+    unliked,
+    remove,
+    commentAdded,
+    commentDeleted,
+} = postsSlice.actions;
