@@ -62,6 +62,11 @@ export interface Notification {
     updatedAt: string;
 }
 
+export interface Search {
+    posts: Array<Post>;
+    users: Array<User>;
+}
+
 export interface Topic {
     _id: string;
     name: string;

@@ -3,6 +3,7 @@ const { userResolvers } = require("./user.resolver");
 const { commentResolvers } = require("./comment.resolver");
 const { notificationResolvers } = require("./notification.resolver");
 const { topicResolvers } = require("./topic.resolver");
+const { searchResolvers } = require("./search.resolver");
 
 const resolvers = {
     Query: {
@@ -11,6 +12,7 @@ const resolvers = {
         ...commentResolvers.Query,
         ...notificationResolvers.Query,
         ...topicResolvers.Query,
+        ...searchResolvers.Query,
     },
     Mutation: {
         ...userResolvers.Mutation,
@@ -24,6 +26,7 @@ const resolvers = {
     Comment: commentResolvers.Comment,
     Notification: notificationResolvers.Notification,
     Topic: topicResolvers.Topic,
+    Search: searchResolvers.Search,
 };
 
 module.exports = { resolvers };

@@ -14,7 +14,7 @@ import { Container, FlexContainer } from "./components/Shared";
 import { GET_INITIAL_DATA, GET_POSTS } from "./graphql/queries";
 import { getUserFromLocalStorage } from "./utils/localStorageOperations";
 import { useAppDispatch, useAppSelector } from "./app/hooks";
-import { Page404, LandingPage } from "./pages";
+import { Page404, LandingPage, Search } from "./pages";
 import {
     Feed,
     Login,
@@ -147,6 +147,14 @@ function App() {
                     element={
                         <PrivateRoute path="/likes">
                             <Likes />
+                        </PrivateRoute>
+                    }
+                />
+                <Route
+                    path="/search"
+                    element={
+                        <PrivateRoute path="/search">
+                            <Search />
                         </PrivateRoute>
                     }
                 />

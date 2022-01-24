@@ -4,6 +4,7 @@ const { Topic } = require("../../models/topic.model");
 const { checkJWT } = require("../../utils/auth");
 const { ForbiddenError } = require("apollo-server");
 const { cloudinary } = require("../../utils/cloudinary");
+const { postsIndex } = require("../../utils/generateSearchIndex");
 
 const postResolvers = {
     Query: {
@@ -40,6 +41,12 @@ const postResolvers = {
             //     topic.posts.push(post._id);
             //     await topic.save();
             // }
+            postsIndex.add(post._id, post.title.trim());
+            postsIndex.appendAsync(post._id, post.body.trim());
+            postsIndex.appendAsync(post._id, userDoc.userName.trim());
+            postsIndex.appendAsync(post._id, userDoc.name.trim());
+            if (userDoc?.bio?.trim())
+                postsIndex.appendAsync(post._id, userDoc.bio.trim());
             return post;
         },
         async deletePost(parent, args, context) {
@@ -65,6 +72,7 @@ const postResolvers = {
                 //     );
                 //     topic.save();
                 // }
+                postsIndex.removeAsync(post._id);
                 return post;
             } else {
                 throw new ForbiddenError(

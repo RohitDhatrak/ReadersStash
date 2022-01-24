@@ -12,7 +12,13 @@ import { ImageContainer, ImageDiv } from "./style.userList";
 import { FOLLOW_USER, UNFOLLOW_USER } from "../../graphql/mutations";
 import { EmptyPageSvg } from "../../assets/svg";
 
-export function UserList({ userList }: { userList: Array<User> }) {
+export function UserList({
+    userList,
+    showEmptyPage = true,
+}: {
+    userList: Array<User>;
+    showEmptyPage?: boolean;
+}) {
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
     const userProfile = useAppSelector(getUser);
@@ -119,7 +125,7 @@ export function UserList({ userList }: { userList: Array<User> }) {
                     </Container>
                 </FlexContainer>
             ))}
-            {userList?.length === 0 && (
+            {userList?.length === 0 && showEmptyPage && (
                 <FlexContainer direction="column">
                     <EmptyPageSvg height="15em" />
                     <Container fs="1.4rem" mt="1em" textAlign="center">

@@ -5,6 +5,7 @@ const { Post } = require("../../models/post.model");
 const { UserInputError } = require("apollo-server");
 const { checkJWT } = require("../../utils/auth");
 const { cloudinary } = require("../../utils/cloudinary");
+const { usersIndex } = require("../../utils/generateSearchIndex");
 
 const userResolvers = {
     Query: {
@@ -45,6 +46,8 @@ const userResolvers = {
                 });
                 await newUser.save();
                 const jwt = signToken(newUser._id);
+                usersIndex.add(newUser._id, newUser.userName.trim());
+                usersIndex.appendAsync(newUser._id, newUser.name.trim());
                 return { ...newUser._doc, jwt };
             }
         },
@@ -123,6 +126,10 @@ const userResolvers = {
                 profilePicture = url;
                 user.profilePicture = profilePicture;
             }
+            usersIndex.update(user._id, user.userName.trim());
+            usersIndex.appendAsync(user._id, user.name.trim());
+            if (user?.bio?.trim())
+                usersIndex.appendAsync(user._id, user.bio.trim());
             user.email = email;
             user.name = name;
             user.bio = bio;

@@ -175,3 +175,31 @@ export const GET_LIKES = gql`
         }
     }
 `;
+
+export const GET_SEARCH_RESULTS = gql`
+    query GetSearchResults($query: String!) {
+        getSearchResults(query: $query) {
+            posts {
+                _id
+                title
+                body
+                image
+                likesCount
+                commentsCount
+                user {
+                    _id
+                    userName
+                    name
+                    profilePicture
+                }
+            }
+            users {
+                _id
+                userName
+                name
+                profilePicture
+                bio
+            }
+        }
+    }
+`;

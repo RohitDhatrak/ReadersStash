@@ -61,6 +61,10 @@ const typeDefs = gql`
         createdAt: String
         updatedAt: String
     }
+    type Search {
+        posts: [Post]!
+        users: [User]!
+    }
     type Topic {
         _id: ID!
         name: String!
@@ -94,6 +98,7 @@ const typeDefs = gql`
         getTopics: [Topic]!
         getTopic(topicId: ID!): Topic!
         getComments(postId: ID!): [Comment]!
+        getSearchResults(query: String!): Search!
         # getNotifications
     }
     type Mutation {

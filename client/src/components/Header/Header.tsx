@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { AddPostSvg } from "../../assets/svg";
 import { FlexContainer, Image, Container } from "../Shared";
@@ -12,7 +13,14 @@ import { InputEvent } from "../../types";
 
 export function Header() {
     const navigate = useNavigate();
+    const [searchQuery, setSearchQuery] = useState("");
     const { pathname } = useLocation();
+
+    function searchVideos() {
+        if (searchQuery.trim().length > 0) {
+            navigate(`/search?query=${searchQuery}`);
+        }
+    }
 
     return pathname !== "/landing" &&
         pathname !== "/login" &&
@@ -22,7 +30,7 @@ export function Header() {
             justify="space-between"
             align="center"
             h="5em"
-            mb="2em"
+            mb="1.5em"
             position="sticky"
             top="0"
             bgc="var(--card-color)"
@@ -46,6 +54,11 @@ export function Header() {
                     b="none"
                     p="1em"
                     placeholder={"Search for content or users."}
+                    value={searchQuery}
+                    onChange={(e: InputEvent) => setSearchQuery(e.target.value)}
+                    onKeyPress={(e: KeyboardEvent) => {
+                        if (e.key === "Enter") searchVideos();
+                    }}
                 />
             </FlexContainer>
             <AddPostButtonContainer
