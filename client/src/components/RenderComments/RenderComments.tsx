@@ -178,7 +178,14 @@ export function RenderComments({
                                     visitProfile(e, comment.user?.userName)
                                 }
                             >
-                                <Container fw={600}>
+                                <Container
+                                    fw={600}
+                                    as="button"
+                                    b="none"
+                                    bgc="transparent"
+                                    fs="1rem"
+                                    p="0"
+                                >
                                     {comment?.user?.name}
                                 </Container>
                                 <Container
@@ -198,8 +205,14 @@ export function RenderComments({
                             >
                                 {comment.level === 1 && (
                                     <Container
+                                        as="button"
                                         mr="1em"
                                         cursor="pointer"
+                                        b="none"
+                                        bgc="transparent"
+                                        p="0"
+                                        fs="0.9rem"
+                                        color="var(--font-color-2)"
                                         onClick={() => toggleReply(comment)}
                                     >
                                         {replyInput === comment._id
@@ -209,12 +222,18 @@ export function RenderComments({
                                 )}
                                 {comment?.user?.userName === user?.userName && (
                                     <Container
+                                        as="button"
                                         cursor={
                                             deletingId &&
                                             deletingId !== comment._id
                                                 ? "default"
                                                 : "pointer"
                                         }
+                                        b="none"
+                                        bgc="transparent"
+                                        p="0"
+                                        fs="0.9rem"
+                                        color="var(--font-color-2)"
                                         onClick={() => deleteComment(comment)}
                                         opacity={
                                             deletingId &&

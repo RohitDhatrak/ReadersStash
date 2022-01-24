@@ -203,6 +203,10 @@ export function Profile() {
                             <FlexContainer
                                 direction="row"
                                 cursor="pointer"
+                                as="button"
+                                b="none"
+                                bgc="transparent"
+                                fs="1rem"
                                 onClick={() =>
                                     navigate(`/followers?id=${profile._id}`)
                                 }
@@ -216,6 +220,10 @@ export function Profile() {
                                 direction="row"
                                 ml="1em"
                                 cursor="pointer"
+                                as="button"
+                                b="none"
+                                bgc="transparent"
+                                fs="1rem"
                                 onClick={() =>
                                     navigate(`/following?id=${profile._id}`)
                                 }

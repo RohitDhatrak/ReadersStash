@@ -278,27 +278,39 @@ export function Post({ post }: { post: PostType }) {
             </Container>
             <FlexContainer p="1em 3em" justify="space-between" mt="0.5em">
                 <FlexContainer
-                    as="button"
-                    b="none"
-                    bgc="transparent"
-                    fs="1rem"
                     align="center"
                     cursor="pointer"
                     onClick={(e: ButtonEvent) => toggleLike(e)}
                 >
-                    <LikeSvg
-                        fill={user.likesHashMap?.[post._id] ? "red" : "none"}
-                        color={
-                            user.likesHashMap?.[post._id]
-                                ? "red"
-                                : "var(--font-color)"
-                        }
-                        className="scale-12"
-                    />
+                    <FlexContainer
+                        as="button"
+                        b="none"
+                        p="0"
+                        bgc="transparent"
+                        fs="1rem"
+                        align="center"
+                    >
+                        <LikeSvg
+                            fill={
+                                user.likesHashMap?.[post._id] ? "red" : "none"
+                            }
+                            color={
+                                user.likesHashMap?.[post._id]
+                                    ? "red"
+                                    : "var(--font-color)"
+                            }
+                            className="scale-12"
+                        />
+                    </FlexContainer>
                     <Container
+                        as="button"
+                        b="none"
+                        bgc="transparent"
+                        fs="1rem"
                         ml="1em"
+                        p="0"
                         hover={"text-decoration: underline"}
-                        onClick={(e) => {
+                        onClick={(e: ButtonEvent) => {
                             e.stopPropagation();
                             navigate(`/likes?id=${post._id}`);
                         }}
