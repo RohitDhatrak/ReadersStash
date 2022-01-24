@@ -14,7 +14,13 @@ export function Notifications() {
     return (
         <PageContainer mb="5em" justify="center">
             {notifications.length === 0 && (
-                <FlexContainer direction="column" maxW="90vw">
+                <FlexContainer
+                    direction="column"
+                    maxW="90vw"
+                    align="center"
+                    justify="center"
+                    h="70vh"
+                >
                     <EmptyPageSvg height="15em" />
                     <Container fs="1.4rem" mt="1em" textAlign="center">
                         Looks like you are all caught up!

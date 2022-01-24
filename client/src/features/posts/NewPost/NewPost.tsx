@@ -24,9 +24,7 @@ import { PageContainer } from "./style.newpost";
 export function NewPost() {
     const [title, setTitle] = useState("");
     const [body, setBody] = useState("");
-    const [previewSource, setPreviewSource] = useState<
-        string | ArrayBuffer | null
-    >();
+    const [image, setImage] = useState<string | ArrayBuffer | null>();
     const dispatch = useAppDispatch();
     const user = useAppSelector(getUser);
     const navigate = useNavigate();
@@ -52,7 +50,7 @@ export function NewPost() {
         const reader = new FileReader();
         reader.readAsDataURL(file);
         reader.onloadend = () => {
-            setPreviewSource(reader.result);
+            setImage(reader.result);
         };
     }
 
@@ -68,7 +66,9 @@ export function NewPost() {
                 draggable: true,
                 progress: undefined,
             });
-            navigate(`/${user.userName}`);
+            setTitle("");
+            setBody("");
+            setImage("");
         },
         onError() {
             toast.error("Some error occured please try again later", {
@@ -81,7 +81,7 @@ export function NewPost() {
                 progress: undefined,
             });
         },
-        variables: { body, title, image: previewSource, userId: user._id },
+        variables: { body, title, image, userId: user._id },
     });
 
     function handlePost(e: ButtonEvent) {
@@ -104,7 +104,7 @@ export function NewPost() {
                 maxW="90vw"
                 br="1em"
             >
-                {!previewSource && (
+                {!image && (
                     <FlexContainer
                         w="100%"
                         justify="center"
@@ -124,7 +124,7 @@ export function NewPost() {
                     </FlexContainer>
                 )}
 
-                {previewSource && (
+                {image && (
                     <Container h="12em" mb="1em" position="relative">
                         <FlexContainer
                             position="absolute"
@@ -135,12 +135,12 @@ export function NewPost() {
                             bgc="#fff"
                             align="center"
                             br="50%"
-                            onClick={() => setPreviewSource(null)}
+                            onClick={() => setImage(null)}
                         >
                             <CloseSvg />
                         </FlexContainer>
                         <Image
-                            src={previewSource}
+                            src={image}
                             h="100%"
                             w="100%"
                             objectFit="cover"

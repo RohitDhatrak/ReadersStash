@@ -163,7 +163,7 @@ export function Post({ post }: { post: PostType }) {
             cursor={isPostPage ? "default" : "pointer"}
             onClick={openPostPage}
         >
-            <FlexContainer p="1em 2em" align="center" justify="space-between">
+            <FlexContainer p="0.7em 2em" align="center" justify="space-between">
                 <FlexContainer align="center">
                     <ImageContainer>
                         <ImageDiv
@@ -243,7 +243,7 @@ export function Post({ post }: { post: PostType }) {
             {post.image && (
                 <Image
                     src={post.image}
-                    h="12em"
+                    h="16em"
                     mb="2em"
                     objectFit="cover"
                     loading="lazy"

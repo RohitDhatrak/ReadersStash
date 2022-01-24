@@ -20,7 +20,13 @@ export function Explore() {
                     <Post post={post} key={post._id} />
                 ))}
                 {posts.length === 0 && (
-                    <FlexContainer direction="column">
+                    <FlexContainer
+                        direction="column"
+                        align="center"
+                        justify="center"
+                        h="70vh"
+                        maxW="90vw"
+                    >
                         <EmptyPageSvg height="15em" />
                         <Container fs="1.4rem" mt="1em" textAlign="center">
                             Whoops! looks like there is nothing in here.

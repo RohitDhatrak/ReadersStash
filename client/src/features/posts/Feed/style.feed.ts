@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { media } from "../../../components/Shared/mediaQueries";
-import { FlexContainer, Container } from "../../../components/Shared";
+import { FlexContainer } from "../../../components/Shared";
 
 export const PageContainer = styled(FlexContainer)`
     margin-left: 0;
