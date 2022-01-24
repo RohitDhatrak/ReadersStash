@@ -233,7 +233,9 @@ export function Post({ post }: { post: PostType }) {
                                     color="var(--error-color)"
                                     ml="0.5em"
                                 >
-                                    Delete
+                                    {loadingDeletePost
+                                        ? "Deleting..."
+                                        : "Delete"}
                                 </Container>
                             </FlexContainer>
                         )}

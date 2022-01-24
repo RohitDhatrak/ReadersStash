@@ -69,7 +69,7 @@ export function Profile() {
         } else {
             setProfile(data?.getUser);
         }
-    }, [data]);
+    }, [data, user]);
 
     const [followUser, { loading: loadingFollow }] = useMutation(FOLLOW_USER, {
         onCompleted(data) {

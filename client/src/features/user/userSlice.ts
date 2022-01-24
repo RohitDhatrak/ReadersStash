@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../../app/store";
 import { User, Post } from "../../types";
-import { liked, unliked } from "../posts/postsSlice";
+import { liked, unliked, remove, added } from "../posts/postsSlice";
 
 const initialState: User = {
     _id: "",
@@ -63,6 +63,10 @@ export const userSlice = createSlice({
             if (state?.liked) {
                 state.liked.push(action.payload);
                 state.likesHashMap[action.payload._id] = true;
+                state.posts = state.posts.map((post) => {
+                    if (post._id === action.payload._id) post.likesCount++;
+                    return post;
+                });
             }
         });
         builder.addCase(unliked, (state, action) => {
@@ -71,7 +75,19 @@ export const userSlice = createSlice({
                     (post) => post._id !== action.payload._id
                 );
                 delete state.likesHashMap[action.payload._id];
+                state.posts = state.posts.map((post) => {
+                    if (post._id === action.payload._id) post.likesCount--;
+                    return post;
+                });
             }
+        });
+        builder.addCase(remove, (state, action) => {
+            state.posts = state.posts.filter(
+                (post) => post._id !== action.payload._id
+            );
+        });
+        builder.addCase(added, (state, action) => {
+            state.posts = [...state.posts, action.payload];
         });
     },
 });

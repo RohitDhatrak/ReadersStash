@@ -52,7 +52,7 @@ export function Settings() {
 
     const { loading } = useQuery(GET_PROFILE_DATA, {
         onCompleted(data) {
-            if (!data?.email) {
+            if (!user?.email) {
                 setEmail(data.getUser.email);
                 setName(data.getUser.name);
                 setImage(data.getUser.profilePicture);
