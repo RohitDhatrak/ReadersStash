@@ -54,7 +54,7 @@ export function NewPost() {
         };
     }
 
-    const [addPost, { loading: loadingAddPost }] = useMutation(ADD_POST, {
+    let [addPost, { loading: loadingAddPost }] = useMutation(ADD_POST, {
         onCompleted(data) {
             dispatch(added(data.createPost));
             toast.success("Post added successfully", {
@@ -69,6 +69,7 @@ export function NewPost() {
             setTitle("");
             setBody("");
             setImage("");
+            loadingAddPost = false;
         },
         onError() {
             toast.error("Some error occured please try again later", {
@@ -80,6 +81,7 @@ export function NewPost() {
                 draggable: true,
                 progress: undefined,
             });
+            loadingAddPost = false;
         },
         variables: { body, title, image, userId: user._id },
     });
@@ -203,11 +205,12 @@ export function NewPost() {
                     body.length > BODY_LIMIT ||
                     title.length > TITLE_LIMIT ||
                     !body.trim() ||
-                    !title.trim()
+                    !title.trim() ||
+                    loadingAddPost
                 }
                 onClick={handlePost}
             >
-                Post
+                {loadingAddPost ? "Posting..." : "Post"}
             </Container>
         </PageContainer>
     );

@@ -13,13 +13,15 @@ import {
 } from "../../../components";
 import { GET_POST } from "../../../graphql/queries";
 import { ADD_COMMENT } from "../../../graphql/mutations";
-import { loaded, getPosts } from "../postsSlice";
+import { loaded, getPosts, commentAdded } from "../postsSlice";
 import { PageContainer } from "./style.postpage";
 import { Page404 } from "../../../pages";
 import { getUser } from "../../user/userSlice";
 import { LoaderSvg } from "../../../assets/svg";
+import { increment } from "../../counter/counterSlice";
 
 export function PostPage() {
+    const dispatch = useAppDispatch();
     const [comment, setComment] = useState("");
     const [isError, setIsError] = useState(false);
     const [post, setPost] = useState<PostType>();
@@ -28,9 +30,9 @@ export function PostPage() {
     const COMMENT_LIMIT = 300;
     const user = useAppSelector(getUser);
 
-    const { loading } = useQuery(GET_POST, {
+    const { loading, refetch } = useQuery(GET_POST, {
         onCompleted(data) {
-            if (!post) setPost(data.getPost);
+            setPost(data.getPost);
         },
         onError() {
             setIsError(true);
@@ -38,7 +40,11 @@ export function PostPage() {
         variables: { postId },
     });
 
-    const [addComment, { loading: loadingAddComment }] = useMutation(
+    useEffect(() => {
+        refetch();
+    }, []);
+
+    let [addComment, { loading: loadingAddComment }] = useMutation(
         ADD_COMMENT,
         {
             onCompleted(data) {
@@ -46,9 +52,12 @@ export function PostPage() {
                     const updatedPost = {
                         ...post,
                         comments: [...post.comments, data.addComment],
+                        commentsCount: post.commentsCount + 1,
                     };
                     setPost(updatedPost);
+                    dispatch(commentAdded(updatedPost));
                 }
+                loadingAddComment = false;
             },
             onError() {
                 toast.error("Some error occured while saving your comment", {
@@ -60,6 +69,7 @@ export function PostPage() {
                     draggable: true,
                     progress: undefined,
                 });
+                loadingAddComment = false;
             },
             variables: { body: comment, postId, userId: user._id },
         }
@@ -108,11 +118,13 @@ export function PostPage() {
                             w="5em"
                             m="0.5em"
                             disabled={
-                                !comment || comment.length > COMMENT_LIMIT
+                                !comment ||
+                                comment.length > COMMENT_LIMIT ||
+                                loadingAddComment
                             }
                             onClick={postComment}
                         >
-                            Post
+                            {loadingAddComment ? "Posting..." : "Post"}
                         </ActionButton>
                     </FlexContainer>
                     {post?.comments && (

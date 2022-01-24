@@ -47,7 +47,14 @@ export function Profile() {
         ? user?.followingHashMap?.[profile?._id]
         : false;
 
-    const { data, loading } = useQuery(GET_PROFILE_DATA, {
+    const { data, loading, refetch } = useQuery(GET_PROFILE_DATA, {
+        onCompleted(data) {
+            if (userName === user.userName && user?.bio) {
+                setProfile(user);
+            } else {
+                setProfile(data?.getUser);
+            }
+        },
         onError() {
             set404(true);
         },
@@ -64,12 +71,16 @@ export function Profile() {
     });
 
     useEffect(() => {
+        refetch();
+    }, [userName, profile]);
+
+    useEffect(() => {
         if (userName === user.userName && user?.bio) {
             setProfile(user);
         } else {
             setProfile(data?.getUser);
         }
-    }, [data, user]);
+    }, [data, user, userName]);
 
     const [followUser, { loading: loadingFollow }] = useMutation(FOLLOW_USER, {
         onCompleted(data) {
@@ -114,7 +125,7 @@ export function Profile() {
         }
     }
 
-    if (loading)
+    if (!user?.bio && loading)
         return (
             <FlexContainer h="75vh" justify="center" align="center">
                 <LoaderSvg />

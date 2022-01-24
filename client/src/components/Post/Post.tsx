@@ -77,6 +77,9 @@ export function Post({ post }: { post: PostType }) {
         {
             onCompleted(data) {
                 dispatch(remove(data.deletePost));
+                if (isPostPage) {
+                    navigate("/");
+                }
             },
             onError: raiseErrorToast(
                 "Some error occured could not delete post"
@@ -144,9 +147,6 @@ export function Post({ post }: { post: PostType }) {
             );
             if (isConfirmed) {
                 removePost();
-                if (isPostPage) {
-                    navigate("/");
-                }
             }
         }
     }

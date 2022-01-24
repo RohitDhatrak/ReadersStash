@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { useQuery } from "@apollo/client";
 import { User } from "../../../types";
@@ -14,7 +14,7 @@ export function Likes() {
     const { search = "" } = useLocation();
     const postId = search.split("=")[1];
 
-    const { loading } = useQuery(GET_LIKES, {
+    const { loading, refetch } = useQuery(GET_LIKES, {
         onCompleted(data) {
             setUserList(data.getPost.likes);
         },
@@ -23,6 +23,10 @@ export function Likes() {
         ),
         variables: { postId },
     });
+
+    useEffect(() => {
+        refetch();
+    }, []);
 
     if (loading)
         return (

@@ -64,7 +64,7 @@ export function Settings() {
         variables: { userName: user.userName },
     });
 
-    const [changePassword, { loading: passwordLoading }] = useMutation(
+    let [changePassword, { loading: passwordLoading }] = useMutation(
         CHANGE_PASSWORD,
         {
             onCompleted() {
@@ -72,12 +72,14 @@ export function Settings() {
                 setNewPassword("");
                 setConfirmPassword("");
                 setMessage("Password changed successfully");
+                passwordLoading = false;
             },
             onError(error) {
                 setError(
                     error.graphQLErrors[0].message ||
                         "Some error occurred please try again later"
                 );
+                passwordLoading = false;
             },
             variables: { userId: user._id, password, newPassword },
         }
@@ -331,7 +333,11 @@ export function Settings() {
                         </Container>
                     </Container>
                     {!error && password && newPassword && confirmPassword && (
-                        <ActionButton w="unset">Change Password</ActionButton>
+                        <ActionButton w="unset" disabled={passwordLoading}>
+                            {passwordLoading
+                                ? "Changing..."
+                                : "Change Password"}
+                        </ActionButton>
                     )}
                 </FlexContainer>
                 <Container fs="1.2rem" m="1.5em 0">

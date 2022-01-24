@@ -7,6 +7,7 @@ import { InputBox, ActionButton } from "../";
 import { DeleteSvg, MoreSvg } from "../../assets/svg";
 import { useAppSelector, useAppDispatch } from "../../app/hooks";
 import { getUser } from "../../features/user/userSlice";
+import { commentDeleted } from "../../features/posts/postsSlice";
 import { Comment, ButtonEvent, InputEvent, Post } from "../../types";
 import { ADD_COMMENT, DELETE_COMMENT } from "../../graphql/mutations";
 import { raiseErrorToast, raiseToast } from "../../utils/toast";
@@ -24,33 +25,33 @@ export function RenderComments({
 }: RenderCommentsProps) {
     const navigate = useNavigate();
     const user = useAppSelector(getUser);
+    const dispatch = useAppDispatch();
     const [reply, setReply] = useState("");
+    const [deletingId, setDeletingId] = useState("");
     const [replyInput, setReplyInput] = useState("");
     const REPLY_LIMIT = 300;
 
-    const [addReply, { loading: loadingAddComment }] = useMutation(
-        ADD_COMMENT,
-        {
-            onCompleted(data) {
-                if (post) {
-                    const updatedPost = {
-                        ...post,
-                        comments: post.comments.map((comment) =>
-                            comment._id === data.addComment._id
-                                ? data.addComment
-                                : comment
-                        ),
-                    };
-                    setPost(updatedPost);
-                }
-            },
-            onError: raiseErrorToast(
-                "Some error occured while saving your comment"
-            ),
-        }
-    );
+    let [addReply, { loading: loadingAddComment }] = useMutation(ADD_COMMENT, {
+        onCompleted(data) {
+            if (post) {
+                const updatedPost = {
+                    ...post,
+                    comments: post.comments.map((comment) =>
+                        comment._id === data.addComment._id
+                            ? data.addComment
+                            : comment
+                    ),
+                };
+                setPost(updatedPost);
+            }
+            loadingAddComment = false;
+        },
+        onError: raiseErrorToast(
+            "Some error occured while saving your comment"
+        ),
+    });
 
-    const [deleteReply, { loading: loadingDeleteReply }] = useMutation(
+    let [deleteReply, { loading: loadingDeleteReply }] = useMutation(
         DELETE_COMMENT,
         {
             onCompleted(data) {
@@ -65,6 +66,8 @@ export function RenderComments({
                     };
                     setPost(updatedPost);
                 }
+                loadingDeleteReply = false;
+                setDeletingId("");
             },
             onError: raiseErrorToast(
                 "Some error occured while deleteing your comment"
@@ -72,7 +75,7 @@ export function RenderComments({
         }
     );
 
-    const [deleteRootComment, { loading: loadingDeleteComment }] = useMutation(
+    let [deleteRootComment, { loading: loadingDeleteComment }] = useMutation(
         DELETE_COMMENT,
         {
             onCompleted(data) {
@@ -82,9 +85,13 @@ export function RenderComments({
                         comments: post.comments.filter(
                             (comment) => comment._id !== data.deleteComment._id
                         ),
+                        commentsCount: post.commentsCount - 1,
                     };
+                    dispatch(commentDeleted(updatedPost));
                     setPost(updatedPost);
                 }
+                loadingDeleteComment = false;
+                setDeletingId("");
             },
             onError: raiseErrorToast(
                 "Some error occured while deleteing your comment"
@@ -98,10 +105,12 @@ export function RenderComments({
     }
 
     function toggleReply(comment: Comment) {
-        if (replyInput) {
-            setReplyInput("");
-        } else {
-            setReplyInput(comment._id);
+        if (!loadingAddComment) {
+            if (replyInput === comment._id) {
+                setReplyInput("");
+            } else {
+                setReplyInput(comment._id);
+            }
         }
     }
 
@@ -126,6 +135,7 @@ export function RenderComments({
                 "Are you sure you want to delete this comment?"
             );
             if (isConfirmed) {
+                setDeletingId(comment._id);
                 if (comment?.parentComment) {
                     deleteReply({
                         variables: {
@@ -192,15 +202,30 @@ export function RenderComments({
                                         cursor="pointer"
                                         onClick={() => toggleReply(comment)}
                                     >
-                                        {replyInput ? "Close" : "Reply"}
+                                        {replyInput === comment._id
+                                            ? "Close"
+                                            : "Reply"}
                                     </Container>
                                 )}
                                 {comment?.user?.userName === user?.userName && (
                                     <Container
-                                        cursor="pointer"
+                                        cursor={
+                                            deletingId &&
+                                            deletingId !== comment._id
+                                                ? "default"
+                                                : "pointer"
+                                        }
                                         onClick={() => deleteComment(comment)}
+                                        opacity={
+                                            deletingId &&
+                                            deletingId !== comment._id
+                                                ? 0.5
+                                                : 1
+                                        }
                                     >
-                                        Delete
+                                        {deletingId === comment._id
+                                            ? "Deleteing..."
+                                            : "Delete"}
                                     </Container>
                                 )}
                             </FlexContainer>
@@ -224,10 +249,14 @@ export function RenderComments({
                             />
                             <ActionButton
                                 w="5em"
-                                disabled={!reply || reply.length > REPLY_LIMIT}
+                                disabled={
+                                    !reply ||
+                                    reply.length > REPLY_LIMIT ||
+                                    loadingAddComment
+                                }
                                 onClick={() => postReply(comment)}
                             >
-                                Post
+                                {loadingAddComment ? "Posting..." : "Post"}
                             </ActionButton>
                         </FlexContainer>
                     )}

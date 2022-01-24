@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useQuery } from "@apollo/client";
 import { useLocation } from "react-router-dom";
 import { User } from "../../../types";
@@ -14,7 +14,7 @@ export function Following() {
     const { search = "" } = useLocation();
     const userId = search.split("=")[1];
 
-    const { loading } = useQuery(GET_FOLLOWING, {
+    const { loading, refetch } = useQuery(GET_FOLLOWING, {
         onCompleted(data) {
             setUserList(data.getUser.following);
         },
@@ -23,6 +23,11 @@ export function Following() {
         ),
         variables: { userId },
     });
+
+    useEffect(() => {
+        refetch();
+        console.log("here");
+    }, []);
 
     if (loading)
         return (
