@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { toast } from "react-toastify";
 import { useMutation } from "@apollo/client";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useMediaQuery } from "react-responsive";
 import { FlexContainer, Container, Image } from "../Shared";
 import { InputBox, ActionButton } from "../";
 import { DeleteSvg, MoreSvg } from "../../assets/svg";
@@ -29,6 +30,8 @@ export function RenderComments({
     const [reply, setReply] = useState("");
     const [deletingId, setDeletingId] = useState("");
     const [replyInput, setReplyInput] = useState("");
+    const isTabletOrMobile = useMediaQuery({ query: "(max-width: 600px)" });
+
     const REPLY_LIMIT = 300;
 
     let [addReply, { loading: loadingAddComment }] = useMutation(ADD_COMMENT, {
@@ -159,7 +162,12 @@ export function RenderComments({
     return (
         <>
             {comments.map((comment) => (
-                <Container key={comment._id} w="40em" maxW="90vw">
+                <Container
+                    id={`${comment._id}`}
+                    key={comment._id}
+                    w="40em"
+                    maxW="85vw"
+                >
                     <FlexContainer direction="row" mt="1.5em">
                         <Image
                             src={comment.user?.profilePicture}
@@ -173,7 +181,9 @@ export function RenderComments({
                         <Container ml="1em">
                             <FlexContainer
                                 mb="0.3em"
+                                direction="column"
                                 cursor="pointer"
+                                align="flex-start"
                                 onClick={(e: ButtonEvent) =>
                                     visitProfile(e, comment.user?.userName)
                                 }
@@ -188,10 +198,7 @@ export function RenderComments({
                                 >
                                     {comment?.user?.name}
                                 </Container>
-                                <Container
-                                    ml="0.4em"
-                                    color="var(--font-color-2)"
-                                >
+                                <Container color="var(--font-color-2)">
                                     @{comment?.user?.userName}
                                 </Container>
                             </FlexContainer>
@@ -279,7 +286,7 @@ export function RenderComments({
                             </ActionButton>
                         </FlexContainer>
                     )}
-                    <Container pl="4em">
+                    <Container pl={isTabletOrMobile ? "1em" : "2em"}>
                         {comment?.replies && (
                             <RenderComments
                                 comments={comment?.replies}

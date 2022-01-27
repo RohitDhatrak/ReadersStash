@@ -1,6 +1,6 @@
 const { User } = require("../../models/user.model");
 const { Post } = require("../../models/post.model");
-const { Topic } = require("../../models/topic.model");
+const { Notification } = require("../../models/notification.model");
 const { checkJWT } = require("../../utils/auth");
 const { ForbiddenError } = require("apollo-server");
 const { cloudinary } = require("../../utils/cloudinary");
@@ -23,7 +23,7 @@ const postResolvers = {
         async createPost(parent, args, context) {
             checkJWT(context);
             let {
-                createPostInput: { title, body, userId, topics, image },
+                createPostInput: { title, body, userId, image },
             } = args;
             if (image) {
                 const { url } = await cloudinary.uploader.upload(image, {
@@ -36,11 +36,6 @@ const postResolvers = {
             const userDoc = await User.findOne({ _id: userId });
             userDoc.posts.push(post._id);
             await userDoc.save();
-            // for (const topicId of topics) {
-            //     const topic = await Topic.findOne({ _id: topicId });
-            //     topic.posts.push(post._id);
-            //     await topic.save();
-            // }
             postsIndex.add(post._id, post.title.trim());
             postsIndex.appendAsync(post._id, post.body.trim());
             postsIndex.appendAsync(post._id, userDoc.userName.trim());
@@ -65,14 +60,10 @@ const postResolvers = {
                     (postId) => postId.valueOf() !== post._id
                 );
                 userDoc.save();
-                // for (const topicId of post.topics) {
-                //     const topic = await Topic.findOne({ _id: topicId });
-                //     topic.posts = topic.posts.filter(
-                //         (postId) => postId.valueOf() !== post._id
-                //     );
-                //     topic.save();
-                // }
                 postsIndex.removeAsync(post._id);
+                await Notification.deleteMany({
+                    post: post._id,
+                });
                 return post;
             } else {
                 throw new ForbiddenError(
@@ -89,6 +80,17 @@ const postResolvers = {
             const userDoc = await User.findOne({ _id: userId });
             userDoc.liked.push(postId);
             userDoc.save();
+
+            if (post.user.valueOf() !== userId) {
+                const notification = new Notification({
+                    user: post.user,
+                    from: userId,
+                    type: "Like",
+                    post: post._id,
+                    isRead: false,
+                });
+                await notification.save();
+            }
             return post;
         },
         async unlikePost(parent, args, context) {
@@ -102,6 +104,11 @@ const postResolvers = {
                 (id) => id.valueOf() !== postId
             );
             userDoc.save();
+            await Notification.deleteOne({
+                type: "Like",
+                from: userId,
+                post: post._id,
+            });
             return post;
         },
         async bookmark(parent, args, context) {
@@ -143,10 +150,6 @@ const postResolvers = {
         async bookmarks(parent) {
             await parent.populate("bookmarks");
             return parent.bookmarks;
-        },
-        async topics(parent) {
-            await parent.populate("topics");
-            return parent.topics;
         },
         async comments(parent) {
             await parent.populate("comments");

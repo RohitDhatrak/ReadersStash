@@ -11,7 +11,7 @@ import { MobileNavContainer } from "./style.mobileNav";
 import { useAppSelector } from "../../app/hooks";
 import { getUser } from "../../features/user/userSlice";
 
-export function MobileNav() {
+export function MobileNav({ unreadCount }: { unreadCount: number }) {
     const user = useAppSelector(getUser);
 
     return (
@@ -79,10 +79,30 @@ export function MobileNav() {
                     align="center"
                     cursor="pointer"
                 >
-                    <NotificationSvg
-                        color={"var(--font-color)"}
-                        className="scale-14"
-                    />
+                    <Container position="relative">
+                        {unreadCount > 0 && (
+                            <FlexContainer
+                                align="center"
+                                justify="center"
+                                textAlign="center"
+                                fs="0.65rem"
+                                top="-0.7em"
+                                right="-1em"
+                                position="absolute"
+                                p="0.2em 0.5em"
+                                zIndex="1"
+                                color="var(--font-color)"
+                                br="50%"
+                                bgc="var(--notification-color)"
+                            >
+                                {unreadCount}
+                            </FlexContainer>
+                        )}
+                        <NotificationSvg
+                            color={"var(--font-color)"}
+                            className="scale-14"
+                        />
+                    </Container>
                     <Container fs="0.8rem" pt="0.4em">
                         Updates
                     </Container>

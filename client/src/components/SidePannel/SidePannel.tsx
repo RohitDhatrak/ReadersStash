@@ -11,7 +11,7 @@ import {
 import { useAppSelector } from "../../app/hooks";
 import { getUser } from "../../features/user/userSlice";
 
-export function SidePannel() {
+export function SidePannel({ unreadCount }: { unreadCount: number }) {
     const { pathname } = useLocation();
     const user = useAppSelector(getUser);
     const isProfile = pathname.split("/")[1] === user?.userName;
@@ -76,10 +76,29 @@ export function SidePannel() {
                     }
                     hover="background-color: var(--nav-hover-color)"
                 >
-                    <NotificationSvg
-                        color={"var(--font-color)"}
-                        className="scale-15"
-                    />
+                    <Container position="relative">
+                        {unreadCount > 0 && (
+                            <FlexContainer
+                                align="center"
+                                justify="center"
+                                textAlign="center"
+                                fs="0.7rem"
+                                top="-1em"
+                                right="-1em"
+                                position="absolute"
+                                p="0.2em 0.5em"
+                                zIndex="1"
+                                br="50%"
+                                bgc="var(--notification-color)"
+                            >
+                                {unreadCount}
+                            </FlexContainer>
+                        )}
+                        <NotificationSvg
+                            color={"var(--font-color)"}
+                            className="scale-15"
+                        />
+                    </Container>
                     <Container ml="2em">Notifications</Container>
                 </FlexContainer>
             </Link>

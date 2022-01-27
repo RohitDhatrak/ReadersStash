@@ -12,6 +12,7 @@
     --card-color: #fff;
     --success-color: #22c55e;
     --error-color: #b91c1c;
+    --notification-color: #f87171;
     --z-index-1: 1;
     --z-index-2: 2;
     font-family: "Montserrat", sans-serif;
@@ -65,6 +66,13 @@ img {
 .post-body:focus,
 .post-title:focus {
     outline: none;
+}
+
+.post-body {
+    border: none;
+    width: 100%;
+    font-size: 1.1rem;
+    overflow-y: hidden;
 }
 
 .scale-11 {

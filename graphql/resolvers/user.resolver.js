@@ -1,7 +1,7 @@
 const { encrypt, decrypt } = require("../../utils/hashOperations");
 const { signToken } = require("../../utils/tokenOperations");
 const { User } = require("../../models/user.model");
-const { Post } = require("../../models/post.model");
+const { Notification } = require("../../models/notification.model");
 const { UserInputError } = require("apollo-server");
 const { checkJWT } = require("../../utils/auth");
 const { cloudinary } = require("../../utils/cloudinary");
@@ -84,6 +84,13 @@ const userResolvers = {
             otherUser.followers.push(userId);
             await user.save();
             await otherUser.save();
+            const notification = new Notification({
+                user: otherUserId,
+                from: userId,
+                type: "Follow",
+                isRead: false,
+            });
+            await notification.save();
             return otherUser;
         },
         async unfollowUser(parent, args, context) {
@@ -99,6 +106,11 @@ const userResolvers = {
             );
             await user.save();
             await otherUser.save();
+            await Notification.deleteOne({
+                user: otherUserId,
+                from: userId,
+                type: "Follow",
+            });
             return otherUser;
         },
         async updateProfile(parent, args, context) {

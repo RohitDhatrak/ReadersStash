@@ -1,5 +1,5 @@
-const { User } = require("../../models/user.model");
 const { Comment } = require("../../models/comment.model");
+const { Notification } = require("../../models/notification.model");
 const { Post } = require("../../models/post.model");
 const { checkJWT } = require("../../utils/auth");
 
@@ -27,6 +27,17 @@ const commentResolvers = {
                 await reply.save();
                 comment.replies.push(reply._id);
                 await comment.save();
+                if (comment.user.valueOf() !== userId) {
+                    const notification = new Notification({
+                        user: comment.user,
+                        from: userId,
+                        type: "Reply",
+                        post: postId,
+                        comment: reply._id,
+                        isRead: false,
+                    });
+                    await notification.save();
+                }
                 return comment;
             } else {
                 const post = await Post.findOne({ _id: postId });
@@ -38,6 +49,17 @@ const commentResolvers = {
                 await comment.save();
                 post.comments.push(comment._id);
                 await post.save();
+                if (post.user.valueOf() !== userId) {
+                    const notification = new Notification({
+                        user: post.user,
+                        from: userId,
+                        type: "Comment",
+                        post: post._id,
+                        comment: comment._id,
+                        isRead: false,
+                    });
+                    await notification.save();
+                }
                 return comment;
             }
         },
@@ -52,8 +74,18 @@ const commentResolvers = {
                 parentComment.replies = parentComment.replies.filter(
                     (id) => id.valueOf() !== commentId
                 );
+                const comment = await Comment.findOne({
+                    _id: commentId,
+                });
                 await Comment.deleteOne({ _id: commentId });
                 await parentComment.save();
+                await Notification.deleteOne({
+                    user: parentComment.user,
+                    from: comment.user,
+                    type: "Reply",
+                    post: postId,
+                    comment: commentId,
+                });
                 return parentComment;
             } else {
                 const comment = await Comment.findOne({ _id: commentId });
@@ -63,6 +95,13 @@ const commentResolvers = {
                 );
                 post.save();
                 await Comment.deleteOne({ _id: commentId });
+                await Notification.deleteOne({
+                    user: post.user,
+                    from: comment.user,
+                    comment: commentId,
+                    type: "Comment",
+                    post: post._id,
+                });
                 return comment;
             }
         },

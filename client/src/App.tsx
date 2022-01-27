@@ -11,10 +11,14 @@ import {
     MobileNav,
 } from "./components";
 import { Container, FlexContainer } from "./components/Shared";
-import { GET_INITIAL_DATA, GET_POSTS } from "./graphql/queries";
+import {
+    GET_INITIAL_DATA,
+    GET_POSTS,
+    GET_NOTIFICATIONS,
+} from "./graphql/queries";
 import { getUserFromLocalStorage } from "./utils/localStorageOperations";
 import { useAppDispatch, useAppSelector } from "./app/hooks";
-import { Page404, LandingPage, Search } from "./pages";
+import { Page404, LandingPage, Search, Notifications } from "./pages";
 import {
     Feed,
     Login,
@@ -23,7 +27,6 @@ import {
     Profile,
     PostPage,
     Settings,
-    Notifications,
     Explore,
     Following,
     Followers,
@@ -32,6 +35,7 @@ import {
 import { login } from "./features/user/userSlice";
 import { loaded, getPosts } from "./features/posts/postsSlice";
 import { LoaderSvg } from "./assets/svg";
+import { Notification } from "./types";
 
 function App() {
     const user = JSON.parse(getUserFromLocalStorage());
@@ -39,6 +43,9 @@ function App() {
     const { pathname } = useLocation();
     const navigate = useNavigate();
     const [isLoading, setIsLoading] = useState(true);
+    const [notificationLoading, setNotificationLoading] = useState(true);
+    const [unreadCount, setUnreadCount] = useState(0);
+    const [notifications, setNotifications] = useState<Array<Notification>>([]);
     const posts = useAppSelector(getPosts);
 
     useEffect(() => {
@@ -61,7 +68,7 @@ function App() {
             setIsLoading(false);
         },
         variables: {
-            userId: user?._id ? user._id : "",
+            userId: user._id,
         },
     });
 
@@ -71,6 +78,29 @@ function App() {
                 dispatch(loaded(data.getPosts));
             }
         },
+    });
+
+    useQuery(GET_NOTIFICATIONS, {
+        onCompleted(data) {
+            if (
+                data.getNotifications.length !== notifications.length &&
+                data.getNotifications.length > 0
+            ) {
+                setNotifications(data.getNotifications);
+                let count = 0;
+                for (const notification of data.getNotifications) {
+                    if (!notification.isRead) count++;
+                    else break;
+                }
+                setUnreadCount(count);
+            }
+            setNotificationLoading(false);
+        },
+        variables: {
+            userId: user._id,
+            count: notifications.length,
+        },
+        pollInterval: 5000,
     });
 
     if (isLoading)
@@ -83,8 +113,8 @@ function App() {
     return (
         <Container>
             <Header />
-            <SidePannel />
-            <SidePannelMinimal />
+            <SidePannel unreadCount={unreadCount} />
+            <SidePannelMinimal unreadCount={unreadCount} />
             <Routes>
                 <Route
                     path="/"
@@ -122,7 +152,10 @@ function App() {
                     path="/notifications"
                     element={
                         <PrivateRoute path="/notifications">
-                            <Notifications />
+                            <Notifications
+                                notifications={notifications}
+                                notificationLoading={notificationLoading}
+                            />
                         </PrivateRoute>
                     }
                 />
@@ -165,7 +198,7 @@ function App() {
                 <Route path="/signup" element={<Signup />} />
                 <Route path="*" element={<Page404 />} />
             </Routes>
-            <MobileNav />
+            <MobileNav unreadCount={unreadCount} />
             <ToastContainer
                 position="bottom-right"
                 autoClose={5000}

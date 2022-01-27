@@ -27,7 +27,7 @@ export const postsSlice = createSlice({
             });
         },
         remove(state, action: PayloadAction<Post>) {
-            state = state.filter((post) => post._id !== action.payload._id);
+            return state.filter((post) => post._id !== action.payload._id);
         },
         commentAdded(state, action: PayloadAction<Post>) {
             state.map((post) => {

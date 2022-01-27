@@ -177,7 +177,7 @@ export const GET_LIKES = gql`
 `;
 
 export const GET_SEARCH_RESULTS = gql`
-    query GetSearchResults($query: String!) {
+    query getSearchResults($query: String!) {
         getSearchResults(query: $query) {
             posts {
                 _id
@@ -199,6 +199,30 @@ export const GET_SEARCH_RESULTS = gql`
                 name
                 profilePicture
                 bio
+            }
+        }
+    }
+`;
+
+export const GET_NOTIFICATIONS = gql`
+    query getNotifications($userId: ID!, $count: Int!) {
+        getNotifications(userId: $userId, count: $count) {
+            _id
+            from {
+                userName
+                name
+                profilePicture
+            }
+            type
+            isRead
+            post {
+                _id
+                body
+                likesCount
+            }
+            comment {
+                _id
+                body
             }
         }
     }

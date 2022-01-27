@@ -37,7 +37,6 @@ const typeDefs = gql`
         bookmarks: [User]
         comments: [Comment]
         commentsCount: Int
-        topics: [Topic]
         createdAt: String
         updatedAt: String
     }
@@ -55,20 +54,17 @@ const typeDefs = gql`
     type Notification {
         _id: ID!
         user: User!
+        from: User!
         type: String!
         isRead: Boolean!
         post: Post
+        comment: Comment
         createdAt: String
         updatedAt: String
     }
     type Search {
         posts: [Post]!
         users: [User]!
-    }
-    type Topic {
-        _id: ID!
-        name: String!
-        posts: [Post]
     }
     input SignupInput {
         userName: String!
@@ -81,7 +77,6 @@ const typeDefs = gql`
         body: String!
         image: String
         userId: ID!
-        topics: [String]
     }
     input UpdateProfileInput {
         userId: ID!
@@ -95,11 +90,9 @@ const typeDefs = gql`
         getPosts: [Post]!
         getPost(postId: ID!): Post!
         getUser(userId: ID, userName: String): User!
-        getTopics: [Topic]!
-        getTopic(topicId: ID!): Topic!
         getComments(postId: ID!): [Comment]!
         getSearchResults(query: String!): Search!
-        # getNotifications
+        getNotifications(userId: ID!, count: Int!): [Notification]!
     }
     type Mutation {
         signup(signupInput: SignupInput!): User!
@@ -129,8 +122,7 @@ const typeDefs = gql`
         followUser(userId: ID!, otherUserId: ID!): User!
         unfollowUser(userId: ID!, otherUserId: ID!): User!
         updateProfile(updateProfileInput: UpdateProfileInput!): User!
-        addTopic(name: String!): Topic!
-        # set notifications
+        markAsRead(userId: ID!): [Notification]!
     }
 `;
 

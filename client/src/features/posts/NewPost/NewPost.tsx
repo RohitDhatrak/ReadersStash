@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useMutation } from "@apollo/client";
 import { toast } from "react-toastify";
+import TexareaAutosize from "react-textarea-autosize";
 import {
     InputEvent,
     ButtonEvent,
@@ -92,11 +93,10 @@ export function NewPost() {
 
     return (
         <PageContainer
-            h="80vh"
             align="center"
             justify="center"
             direction="column"
-            mb="5em"
+            mb="2em"
         >
             <FlexContainer
                 bgc="var(--card-color)"
@@ -169,15 +169,10 @@ export function NewPost() {
                                 : "initial"
                         }
                     />
-                    <Container
-                        as="textarea"
+                    <TexareaAutosize
                         className="post-body"
+                        minRows={8}
                         placeholder="What inspiring idea you want to share with the world today?"
-                        w="100%"
-                        b="none"
-                        fs="1.1rem"
-                        minH="10em"
-                        h="max-content"
                         onChange={(e: TextAreaEvent) => handleInput(e, "body")}
                         value={body}
                     />

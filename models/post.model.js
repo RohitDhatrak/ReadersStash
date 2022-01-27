@@ -28,12 +28,6 @@ const PostSchema = new Schema(
                 ref: "Comment",
             },
         ],
-        topics: [
-            {
-                type: Schema.Types.ObjectId,
-                ref: "Topic",
-            },
-        ],
         createdAt: Number,
         updatedAt: Number,
     },

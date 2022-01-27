@@ -13,7 +13,6 @@ export interface Post {
     bookmarks: Array<User>;
     comments: Array<Comment>;
     commentsCount: number;
-    topics: Array<Topic>;
     createdAt: string;
     updatedAt: string;
 }
@@ -55,9 +54,11 @@ export interface Comment {
 export interface Notification {
     _id: string;
     user: User;
+    from: User;
     type: string;
     isRead: boolean;
-    post: Post;
+    post?: Post;
+    comment?: Comment;
     createdAt: string;
     updatedAt: string;
 }
@@ -65,12 +66,6 @@ export interface Notification {
 export interface Search {
     posts: Array<Post>;
     users: Array<User>;
-}
-
-export interface Topic {
-    _id: string;
-    name: string;
-    posts: Array<Post>;
 }
 
 export type Children = { children: React.ReactElement };

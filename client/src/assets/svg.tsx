@@ -203,7 +203,7 @@ export function LoaderSvg() {
         >
             <g transform="translate(80,50)">
                 <g transform="rotate(0)">
-                    <circle cx="0" cy="0" r="6" fill="#ff727d" fill-opacity="1">
+                    <circle cx="0" cy="0" r="6" fill="#ff727d" fillOpacity="1">
                         <animateTransform
                             attributeName="transform"
                             type="scale"
@@ -214,7 +214,7 @@ export function LoaderSvg() {
                             repeatCount="indefinite"
                         ></animateTransform>
                         <animate
-                            attributeName="fill-opacity"
+                            attributeName="fillOpacity"
                             keyTimes="0;1"
                             dur="1s"
                             repeatCount="indefinite"
@@ -231,7 +231,7 @@ export function LoaderSvg() {
                         cy="0"
                         r="6"
                         fill="#ff727d"
-                        fill-opacity="0.875"
+                        fillOpacity="0.875"
                     >
                         <animateTransform
                             attributeName="transform"
@@ -243,7 +243,7 @@ export function LoaderSvg() {
                             repeatCount="indefinite"
                         ></animateTransform>
                         <animate
-                            attributeName="fill-opacity"
+                            attributeName="fillOpacity"
                             keyTimes="0;1"
                             dur="1s"
                             repeatCount="indefinite"
@@ -260,7 +260,7 @@ export function LoaderSvg() {
                         cy="0"
                         r="6"
                         fill="#ff727d"
-                        fill-opacity="0.75"
+                        fillOpacity="0.75"
                     >
                         <animateTransform
                             attributeName="transform"
@@ -272,7 +272,7 @@ export function LoaderSvg() {
                             repeatCount="indefinite"
                         ></animateTransform>
                         <animate
-                            attributeName="fill-opacity"
+                            attributeName="fillOpacity"
                             keyTimes="0;1"
                             dur="1s"
                             repeatCount="indefinite"
@@ -289,7 +289,7 @@ export function LoaderSvg() {
                         cy="0"
                         r="6"
                         fill="#ff727d"
-                        fill-opacity="0.625"
+                        fillOpacity="0.625"
                     >
                         <animateTransform
                             attributeName="transform"
@@ -301,7 +301,7 @@ export function LoaderSvg() {
                             repeatCount="indefinite"
                         ></animateTransform>
                         <animate
-                            attributeName="fill-opacity"
+                            attributeName="fillOpacity"
                             keyTimes="0;1"
                             dur="1s"
                             repeatCount="indefinite"
@@ -318,7 +318,7 @@ export function LoaderSvg() {
                         cy="0"
                         r="6"
                         fill="#ff727d"
-                        fill-opacity="0.5"
+                        fillOpacity="0.5"
                     >
                         <animateTransform
                             attributeName="transform"
@@ -330,7 +330,7 @@ export function LoaderSvg() {
                             repeatCount="indefinite"
                         ></animateTransform>
                         <animate
-                            attributeName="fill-opacity"
+                            attributeName="fillOpacity"
                             keyTimes="0;1"
                             dur="1s"
                             repeatCount="indefinite"
@@ -347,7 +347,7 @@ export function LoaderSvg() {
                         cy="0"
                         r="6"
                         fill="#ff727d"
-                        fill-opacity="0.375"
+                        fillOpacity="0.375"
                     >
                         <animateTransform
                             attributeName="transform"
@@ -359,7 +359,7 @@ export function LoaderSvg() {
                             repeatCount="indefinite"
                         ></animateTransform>
                         <animate
-                            attributeName="fill-opacity"
+                            attributeName="fillOpacity"
                             keyTimes="0;1"
                             dur="1s"
                             repeatCount="indefinite"
@@ -376,7 +376,7 @@ export function LoaderSvg() {
                         cy="0"
                         r="6"
                         fill="#ff727d"
-                        fill-opacity="0.25"
+                        fillOpacity="0.25"
                     >
                         <animateTransform
                             attributeName="transform"
@@ -388,7 +388,7 @@ export function LoaderSvg() {
                             repeatCount="indefinite"
                         ></animateTransform>
                         <animate
-                            attributeName="fill-opacity"
+                            attributeName="fillOpacity"
                             keyTimes="0;1"
                             dur="1s"
                             repeatCount="indefinite"
@@ -405,7 +405,7 @@ export function LoaderSvg() {
                         cy="0"
                         r="6"
                         fill="#ff727d"
-                        fill-opacity="0.125"
+                        fillOpacity="0.125"
                     >
                         <animateTransform
                             attributeName="transform"
@@ -417,7 +417,7 @@ export function LoaderSvg() {
                             repeatCount="indefinite"
                         ></animateTransform>
                         <animate
-                            attributeName="fill-opacity"
+                            attributeName="fillOpacity"
                             keyTimes="0;1"
                             dur="1s"
                             repeatCount="indefinite"
@@ -447,9 +447,9 @@ export function EmptyPageSvg({ ...props }) {
             <path
                 d="M206.32 43.4002C203.69 41.4902 200.95 39.5702 197.79 38.8602L189 41.5103L187 30.7703C187 30.7703 164 15.3703 160.56 13.0003C157.12 10.6303 153.56 8.28025 149.42 8.00025C144.12 7.63025 139.29 10.8003 134.95 13.8503C90.19 45.2703 3.04004 116.44 3.04004 116.44C87.04 112.28 168.26 88.3503 252.68 81.3203C237.987 67.778 222.507 55.1159 206.32 43.4002V43.4002Z"
                 stroke="#47104E"
-                stroke-width="5"
-                stroke-linecap="round"
-                stroke-linejoin="round"
+                strokeWidth="5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
             />
             <path
                 d="M186.96 30.7995C186.96 30.7995 163.96 15.3995 160.52 13.0295C157.08 10.6595 153.52 8.30955 149.38 8.02955C144.08 7.65955 139.25 10.8295 134.91 13.8795C90.19 45.2695 3.04004 116.44 3.04004 116.44C3.04004 116.44 142.37 58.3595 189.04 41.5395L186.96 30.7995Z"
@@ -462,107 +462,107 @@ export function EmptyPageSvg({ ...props }) {
             <path
                 d="M386.45 145.83L391.06 136.61"
                 stroke="#47104E"
-                stroke-width="5"
-                stroke-linecap="round"
-                stroke-linejoin="round"
+                strokeWidth="5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
             />
             <path
                 d="M399.32 147.39L403.92 139.19"
                 stroke="#47104E"
-                stroke-width="5"
-                stroke-linecap="round"
-                stroke-linejoin="round"
+                strokeWidth="5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
             />
             <path
                 d="M386.09 168.04C390.742 169.726 395.813 169.877 400.557 168.469C405.302 167.062 409.47 164.171 412.45 160.22"
                 stroke="#47104E"
-                stroke-width="5"
-                stroke-linecap="round"
-                stroke-linejoin="round"
+                strokeWidth="5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
             />
             <path
                 d="M140.69 145.02C140.2 139.84 142.89 134.92 145.85 130.64C148.81 126.36 152.19 122.17 153.44 117.12C154.69 112.07 152.98 105.8 148.17 103.82C141.96 101.25 135.63 106.93 131.29 112.06C123.8 120.92 116.58 130 108.82 138.63C89.5698 160.05 76.6498 188.92 67.6398 215.83C56.0198 250.57 51.1998 286.97 61.4498 322.64C70.6498 354.64 101.71 374.81 132.37 371.64C162.3 368.5 185.45 354.13 219.87 323.16C200.45 366.65 170.6 440.99 151.21 484.51H457.33C458.76 484.51 459.56 483.98 460.99 483.94C468.64 483.75 475.57 478.82 479.99 472.55C484.41 466.28 486.63 458.8 488.52 451.38C499.87 406.91 501.01 360.46 499.2 314.6C498.55 298.14 497.2 280.76 487.84 267.21C478.84 254.29 459.84 245.45 426.35 235.58C435.35 211.389 442.701 186.616 448.35 161.43C449.94 154.31 451.35 146.76 449.06 139.85C446.62 132.62 440.38 127.26 433.6 123.77C419.6 116.58 402.95 116.08 387.66 119.64C372.37 123.2 358.24 130.54 344.66 138.48C351.3 143.48 367.12 148.91 367.12 148.91L341.83 218.72C331.83 217.8 323.36 217.4 316.63 217.24C307.169 217.12 297.712 217.712 288.34 219.01C255.17 223.25 234.2 228.94 207.85 240.34C181.5 251.74 138.69 284.51 138.69 284.51C132.48 262.51 138.5 228.92 149.98 203.51C155.62 191.04 165.53 173.66 168.98 160.43C171.55 150.63 171.71 139.82 168.29 130.43"
                 stroke="#47104E"
-                stroke-width="5"
-                stroke-linecap="round"
-                stroke-linejoin="round"
+                strokeWidth="5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
             />
             <path
                 d="M89.57 160.05C86.65 159.43 85.35 157.79 84.07 155.05C83.3825 153.559 83.0792 151.919 83.1874 150.281C83.2957 148.643 83.8123 147.057 84.69 145.67C87.37 141.51 92.69 140.04 97.46 138.9L110.84 135.73C110.84 135.73 102.21 136.2 97.9 136.83C93.59 137.46 88.79 137.36 85.46 134.58C83 132.53 83.76 130.19 84.22 127.05"
                 stroke="#47104E"
-                stroke-width="5"
-                stroke-linecap="round"
-                stroke-linejoin="round"
+                strokeWidth="5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
             />
             <path
                 d="M118.13 127.85C79.5 125.29 40.81 121.06 3.04004 116.44"
                 stroke="#47104E"
-                stroke-width="5"
-                stroke-linecap="round"
-                stroke-linejoin="round"
+                strokeWidth="5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
             />
             <path
                 d="M208.88 86.3301C205.88 101.19 202.09 115.47 199.13 130.33C181.78 130.52 164.28 130.18 146.71 129.42"
                 stroke="#47104E"
-                stroke-width="5"
-                stroke-linecap="round"
-                stroke-linejoin="round"
+                strokeWidth="5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
             />
             <path
                 d="M206.32 43.4002C203.69 41.4902 200.95 39.5702 197.79 38.8602L189 41.5103L187 30.7703C187 30.7703 164 15.3703 160.56 13.0003C157.12 10.6303 153.56 8.28025 149.42 8.00025C144.12 7.63025 139.29 10.8003 134.95 13.8503C90.19 45.2703 3.04004 116.44 3.04004 116.44C87.04 112.28 168.26 88.3503 252.68 81.3203C237.987 67.778 222.507 55.1159 206.32 43.4002V43.4002Z"
                 stroke="#47104E"
-                stroke-width="5"
-                stroke-linecap="round"
-                stroke-linejoin="round"
+                strokeWidth="5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
             />
             <path
                 d="M189 41.5098C142.37 58.3298 3 116.41 3 116.41"
                 stroke="#47104E"
-                stroke-width="5"
-                stroke-linecap="round"
-                stroke-linejoin="round"
+                strokeWidth="5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
             />
             <path
                 d="M222.54 105.93L268.54 100.42"
                 stroke="#47104E"
-                stroke-width="5"
-                stroke-linecap="round"
-                stroke-linejoin="round"
+                strokeWidth="5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
             />
             <path
                 d="M233.93 46.42L327.45 22.21"
                 stroke="#47104E"
-                stroke-width="5"
-                stroke-linecap="round"
-                stroke-linejoin="round"
+                strokeWidth="5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
             />
             <path
                 d="M192.69 18.73C208.39 13.12 240.87 3 240.87 3"
                 stroke="#47104E"
-                stroke-width="5"
-                stroke-linecap="round"
-                stroke-linejoin="round"
+                strokeWidth="5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
             />
             <path
                 d="M200.89 484.51C210.51 468.92 224.05 456.51 241.34 450.51C258.63 444.51 292.89 438.33 311.09 436.23C347.31 432.07 367.54 428.77 403.57 423.14C405.95 422.77 408.43 422.35 410.38 420.93C413.18 418.87 414.21 415.23 415.06 411.87C419.47 394.57 420.06 378.06 421.28 360.25"
                 stroke="#47104E"
-                stroke-width="5"
-                stroke-linecap="round"
-                stroke-linejoin="round"
+                strokeWidth="5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
             />
             <path
                 d="M210.65 484.51C219.32 473.91 234.02 462.79 247.15 458.9"
                 stroke="#47104E"
-                stroke-width="5"
-                stroke-linecap="round"
-                stroke-linejoin="round"
+                strokeWidth="5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
             />
             <path
                 d="M229.51 483.609C237.03 475.669 246.94 469.13 257.51 466.27"
                 stroke="#47104E"
-                stroke-width="5"
-                stroke-linecap="round"
-                stroke-linejoin="round"
+                strokeWidth="5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
             />
             <style id="stylus-37" type="text/css" className="stylus">
                 @import

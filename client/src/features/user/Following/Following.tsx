@@ -26,7 +26,6 @@ export function Following() {
 
     useEffect(() => {
         refetch();
-        console.log("here");
     }, []);
 
     if (loading)

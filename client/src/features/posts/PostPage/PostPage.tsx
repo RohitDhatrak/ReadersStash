@@ -25,8 +25,21 @@ export function PostPage() {
     const [comment, setComment] = useState("");
     const [isError, setIsError] = useState(false);
     const [post, setPost] = useState<PostType>();
-    const { pathname } = useLocation();
+    const { pathname, hash } = useLocation();
     const postId = pathname.split("/")[2];
+    const commentId = hash.split("#")[1];
+
+    useEffect(() => {
+        if (commentId) {
+            console.log(commentId);
+            const comment = document.getElementById(commentId);
+            console.log(comment);
+            if (comment) {
+                comment.scrollIntoView({ behavior: "smooth", block: "center" });
+            }
+        }
+    }, [post]);
+
     const COMMENT_LIMIT = 300;
     const user = useAppSelector(getUser);
 
@@ -94,7 +107,7 @@ export function PostPage() {
     }
 
     return (
-        <PageContainer justify="center" mb="2em">
+        <PageContainer justify="center" mb="5em">
             <FlexContainer direction="column">
                 {post && <Post post={post} key={post._id} />}
                 <FlexContainer direction="column">

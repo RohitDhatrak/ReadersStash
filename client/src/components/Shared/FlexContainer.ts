@@ -4,7 +4,7 @@ import { ContainerCommonProps, CommonContainer } from "./CommonContainer";
 type FlexContainerProps = ContainerCommonProps & {
     display?: "flex";
     justify?: "center" | "baseline" | "space-between" | "space-around";
-    align?: "center" | "baseline";
+    align?: "center" | "baseline" | "flex-start";
     wrap?: "wrap";
     direction?: "column" | "row";
     gap?: string;

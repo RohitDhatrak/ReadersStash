@@ -125,11 +125,6 @@ export function Post({ post }: { post: PostType }) {
         raiseToast("Link Copied");
     }
 
-    function visitProfile(e: ButtonEvent, userName: string) {
-        e.stopPropagation();
-        navigate(`/${userName}`);
-    }
-
     function toggleShowMenu(e: ButtonEvent) {
         e.stopPropagation();
         if (showDeleteMenu) {
@@ -167,15 +162,9 @@ export function Post({ post }: { post: PostType }) {
             mb="2em"
             br="2em"
             p="0.3em 0"
-            cursor={isPostPage ? "default" : "pointer"}
-            onClick={openPostPage}
         >
             <FlexContainer p="0.7em 2em" align="center" justify="space-between">
-                <Container
-                    onClick={(e: ButtonEvent) =>
-                        visitProfile(e, post.user.userName)
-                    }
-                >
+                <Container>
                     <Link to={`/${post.user.userName}`}>
                         <FlexContainer align="center">
                             <ImageContainer>
@@ -189,20 +178,12 @@ export function Post({ post }: { post: PostType }) {
                                 ml="0.5em"
                                 justify="space-between"
                             >
-                                <Container
-                                    cursor="pointer"
-                                    onClick={(e: ButtonEvent) =>
-                                        visitProfile(e, post.user.userName)
-                                    }
-                                >
+                                <Container cursor="pointer">
                                     {post.user.name}
                                 </Container>
                                 <Container
                                     color="var(--font-color-2)"
                                     cursor="pointer"
-                                    onClick={(e: ButtonEvent) =>
-                                        visitProfile(e, post.user.userName)
-                                    }
                                 >
                                     @{post.user.userName}
                                 </Container>
@@ -289,6 +270,7 @@ export function Post({ post }: { post: PostType }) {
                         bgc="transparent"
                         fs="1rem"
                         align="center"
+                        cursor="pointer"
                     >
                         <LikeSvg
                             fill={
@@ -309,6 +291,7 @@ export function Post({ post }: { post: PostType }) {
                         fs="1rem"
                         ml="1em"
                         p="0"
+                        cursor="pointer"
                         hover={"text-decoration: underline"}
                         onClick={(e: ButtonEvent) => {
                             e.stopPropagation();
@@ -325,6 +308,7 @@ export function Post({ post }: { post: PostType }) {
                     fs="1rem"
                     align="center"
                     cursor="pointer"
+                    onClick={openPostPage}
                 >
                     <CommentSvg
                         className="scale-11"
