@@ -9,7 +9,7 @@ const notificationResolvers = {
             const notifications = await Notification.find({
                 user: userId,
             }).sort({
-                updatedAt: -1,
+                createdAt: -1,
             });
             if (notifications.length !== count) {
                 return notifications;
@@ -23,12 +23,16 @@ const notificationResolvers = {
             checkJWT(context);
             const { userId } = args;
 
-            const notifications = await Notification.find({ user: userId });
+            const notifications = await Notification.find({
+                user: userId,
+            }).sort({
+                createdAt: -1,
+            });
             for (const notification of notifications) {
                 if (!notification.isRead) {
                     notification.isRead = true;
                     await notification.save();
-                }
+                } else break;
             }
             return notifications;
         },

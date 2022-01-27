@@ -285,3 +285,27 @@ export const UPDATE_PROFILE = gql`
         }
     }
 `;
+
+export const MARK_AS_READ = gql`
+    mutation markAsRead($userId: ID!) {
+        markAsRead(userId: $userId) {
+            _id
+            from {
+                userName
+                name
+                profilePicture
+            }
+            type
+            isRead
+            post {
+                _id
+                body
+                likesCount
+            }
+            comment {
+                _id
+                body
+            }
+        }
+    }
+`;

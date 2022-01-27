@@ -154,6 +154,8 @@ function App() {
                             <Notifications
                                 notifications={notifications}
                                 notificationLoading={notificationLoading}
+                                setNotifications={setNotifications}
+                                setUnreadCount={setUnreadCount}
                             />
                         </PrivateRoute>
                     }

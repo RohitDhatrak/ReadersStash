@@ -46,7 +46,7 @@ export type ContainerCommonProps = {
 
     /* miscellaneous */
     cursor?: "pointer" | "default";
-    textAlign?: "center";
+    textAlign?: "center" | "start";
     opacity?: number;
     zIndex?: number | string;
     hover?: string;
