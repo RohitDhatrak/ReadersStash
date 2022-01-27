@@ -90,6 +90,7 @@ export function MobileNav({ unreadCount }: { unreadCount: number }) {
                                 right="-1em"
                                 position="absolute"
                                 p="0.2em 0.5em"
+                                w="1.8em"
                                 zIndex="1"
                                 color="var(--font-color)"
                                 br="50%"

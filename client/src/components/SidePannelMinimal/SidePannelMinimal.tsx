@@ -99,6 +99,7 @@ export function SidePannelMinimal({ unreadCount }: { unreadCount: number }) {
                                 right="-1em"
                                 position="absolute"
                                 p="0.2em 0.5em"
+                                w="1.7em"
                                 zIndex="1"
                                 br="50%"
                                 bgc="var(--notification-color)"
