@@ -1,12 +1,9 @@
-import { useEffect, useState } from "react";
-import { Link, useNavigate, useLocation } from "react-router-dom";
-import { useQuery } from "@apollo/client";
-import { InputEvent, FormEvent, Post as PostType } from "../../../types";
-import { useAppSelector, useAppDispatch } from "../../../app/hooks";
+import { useEffect } from "react";
+import { Post as PostType } from "../../../types";
+import { useAppSelector } from "../../../app/hooks";
 import { FlexContainer, Container, Image } from "../../../components/Shared";
-import { InputBox, ActionButton, Post } from "../../../components";
-import { GET_POSTS } from "../../../graphql/queries";
-import { loaded, getPosts } from "../postsSlice";
+import { Post } from "../../../components";
+import { getPosts } from "../postsSlice";
 import { PageContainer } from "./style.feed";
 import checkIcon from "../../../assets/checked.png";
 import { getUser } from "../../user/userSlice";
@@ -14,6 +11,10 @@ import { getUser } from "../../user/userSlice";
 export function Feed() {
     const posts = useAppSelector(getPosts);
     const user = useAppSelector(getUser);
+
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
 
     return (
         <PageContainer mb="5em" justify="center">

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useQuery } from "@apollo/client";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { Routes, Route, useNavigate, useLocation } from "react-router-dom";
+import { Routes, Route, useNavigate } from "react-router-dom";
 import {
     PrivateRoute,
     Header,
@@ -40,7 +40,6 @@ import { Notification } from "./types";
 function App() {
     const user = JSON.parse(getUserFromLocalStorage());
     const dispatch = useAppDispatch();
-    const { pathname } = useLocation();
     const navigate = useNavigate();
     const [isLoading, setIsLoading] = useState(true);
     const [notificationLoading, setNotificationLoading] = useState(true);

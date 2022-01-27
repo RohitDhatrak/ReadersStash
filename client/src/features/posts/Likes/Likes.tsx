@@ -25,6 +25,7 @@ export function Likes() {
     });
 
     useEffect(() => {
+        window.scrollTo(0, 0);
         refetch();
     }, []);
 

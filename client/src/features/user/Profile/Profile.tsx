@@ -1,17 +1,11 @@
 import { useEffect, useState } from "react";
-import {
-    Link,
-    useNavigate,
-    useLocation,
-    useParams,
-    Navigate,
-} from "react-router-dom";
-import { useQuery, useLazyQuery, useMutation } from "@apollo/client";
+import { useNavigate, useParams } from "react-router-dom";
+import { useQuery, useMutation } from "@apollo/client";
 import { useMediaQuery } from "react-responsive";
-import { InputEvent, FormEvent, Post as PostType, User } from "../../../types";
+import { Post as PostType, User } from "../../../types";
 import { useAppSelector, useAppDispatch } from "../../../app/hooks";
-import { FlexContainer, Container, Image } from "../../../components/Shared";
-import { InputBox, ActionButton, Post } from "../../../components";
+import { FlexContainer, Container } from "../../../components/Shared";
+import { Post } from "../../../components";
 import { GET_PROFILE_DATA } from "../../../graphql/queries";
 import { FOLLOW_USER, UNFOLLOW_USER } from "../../../graphql/mutations";
 import { profileLoaded, getUser, followed, unfollowed } from "../userSlice";
@@ -69,6 +63,10 @@ export function Profile() {
         },
         variables: { userName: user.userName },
     });
+
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
 
     useEffect(() => {
         refetch();

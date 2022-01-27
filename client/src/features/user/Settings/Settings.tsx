@@ -1,12 +1,9 @@
 import { useEffect, useState } from "react";
-import { Link, useNavigate, useLocation, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useQuery, useMutation } from "@apollo/client";
-import { useMediaQuery } from "react-responsive";
 import {
     InputEvent,
     FormEvent,
-    Post as PostType,
-    User,
     TextAreaEvent,
     ButtonEvent,
 } from "../../../types";
@@ -17,12 +14,11 @@ import {
     Image,
     Input,
 } from "../../../components/Shared";
-import { InputBox, ActionButton, Post } from "../../../components";
+import { InputBox, ActionButton } from "../../../components";
 import { GET_PROFILE_DATA } from "../../../graphql/queries";
 import { CHANGE_PASSWORD, UPDATE_PROFILE } from "../../../graphql/mutations";
-import { profileLoaded, getUser, followed, unfollowed } from "../userSlice";
-import { Page404 } from "../../../pages";
-import { LikeSvg, CloseSvg, EditSvg, LoaderSvg } from "../../../assets/svg";
+import { profileLoaded, getUser } from "../userSlice";
+import { CloseSvg, EditSvg, LoaderSvg } from "../../../assets/svg";
 import { raiseErrorToast } from "../../../utils/toast";
 import { validatePassword } from "../../../utils/validatePassword";
 import { ImageContainer, PageContainer } from "./style.settings";

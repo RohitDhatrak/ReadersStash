@@ -1,5 +1,4 @@
 const gql = require("graphql-tag");
-const { GraphQLJSON, GraphQLJSONObject } = require("graphql-type-json");
 
 const typeDefs = gql`
     scalar JSON

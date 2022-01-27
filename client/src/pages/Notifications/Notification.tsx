@@ -1,16 +1,7 @@
-import { useEffect, useState } from "react";
-import { Link, useNavigate, useLocation } from "react-router-dom";
-import { useQuery } from "@apollo/client";
-import {
-    InputEvent,
-    FormEvent,
-    Post as PostType,
-    Notification,
-} from "../../types";
-import { useAppSelector, useAppDispatch } from "../../app/hooks";
+import { useEffect } from "react";
+import { Link } from "react-router-dom";
+import { Notification } from "../../types";
 import { FlexContainer, Container } from "../../components/Shared";
-import { InputBox, ActionButton, Post } from "../../components";
-import { GET_POSTS } from "../../graphql/queries";
 import { PageContainer, ImageContainer, ImageDiv } from "./style.notifications";
 import { EmptyPageSvg, LoaderSvg } from "../../assets/svg";
 
@@ -21,6 +12,10 @@ export function Notifications({
     notifications: Array<Notification>;
     notificationLoading: boolean;
 }) {
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
+
     if (notificationLoading)
         return (
             <FlexContainer h="75vh" justify="center" align="center">

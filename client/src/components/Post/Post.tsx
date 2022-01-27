@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useMutation } from "@apollo/client";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { raiseErrorToast, raiseToast } from "../../utils/toast";

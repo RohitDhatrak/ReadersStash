@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import { Link, useNavigate, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { useQuery, useMutation } from "@apollo/client";
-import { InputEvent, FormEvent, Post as PostType } from "../../../types";
+import { InputEvent, Post as PostType } from "../../../types";
 import { useAppSelector, useAppDispatch } from "../../../app/hooks";
 import { FlexContainer, Container } from "../../../components/Shared";
 import {
@@ -13,12 +13,11 @@ import {
 } from "../../../components";
 import { GET_POST } from "../../../graphql/queries";
 import { ADD_COMMENT } from "../../../graphql/mutations";
-import { loaded, getPosts, commentAdded } from "../postsSlice";
+import { commentAdded } from "../postsSlice";
 import { PageContainer } from "./style.postpage";
 import { Page404 } from "../../../pages";
 import { getUser } from "../../user/userSlice";
 import { LoaderSvg } from "../../../assets/svg";
-import { increment } from "../../counter/counterSlice";
 
 export function PostPage() {
     const dispatch = useAppDispatch();
@@ -28,20 +27,17 @@ export function PostPage() {
     const { pathname, hash } = useLocation();
     const postId = pathname.split("/")[2];
     const commentId = hash.split("#")[1];
+    const COMMENT_LIMIT = 300;
+    const user = useAppSelector(getUser);
 
     useEffect(() => {
         if (commentId) {
-            console.log(commentId);
             const comment = document.getElementById(commentId);
-            console.log(comment);
             if (comment) {
                 comment.scrollIntoView({ behavior: "smooth", block: "center" });
             }
         }
     }, [post]);
-
-    const COMMENT_LIMIT = 300;
-    const user = useAppSelector(getUser);
 
     const { loading, refetch } = useQuery(GET_POST, {
         onCompleted(data) {
@@ -54,6 +50,7 @@ export function PostPage() {
     });
 
     useEffect(() => {
+        window.scrollTo(0, 0);
         refetch();
     }, []);
 

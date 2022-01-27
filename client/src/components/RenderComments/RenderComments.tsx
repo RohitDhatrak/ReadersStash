@@ -1,17 +1,15 @@
 import { useState } from "react";
-import { toast } from "react-toastify";
 import { useMutation } from "@apollo/client";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useMediaQuery } from "react-responsive";
 import { FlexContainer, Container, Image } from "../Shared";
 import { InputBox, ActionButton } from "../";
-import { DeleteSvg, MoreSvg } from "../../assets/svg";
 import { useAppSelector, useAppDispatch } from "../../app/hooks";
 import { getUser } from "../../features/user/userSlice";
 import { commentDeleted } from "../../features/posts/postsSlice";
 import { Comment, ButtonEvent, InputEvent, Post } from "../../types";
 import { ADD_COMMENT, DELETE_COMMENT } from "../../graphql/mutations";
-import { raiseErrorToast, raiseToast } from "../../utils/toast";
+import { raiseErrorToast } from "../../utils/toast";
 
 interface RenderCommentsProps {
     comments: Array<Comment>;

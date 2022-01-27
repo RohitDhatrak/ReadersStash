@@ -1,12 +1,9 @@
-import React, { useState } from "react";
 import { useMutation } from "@apollo/client";
-import { Link, useNavigate, useLocation, Navigate } from "react-router-dom";
-import { raiseErrorToast, raiseToast } from "../../utils/toast";
+import { Link, useNavigate } from "react-router-dom";
+import { raiseErrorToast } from "../../utils/toast";
 import { useAppSelector, useAppDispatch } from "../../app/hooks";
-import { FlexContainer, Container, Image } from "../../components/Shared";
+import { FlexContainer, Container } from "../../components/Shared";
 import { User, ButtonEvent } from "../../types";
-import {} from "../../graphql/mutations";
-import { liked, unliked, remove } from "../../features/posts/postsSlice";
 import { getUser, followed, unfollowed } from "../../features/user/userSlice";
 import { ImageContainer, ImageDiv } from "./style.userList";
 import { FOLLOW_USER, UNFOLLOW_USER } from "../../graphql/mutations";

@@ -1,14 +1,8 @@
-import React, { useEffect, useState } from "react";
-import { Link, useNavigate, useLocation } from "react-router-dom";
+import { useEffect, useState } from "react";
 import { useMutation } from "@apollo/client";
 import { toast } from "react-toastify";
 import TexareaAutosize from "react-textarea-autosize";
-import {
-    InputEvent,
-    ButtonEvent,
-    TextAreaEvent,
-    Post as PostType,
-} from "../../../types";
+import { InputEvent, ButtonEvent, TextAreaEvent } from "../../../types";
 import { useAppSelector, useAppDispatch } from "../../../app/hooks";
 import {
     FlexContainer,
@@ -28,9 +22,12 @@ export function NewPost() {
     const [image, setImage] = useState<string | ArrayBuffer | null>();
     const dispatch = useAppDispatch();
     const user = useAppSelector(getUser);
-    const navigate = useNavigate();
     const TITLE_LIMIT = 127;
     const BODY_LIMIT = 600;
+
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
 
     function handleInput(e: InputEvent | TextAreaEvent, type: string) {
         if (type === "title") {

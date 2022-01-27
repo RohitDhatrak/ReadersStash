@@ -25,6 +25,7 @@ export function Following() {
     });
 
     useEffect(() => {
+        window.scrollTo(0, 0);
         refetch();
     }, []);
 

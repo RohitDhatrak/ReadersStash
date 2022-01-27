@@ -10,9 +10,7 @@ async function generateSearchIndex() {
     const users = await User.find();
 
     for (const post of posts) {
-        let postContent = post.title.trim() + " " + post.body.trim();
         await post.populate("user");
-
         postsIndex.add(post._id, post.title.trim());
         postsIndex.append(post._id, post.body.trim());
         postsIndex.append(post._id, post.user.userName.trim());

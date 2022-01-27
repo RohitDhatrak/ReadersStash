@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { FlexContainer, Container, Image } from "../../components/Shared";
 import { ActionButton } from "../../components";
@@ -13,6 +14,9 @@ import logo from "../../assets/logo.png";
 
 export function LandingPage() {
     const navigate = useNavigate();
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
 
     return (
         <FlexContainer direction="column" minH="90vh" mb="2em" bgc="#EBF1F4">

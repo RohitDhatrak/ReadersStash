@@ -1,8 +1,8 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { useQuery } from "@apollo/client";
 import { useMediaQuery } from "react-responsive";
-import { Search as SearchType, Post as PostType, User } from "../../types";
+import { Search as SearchType, Post as PostType } from "../../types";
 import { FlexContainer, Container } from "../../components/Shared";
 import { PageContainer } from "./style.search";
 import { LoaderSvg, PostSvg, ProfileSvg, EmptyPageSvg } from "../../assets/svg";
@@ -21,6 +21,10 @@ export function Search() {
     );
     const isTabletOrMobile = useMediaQuery({ query: "(max-width: 600px)" });
     const query = decodeURIComponent(search.split("=")[1]);
+
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
 
     const { loading } = useQuery(GET_SEARCH_RESULTS, {
         onCompleted(data) {
