@@ -90,7 +90,7 @@ export function Settings() {
                 setImage(data.updateProfile.profilePicture);
                 setBio(data.updateProfile.bio);
                 setUrl(data.updateProfile.url);
-                dispatch(profileLoaded(data.getUser));
+                dispatch(profileLoaded(data.updateProfile));
                 setProfileMessage("Profile updated successfully");
                 profileLoading = false;
             },
