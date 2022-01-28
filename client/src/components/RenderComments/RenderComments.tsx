@@ -208,7 +208,7 @@ export function RenderComments({
                                 fs="0.9rem"
                                 color="var(--font-color-2)"
                             >
-                                {comment.level === 1 && (
+                                {comment.level === 1 && user?._id && (
                                     <Container
                                         as="button"
                                         mr="1em"
@@ -255,7 +255,7 @@ export function RenderComments({
                             </FlexContainer>
                         </Container>
                     </FlexContainer>
-                    {replyInput === comment._id && (
+                    {replyInput === comment._id && !!user?._id && (
                         <FlexContainer ml="3.5em" align="center">
                             <InputBox
                                 type="text"

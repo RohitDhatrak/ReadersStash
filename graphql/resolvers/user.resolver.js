@@ -9,8 +9,7 @@ const { usersIndex } = require("../../utils/generateSearchIndex");
 
 const userResolvers = {
     Query: {
-        async getUser(parent, args, context) {
-            checkJWT(context);
+        async getUser(parent, args) {
             const { userId, userName } = args;
             if (userId) {
                 const user = await User.findOne({ _id: userId });

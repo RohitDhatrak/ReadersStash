@@ -141,7 +141,7 @@ export function Profile() {
                         <Container fs="1.3rem" fw={500} mr="1em">
                             @{profile?.userName}
                         </Container>
-                        {user?.userName === profile.userName ? (
+                        {user?.userName === profile.userName && (
                             <Container
                                 as="button"
                                 bgc="transparent"
@@ -155,7 +155,8 @@ export function Profile() {
                             >
                                 Edit Profile
                             </Container>
-                        ) : (
+                        )}
+                        {user?.userName !== profile.userName && user?._id && (
                             <Container
                                 as="button"
                                 bgc={

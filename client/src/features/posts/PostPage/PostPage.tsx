@@ -109,34 +109,36 @@ export function PostPage() {
                 {post && <Post post={post} key={post._id} />}
                 <FlexContainer direction="column">
                     <Container fs="1.1rem">Comments</Container>
-                    <FlexContainer align="center">
-                        <InputBox
-                            type="text"
-                            placeholder="Write your comment here"
-                            value={comment}
-                            onChangeFunction={(e: InputEvent) =>
-                                setComment(e.target.value)
-                            }
-                            color={
-                                comment.length > COMMENT_LIMIT
-                                    ? "var(--error-color)"
-                                    : "initial"
-                            }
-                            w="100%"
-                        />
-                        <ActionButton
-                            w="5em"
-                            m="0.5em"
-                            disabled={
-                                !comment ||
-                                comment.length > COMMENT_LIMIT ||
-                                loadingAddComment
-                            }
-                            onClick={postComment}
-                        >
-                            {loadingAddComment ? "Posting..." : "Post"}
-                        </ActionButton>
-                    </FlexContainer>
+                    {user?._id && (
+                        <FlexContainer align="center">
+                            <InputBox
+                                type="text"
+                                placeholder="Write your comment here"
+                                value={comment}
+                                onChangeFunction={(e: InputEvent) =>
+                                    setComment(e.target.value)
+                                }
+                                color={
+                                    comment.length > COMMENT_LIMIT
+                                        ? "var(--error-color)"
+                                        : "initial"
+                                }
+                                w="100%"
+                            />
+                            <ActionButton
+                                w="5em"
+                                m="0.5em"
+                                disabled={
+                                    !comment ||
+                                    comment.length > COMMENT_LIMIT ||
+                                    loadingAddComment
+                                }
+                                onClick={postComment}
+                            >
+                                {loadingAddComment ? "Posting..." : "Post"}
+                            </ActionButton>
+                        </FlexContainer>
+                    )}
                     {post?.comments && (
                         <Container mt="1em">
                             <RenderComments
