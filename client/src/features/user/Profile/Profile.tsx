@@ -167,7 +167,7 @@ export function Profile() {
                                 b={isFollowing ? "1px solid #cecdcd" : "none"}
                                 fw={500}
                                 fs="0.9rem"
-                                p="0em 1.5em"
+                                p="0.2em 1.5em"
                                 br="1em"
                                 cursor="pointer"
                                 onClick={toggleFollowing}
