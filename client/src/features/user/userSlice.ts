@@ -92,6 +92,12 @@ export const userSlice = createSlice({
             state.posts = state.posts.filter(
                 (post) => post._id !== action.payload._id
             );
+            state.liked = state.liked.filter(
+                (post) => post._id !== action.payload._id
+            );
+            state.bookmarked = state.bookmarked.filter(
+                (post) => post._id !== action.payload._id
+            );
         });
         builder.addCase(added, (state, action) => {
             state.posts.push(action.payload);

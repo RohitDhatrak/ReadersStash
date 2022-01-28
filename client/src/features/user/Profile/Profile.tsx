@@ -70,7 +70,7 @@ export function Profile() {
 
     useEffect(() => {
         refetch();
-    }, [userName]);
+    }, [userName, user]);
 
     const [followUser, { loading: loadingFollow }] = useMutation(FOLLOW_USER, {
         onCompleted(data) {
