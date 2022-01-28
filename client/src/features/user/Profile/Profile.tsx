@@ -43,7 +43,7 @@ export function Profile() {
 
     const { loading, refetch } = useQuery(GET_PROFILE_DATA, {
         onCompleted(data) {
-            if (userName === user.userName && user?.bio) {
+            if (userName === user.userName && user?.email) {
                 setProfile(user);
             } else {
                 setProfile(data?.getUser);
@@ -70,7 +70,7 @@ export function Profile() {
 
     useEffect(() => {
         refetch();
-    }, [userName, profile]);
+    }, [userName]);
 
     const [followUser, { loading: loadingFollow }] = useMutation(FOLLOW_USER, {
         onCompleted(data) {
