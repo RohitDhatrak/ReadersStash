@@ -47,11 +47,7 @@ function App() {
     const [notifications, setNotifications] = useState<Array<Notification>>([]);
     const posts = useAppSelector(getPosts);
 
-    useEffect(() => {
-        window.scrollTo(0, 0);
-    }, []);
-
-    useQuery(GET_INITIAL_DATA, {
+    const { refetch } = useQuery(GET_INITIAL_DATA, {
         onError(error) {
             if (error?.graphQLErrors[0].extensions.code === "UNAUTHENTICATED") {
                 navigate("/landing");
@@ -67,9 +63,14 @@ function App() {
             setIsLoading(false);
         },
         variables: {
-            userId: user._id,
+            userId: user?._id ? user._id : "",
         },
     });
+
+    useEffect(() => {
+        refetch();
+        window.scrollTo(0, 0);
+    }, []);
 
     useQuery(GET_POSTS, {
         onCompleted(data) {
