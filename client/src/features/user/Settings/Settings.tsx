@@ -349,6 +349,7 @@ export function Settings() {
                         bgc="var(--error-color)"
                         cursor="pointer"
                         fw={600}
+                        color="#e2e8f0"
                         onClick={logOut}
                     >
                         Logout
