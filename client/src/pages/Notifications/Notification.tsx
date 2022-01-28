@@ -90,7 +90,11 @@ export function Notifications({
                                 ? "center"
                                 : "flex-start"
                         }
-                        bgc={notification.isRead ? "white" : "rgba(0,0,0,0.1)"}
+                        bgc={
+                            notification.isRead
+                                ? "var(--card-color)"
+                                : "#dbeafe"
+                        }
                         cursor="pointer"
                         onClick={() => handleClick(notification)}
                         as="button"
