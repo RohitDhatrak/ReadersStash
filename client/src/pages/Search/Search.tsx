@@ -116,9 +116,11 @@ export function Search() {
             </FlexContainer>
             <FlexContainer direction="column" align="center" mt="1em">
                 {selectedSection === "posts" &&
-                    searchResults.posts.map((post: PostType) => (
-                        <Post post={post} key={post._id} />
-                    ))}
+                    searchResults.posts.map((post: PostType) => {
+                        if (post._id)
+                            return <Post post={post} key={post._id} />;
+                        return null;
+                    })}
                 {selectedSection === "users" && (
                     <UserList
                         userList={searchResults.users}

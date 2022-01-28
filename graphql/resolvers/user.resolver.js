@@ -138,15 +138,17 @@ const userResolvers = {
                 profilePicture = url;
                 user.profilePicture = profilePicture;
             }
-            usersIndex.update(user._id, user.userName.trim());
-            usersIndex.appendAsync(user._id, user.name.trim());
-            if (user?.bio?.trim())
-                usersIndex.appendAsync(user._id, user.bio.trim());
             user.email = email;
             user.name = name;
             user.bio = bio;
             user.url = url;
             await user.save();
+            usersIndex.remove(user._id);
+            usersIndex.add(userId, user.userName.trim());
+            usersIndex.appendAsync(userId, user.name.trim());
+            if (user?.bio?.trim()) {
+                usersIndex.appendAsync(userId, user.bio.trim());
+            }
             return user;
         },
         async changePassword(parent, args) {

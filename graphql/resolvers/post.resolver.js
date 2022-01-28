@@ -60,7 +60,7 @@ const postResolvers = {
                     (postId) => postId.valueOf() !== post._id
                 );
                 userDoc.save();
-                postsIndex.removeAsync(post._id);
+                postsIndex.removeAsync(postId);
                 await Notification.deleteMany({
                     post: post._id,
                 });

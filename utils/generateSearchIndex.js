@@ -11,18 +11,19 @@ async function generateSearchIndex() {
 
     for (const post of posts) {
         await post.populate("user");
-        postsIndex.add(post._id, post.title.trim());
-        postsIndex.append(post._id, post.body.trim());
-        postsIndex.append(post._id, post.user.userName.trim());
-        postsIndex.append(post._id, post.user.name.trim());
+        postsIndex.add(post._id.valueOf(), post.title.trim());
+        postsIndex.append(post._id.valueOf(), post.body.trim());
+        postsIndex.append(post._id.valueOf(), post.user.userName.trim());
+        postsIndex.append(post._id.valueOf(), post.user.name.trim());
         if (post.user?.bio?.trim())
-            postsIndex.append(post._id, post.user.bio.trim());
+            postsIndex.append(post._id.valueOf(), post.user.bio.trim());
     }
 
     for (const user of users) {
-        usersIndex.add(user._id, user.userName.trim());
-        usersIndex.append(user._id, user.name.trim());
-        if (user?.bio?.trim()) usersIndex.append(user._id, user.bio.trim());
+        usersIndex.add(user._id.valueOf(), user.userName.trim());
+        usersIndex.append(user._id.valueOf(), user.name.trim());
+        if (user?.bio?.trim())
+            usersIndex.append(user._id.valueOf(), user.bio.trim());
     }
 
     console.log("Search index generated successfully");

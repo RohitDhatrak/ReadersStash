@@ -64,68 +64,74 @@ export function UserList({
 
     return (
         <FlexContainer direction="column" m="0 auto" w="40em" maxW="90vw">
-            {[...userList].reverse().map((user) => (
-                <FlexContainer
-                    key={user?._id}
-                    onClick={() => navigate(`/${user?.userName}`)}
-                    mb="1em"
-                    cursor="pointer"
-                >
-                    <ImageContainer>
-                        <ImageDiv bgImg={`url(${user?.profilePicture})`} />
-                    </ImageContainer>
-                    <Container ml="1em">
-                        <FlexContainer
-                            justify="space-between"
-                            w="40em"
-                            maxW="67vw"
-                        >
-                            <Link to={`/${user?.userName}`}>
-                                <Container>
-                                    <Container fw={600}>{user?.name}</Container>
-                                    <Container color="var(--font-color-2)">
-                                        @{user?.userName}
+            {[...userList].reverse().map((user) =>
+                user ? (
+                    <FlexContainer
+                        key={user?._id}
+                        onClick={() => navigate(`/${user?.userName}`)}
+                        mb="1em"
+                        cursor="pointer"
+                    >
+                        <ImageContainer>
+                            <ImageDiv bgImg={`url(${user?.profilePicture})`} />
+                        </ImageContainer>
+                        <Container ml="1em">
+                            <FlexContainer
+                                justify="space-between"
+                                w="40em"
+                                maxW="67vw"
+                            >
+                                <Link to={`/${user?.userName}`}>
+                                    <Container>
+                                        <Container fw={600}>
+                                            {user?.name}
+                                        </Container>
+                                        <Container color="var(--font-color-2)">
+                                            @{user?.userName}
+                                        </Container>
                                     </Container>
-                                </Container>
-                            </Link>
-                            {user._id !== userProfile._id && (
-                                <Container
-                                    as="button"
-                                    bgc={
-                                        userProfile?.followingHashMap?.[
+                                </Link>
+                                {user._id !== userProfile._id && (
+                                    <Container
+                                        as="button"
+                                        bgc={
+                                            userProfile?.followingHashMap?.[
+                                                user?._id
+                                            ]
+                                                ? "transparent"
+                                                : "var(--primary-color)"
+                                        }
+                                        b={
+                                            userProfile?.followingHashMap?.[
+                                                user?._id
+                                            ]
+                                                ? "1px solid #cecdcd"
+                                                : "none"
+                                        }
+                                        fw={500}
+                                        fs="0.9rem"
+                                        cursor="pointer"
+                                        p="0 1em"
+                                        br="1em"
+                                        onClick={(e: ButtonEvent) =>
+                                            toggleFollowing(e, user)
+                                        }
+                                    >
+                                        {userProfile?.followingHashMap?.[
                                             user?._id
                                         ]
-                                            ? "transparent"
-                                            : "var(--primary-color)"
-                                    }
-                                    b={
-                                        userProfile?.followingHashMap?.[
-                                            user?._id
-                                        ]
-                                            ? "1px solid #cecdcd"
-                                            : "none"
-                                    }
-                                    fw={500}
-                                    fs="0.9rem"
-                                    cursor="pointer"
-                                    p="0 1em"
-                                    br="1em"
-                                    onClick={(e: ButtonEvent) =>
-                                        toggleFollowing(e, user)
-                                    }
-                                >
-                                    {userProfile?.followingHashMap?.[user?._id]
-                                        ? "Following"
-                                        : "Follow"}
-                                </Container>
-                            )}
-                        </FlexContainer>
-                        <Container fw={500} mt="0.5em">
-                            {user?.bio}
+                                            ? "Following"
+                                            : "Follow"}
+                                    </Container>
+                                )}
+                            </FlexContainer>
+                            <Container fw={500} mt="0.5em">
+                                {user?.bio}
+                            </Container>
                         </Container>
-                    </Container>
-                </FlexContainer>
-            ))}
+                    </FlexContainer>
+                ) : null
+            )}
             {userList?.length === 0 && showEmptyPage && (
                 <FlexContainer direction="column">
                     <EmptyPageSvg height="15em" />

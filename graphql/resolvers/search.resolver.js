@@ -23,7 +23,7 @@ const searchResolvers = {
         async users(parent) {
             const userDocs = [];
             for (const user of parent.users) {
-                const userDoc = await User.findOne({ _id: user._id });
+                const userDoc = await User.findOne({ _id: user });
                 userDocs.push(userDoc);
             }
             return userDocs;
@@ -31,7 +31,7 @@ const searchResolvers = {
         async posts(parent) {
             const postsDocs = [];
             for (const post of parent.posts) {
-                const postDoc = await Post.findOne({ _id: post._id });
+                const postDoc = await Post.findOne({ _id: post });
                 postsDocs.push(postDoc);
             }
             return postsDocs;
