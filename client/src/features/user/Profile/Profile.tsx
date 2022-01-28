@@ -44,11 +44,9 @@ export function Profile() {
     const { loading, refetch } = useQuery(GET_PROFILE_DATA, {
         onCompleted(data) {
             if (userName === user.userName && user?.bio) {
-                console.log(data.getUser);
                 setProfile(user);
             } else {
                 setProfile(data?.getUser);
-                console.log(data.getUser);
             }
         },
         onError() {
