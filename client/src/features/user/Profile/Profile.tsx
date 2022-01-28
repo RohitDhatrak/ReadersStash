@@ -115,7 +115,7 @@ export function Profile() {
         }
     }
 
-    if (!user?.bio && loading)
+    if (!user?.email && loading)
         return (
             <FlexContainer h="75vh" justify="center" align="center">
                 <LoaderSvg />
@@ -149,7 +149,7 @@ export function Profile() {
                                 fw={500}
                                 fs="0.9rem"
                                 cursor="pointer"
-                                p="0em 1.5em"
+                                p="0.2em 1.5em"
                                 br="1em"
                                 onClick={() => navigate("/settings")}
                             >
@@ -273,7 +273,6 @@ export function Profile() {
                 <FlexContainer
                     onClick={() => setSelectedSection("posts")}
                     direction="column"
-                    cursor="pointer"
                 >
                     <FlexContainer
                         as="button"
@@ -282,6 +281,7 @@ export function Profile() {
                         fs="1rem"
                         align="center"
                         gap="0.5em"
+                        cursor="pointer"
                     >
                         {!isTabletOrMobile && (
                             <PostSvg color="var(--font-color)" />
@@ -302,7 +302,6 @@ export function Profile() {
                 <FlexContainer
                     onClick={() => setSelectedSection("liked")}
                     direction="column"
-                    cursor="pointer"
                 >
                     <FlexContainer
                         as="button"
@@ -311,6 +310,7 @@ export function Profile() {
                         fs="1rem"
                         align="center"
                         gap="0.5em"
+                        cursor="pointer"
                     >
                         {!isTabletOrMobile && (
                             <LikeSvg
@@ -336,7 +336,6 @@ export function Profile() {
                     <FlexContainer
                         onClick={() => setSelectedSection("bookmarked")}
                         direction="column"
-                        cursor="pointer"
                     >
                         <FlexContainer
                             as="button"
@@ -345,6 +344,7 @@ export function Profile() {
                             fs="1rem"
                             align="center"
                             gap="0.5em"
+                            cursor="pointer"
                         >
                             {!isTabletOrMobile && (
                                 <BookmarkSvg
@@ -367,7 +367,7 @@ export function Profile() {
                     </FlexContainer>
                 )}
             </FlexContainer>
-            <FlexContainer direction="column" align="center">
+            <FlexContainer direction="column" align="center" mt="1em">
                 {profile?.[selectedSection] &&
                     [...profile?.[selectedSection]]
                         .reverse()
