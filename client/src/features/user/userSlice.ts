@@ -39,6 +39,29 @@ export const userSlice = createSlice({
         login(state, action: PayloadAction<User>) {
             return { ...state, ...action.payload };
         },
+        logout() {
+            return {
+                _id: "",
+                email: "",
+                userName: "",
+                name: "",
+                jwt: "",
+                profilePicture: "",
+                bio: "",
+                location: "",
+                url: "",
+                followers: [],
+                followersCount: 0,
+                following: [],
+                followingCount: 0,
+                posts: [],
+                liked: [],
+                bookmarked: [],
+                likesHashMap: {},
+                bookmarksHashMap: {},
+                followingHashMap: {},
+            };
+        },
         profileLoaded(state, action: PayloadAction<User>) {
             return { ...state, ...action.payload };
         },
@@ -144,4 +167,5 @@ export const {
     removeBookmark,
     followed,
     unfollowed,
+    logout,
 } = userSlice.actions;

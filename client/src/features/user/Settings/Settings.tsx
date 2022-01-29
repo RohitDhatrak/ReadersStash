@@ -17,7 +17,7 @@ import {
 import { InputBox, ActionButton } from "../../../components";
 import { GET_PROFILE_DATA } from "../../../graphql/queries";
 import { CHANGE_PASSWORD, UPDATE_PROFILE } from "../../../graphql/mutations";
-import { profileLoaded, getUser } from "../userSlice";
+import { profileLoaded, getUser, logout } from "../userSlice";
 import { CloseSvg, EditSvg, LoaderSvg } from "../../../assets/svg";
 import { raiseErrorToast } from "../../../utils/toast";
 import { validatePassword } from "../../../utils/validatePassword";
@@ -116,6 +116,7 @@ export function Settings() {
     function logOut() {
         navigate("/landing");
         localStorage.setItem("user", JSON.stringify({ _id: null, jwt: null }));
+        dispatch(logout());
     }
 
     function validateEmail(e: InputEvent) {
