@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { useQuery, useMutation } from "@apollo/client";
+import { useQuery, useLazyQuery, useMutation } from "@apollo/client";
 import { useMediaQuery } from "react-responsive";
-import { Post as PostType, User } from "../../../types";
+import { Post as PostType } from "../../../types";
 import { useAppSelector, useAppDispatch } from "../../../app/hooks";
 import { FlexContainer, Container } from "../../../components/Shared";
 import { Post } from "../../../components";
@@ -32,28 +32,21 @@ export function Profile() {
     const user = useAppSelector(getUser);
     const { userName } = useParams();
     const [is404, set404] = useState(false);
-    const [profile, setProfile] = useState<User>();
     const [selectedSection, setSelectedSection] = useState<
         "posts" | "liked" | "bookmarked"
     >("posts");
     const isTabletOrMobile = useMediaQuery({ query: "(max-width: 600px)" });
-    const isFollowing = profile?._id
-        ? user?.followingHashMap?.[profile?._id]
-        : false;
 
-    const { loading, refetch } = useQuery(GET_PROFILE_DATA, {
-        onCompleted(data) {
-            if (userName === user.userName && user?.email) {
-                setProfile(user);
-            } else {
-                setProfile(data?.getUser);
-            }
-        },
+    const { loading, data, refetch } = useQuery(GET_PROFILE_DATA, {
         onError() {
             set404(true);
         },
         variables: { userName },
     });
+
+    const isFollowing = data?.getUser?._id
+        ? user?.followingHashMap?.[data?.getUser?._id]
+        : false;
 
     useQuery(GET_PROFILE_DATA, {
         onCompleted(data) {
@@ -74,43 +67,43 @@ export function Profile() {
 
     const [followUser, { loading: loadingFollow }] = useMutation(FOLLOW_USER, {
         onCompleted(data) {
-            if (profile?.followersCount !== undefined) {
-                setProfile({
-                    ...profile,
-                    followersCount: profile?.followersCount + 1,
-                });
-                dispatch(followed(data.followUser));
-            }
+            console.log("in follow");
+            refetch();
+            dispatch(followed(data.followUser));
         },
         onError: raiseErrorToast("Some error occured please try again later"),
-        variables: { userId: user._id, otherUserId: profile?._id },
     });
 
     const [unfollowUser, { loading: loadingUnfollow }] = useMutation(
         UNFOLLOW_USER,
         {
             onCompleted(data) {
-                if (profile?.followersCount !== undefined) {
-                    setProfile({
-                        ...profile,
-                        followersCount: profile?.followersCount - 1,
-                    });
-                    dispatch(unfollowed(data.unfollowUser));
-                }
+                console.log("in unfollow");
+                refetch();
+                dispatch(unfollowed(data.unfollowUser));
             },
             onError: raiseErrorToast(
                 "Some error occured please try again later"
             ),
-            variables: { userId: user._id, otherUserId: profile?._id },
         }
     );
 
     function toggleFollowing() {
         if (!loadingFollow && !loadingUnfollow) {
             if (isFollowing) {
-                unfollowUser();
+                unfollowUser({
+                    variables: {
+                        userId: user._id,
+                        otherUserId: data?.getUser?._id,
+                    },
+                });
             } else {
-                followUser();
+                followUser({
+                    variables: {
+                        userId: user._id,
+                        otherUserId: data?.getUser?._id,
+                    },
+                });
             }
         }
     }
@@ -126,7 +119,7 @@ export function Profile() {
         return <Page404 />;
     }
 
-    return !!profile?.userName ? (
+    return !!data?.getUser?.userName ? (
         <PageContainer direction="column" mb="5em">
             <FlexContainer
                 w="40em"
@@ -134,14 +127,14 @@ export function Profile() {
                 m={isTabletOrMobile ? "0 2.5em" : "0 auto"}
             >
                 <ImageContainer>
-                    <ImageDiv bgImg={`url(${profile?.profilePicture})`} />
+                    <ImageDiv bgImg={`url(${data?.getUser?.profilePicture})`} />
                 </ImageContainer>
                 <FlexContainer direction="column" ml="2em">
                     <FlexContainer wrap="wrap" gap="0.5em">
                         <Container fs="1.3rem" fw={500} mr="1em">
-                            @{profile?.userName}
+                            @{data?.getUser?.userName}
                         </Container>
-                        {user?.userName === profile.userName && (
+                        {user?.userName === data?.getUser.userName && (
                             <Container
                                 as="button"
                                 bgc="transparent"
@@ -156,39 +149,44 @@ export function Profile() {
                                 Edit Profile
                             </Container>
                         )}
-                        {user?.userName !== profile.userName && user?._id && (
-                            <Container
-                                as="button"
-                                bgc={
-                                    isFollowing
-                                        ? "transparent"
-                                        : "var(--primary-color)"
-                                }
-                                b={isFollowing ? "1px solid #cecdcd" : "none"}
-                                fw={500}
-                                fs="0.9rem"
-                                p="0.2em 1.5em"
-                                br="1em"
-                                cursor="pointer"
-                                onClick={toggleFollowing}
-                            >
-                                {isFollowing ? "Following" : "Follow"}
-                            </Container>
-                        )}
+                        {user?.userName !== data?.getUser.userName &&
+                            user?._id && (
+                                <Container
+                                    as="button"
+                                    bgc={
+                                        isFollowing
+                                            ? "transparent"
+                                            : "var(--primary-color)"
+                                    }
+                                    b={
+                                        isFollowing
+                                            ? "1px solid #cecdcd"
+                                            : "none"
+                                    }
+                                    fw={500}
+                                    fs="0.9rem"
+                                    p="0.2em 1.5em"
+                                    br="1em"
+                                    cursor="pointer"
+                                    onClick={toggleFollowing}
+                                >
+                                    {isFollowing ? "Following" : "Follow"}
+                                </Container>
+                            )}
                     </FlexContainer>
                     <DesktopProfileContainer>
-                        <Container fw={600}>{profile?.name}</Container>
+                        <Container fw={600}>{data?.getUser?.name}</Container>
                         <Container whiteSpace="pre-wrap">
-                            {profile?.bio}
+                            {data?.getUser?.bio}
                         </Container>
                         <Container
                             as="a"
                             target="_blank"
-                            href={profile?.url}
+                            href={data?.getUser?.url}
                             color="#00376b"
                             fw={600}
                         >
-                            {profile?.url}
+                            {data?.getUser?.url}
                         </Container>
                         <FlexContainer>
                             <FlexContainer
@@ -199,11 +197,13 @@ export function Profile() {
                                 bgc="transparent"
                                 fs="1rem"
                                 onClick={() =>
-                                    navigate(`/followers?id=${profile._id}`)
+                                    navigate(
+                                        `/followers?id=${data?.getUser._id}`
+                                    )
                                 }
                             >
                                 <Container fw={600}>
-                                    {profile?.followersCount}
+                                    {data?.getUser?.followersCount}
                                 </Container>
                                 <Container ml="0.5em">Followers</Container>
                             </FlexContainer>
@@ -216,11 +216,13 @@ export function Profile() {
                                 bgc="transparent"
                                 fs="1rem"
                                 onClick={() =>
-                                    navigate(`/following?id=${profile._id}`)
+                                    navigate(
+                                        `/following?id=${data?.getUser._id}`
+                                    )
                                 }
                             >
                                 <Container fw={600}>
-                                    {profile?.followingCount}
+                                    {data?.getUser?.followingCount}
                                 </Container>
                                 <Container ml="0.5em">Following</Container>
                             </FlexContainer>
@@ -229,25 +231,29 @@ export function Profile() {
                 </FlexContainer>
             </FlexContainer>
             <MobileProfileContainer>
-                <Container fw={600}>{profile?.name}</Container>
-                <Container whiteSpace="pre-wrap">{profile?.bio}</Container>
+                <Container fw={600}>{data?.getUser?.name}</Container>
+                <Container whiteSpace="pre-wrap">
+                    {data?.getUser?.bio}
+                </Container>
                 <Container
                     as="a"
                     target="_blank"
-                    href={profile?.url}
+                    href={data?.getUser?.url}
                     color="#00376b"
                     fw={600}
                 >
-                    {profile?.url}
+                    {data?.getUser?.url}
                 </Container>
                 <FlexContainer mt="0.5em">
                     <FlexContainer
                         direction="row"
                         cursor="pointer"
-                        onClick={() => navigate(`/followers?id=${profile._id}`)}
+                        onClick={() =>
+                            navigate(`/followers?id=${data?.getUser._id}`)
+                        }
                     >
                         <Container fw={600}>
-                            {profile?.followersCount}
+                            {data?.getUser?.followersCount}
                         </Container>
                         <Container ml="0.5em">Followers</Container>
                     </FlexContainer>
@@ -255,10 +261,12 @@ export function Profile() {
                         direction="row"
                         ml="1em"
                         cursor="pointer"
-                        onClick={() => navigate(`/following?id=${profile._id}`)}
+                        onClick={() =>
+                            navigate(`/following?id=${data?.getUser._id}`)
+                        }
                     >
                         <Container fw={600}>
-                            {profile?.followingCount}
+                            {data?.getUser?.followingCount}
                         </Container>
                         <Container ml="0.5em">Following</Container>
                     </FlexContainer>
@@ -369,13 +377,13 @@ export function Profile() {
                 )}
             </FlexContainer>
             <FlexContainer direction="column" align="center" mt="1em">
-                {profile?.[selectedSection] &&
-                    [...profile?.[selectedSection]]
+                {data?.getUser?.[selectedSection] &&
+                    [...data?.getUser?.[selectedSection]]
                         .reverse()
                         .map((post: PostType) => (
                             <Post post={post} key={post?._id} />
                         ))}
-                {profile?.[selectedSection]?.length === 0 && (
+                {data?.getUser?.[selectedSection]?.length === 0 && (
                     <FlexContainer direction="column" mt="2em" maxW="90vw">
                         <EmptyPageSvg height="12em" />
                         <Container fs="1.2rem" mt="1em" textAlign="center">
