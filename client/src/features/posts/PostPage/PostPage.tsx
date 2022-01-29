@@ -105,7 +105,7 @@ export function PostPage() {
 
     return (
         <PageContainer justify="center" mb="5em">
-            <FlexContainer direction="column">
+            <FlexContainer direction="column" m="0 auto" maxW="90vw">
                 {post && <Post post={post} key={post._id} />}
                 <FlexContainer direction="column">
                     <Container fs="1.1rem">Comments</Container>
