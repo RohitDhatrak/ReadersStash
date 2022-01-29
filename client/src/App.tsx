@@ -54,11 +54,9 @@ function App() {
                     JSON.stringify({ _id: null, jwt: null })
                 );
             }
-            setIsLoading(false);
         },
         onCompleted(data) {
             dispatch(login(data.getUser));
-            setIsLoading(false);
         },
         variables: {
             userId: user?._id ? user._id : "",
@@ -75,6 +73,10 @@ function App() {
             if (posts.length === 0) {
                 dispatch(loaded(data.getPosts));
             }
+            setIsLoading(false);
+        },
+        onError() {
+            setIsLoading(false);
         },
     });
 
