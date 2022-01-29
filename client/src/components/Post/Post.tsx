@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useMutation } from "@apollo/client";
-import { Link, useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { raiseErrorToast, raiseToast } from "../../utils/toast";
 import { useAppSelector, useAppDispatch } from "../../app/hooks";
 import { FlexContainer, Container, Image } from "../../components/Shared";
@@ -141,7 +141,8 @@ export function Post({ post }: { post: PostType }) {
         }
     }
 
-    function deletePost() {
+    function deletePost(e: ButtonEvent) {
+        e.stopPropagation();
         if (!loadingDeletePost) {
             setShowDeleteMenu("");
             const isConfirmed = window.confirm(
@@ -153,6 +154,11 @@ export function Post({ post }: { post: PostType }) {
         }
     }
 
+    function visitProfile(e: ButtonEvent) {
+        e.stopPropagation();
+        navigate(`/${post.user.userName}`);
+    }
+
     return (
         <FlexContainer
             direction="column"
@@ -162,34 +168,42 @@ export function Post({ post }: { post: PostType }) {
             mb="2em"
             br="2em"
             p="0.3em 0"
+            cursor="pointer"
+            onClick={openPostPage}
         >
             <FlexContainer p="0.7em 2em" align="center" justify="space-between">
                 <Container>
-                    <Link to={`/${post.user.userName}`}>
-                        <FlexContainer align="center">
-                            <ImageContainer>
-                                <ImageDiv
-                                    bgImg={`url(${post.user?.profilePicture})`}
-                                    cursor="pointer"
-                                />
-                            </ImageContainer>
-                            <FlexContainer
-                                direction="column"
-                                ml="0.5em"
-                                justify="space-between"
+                    <FlexContainer
+                        as="button"
+                        p="0"
+                        b="none"
+                        fs="1rem"
+                        bgc="transparent"
+                        align="center"
+                        onClick={visitProfile}
+                    >
+                        <ImageContainer>
+                            <ImageDiv
+                                bgImg={`url(${post.user?.profilePicture})`}
+                                cursor="pointer"
+                            />
+                        </ImageContainer>
+                        <FlexContainer
+                            direction="column"
+                            ml="0.5em"
+                            justify="space-between"
+                        >
+                            <Container cursor="pointer">
+                                {post.user.name}
+                            </Container>
+                            <Container
+                                color="var(--font-color-2)"
+                                cursor="pointer"
                             >
-                                <Container cursor="pointer">
-                                    {post.user.name}
-                                </Container>
-                                <Container
-                                    color="var(--font-color-2)"
-                                    cursor="pointer"
-                                >
-                                    @{post.user.userName}
-                                </Container>
-                            </FlexContainer>
+                                @{post.user.userName}
+                            </Container>
                         </FlexContainer>
-                    </Link>
+                    </FlexContainer>
                 </Container>
 
                 {post.user._id === user._id && (
@@ -261,7 +275,10 @@ export function Post({ post }: { post: PostType }) {
                 <FlexContainer
                     align="center"
                     cursor="pointer"
-                    onClick={(e: ButtonEvent) => toggleLike(e)}
+                    onClick={(e: ButtonEvent) => {
+                        e.stopPropagation();
+                        toggleLike(e);
+                    }}
                 >
                     <FlexContainer
                         as="button"
@@ -308,7 +325,6 @@ export function Post({ post }: { post: PostType }) {
                     fs="1rem"
                     align="center"
                     cursor="pointer"
-                    onClick={openPostPage}
                 >
                     <CommentSvg
                         className="scale-11"
@@ -322,7 +338,10 @@ export function Post({ post }: { post: PostType }) {
                     bgc="transparent"
                     fs="1rem"
                     cursor="pointer"
-                    onClick={(e: ButtonEvent) => toggleBookmark(e)}
+                    onClick={(e: ButtonEvent) => {
+                        e.stopPropagation();
+                        toggleBookmark(e);
+                    }}
                 >
                     {user.bookmarksHashMap?.[post._id] ? (
                         <BookmarkFilledSvg
