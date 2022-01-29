@@ -62,6 +62,7 @@ export function Profile() {
     }, []);
 
     useEffect(() => {
+        window.scrollTo(0, 0);
         refetch();
     }, [userName, user]);
 
