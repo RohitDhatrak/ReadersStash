@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { FlexContainer, Container } from "../Shared";
 import {
     HomeSvg,
@@ -13,8 +13,11 @@ import { getUser } from "../../features/user/userSlice";
 
 export function MobileNav({ unreadCount }: { unreadCount: number }) {
     const user = useAppSelector(getUser);
+    const { pathname } = useLocation();
 
-    return (
+    return pathname !== "/landing" &&
+        pathname !== "/login" &&
+        pathname !== "/signup" ? (
         <MobileNavContainer
             as="nav"
             position="fixed"
@@ -127,5 +130,5 @@ export function MobileNav({ unreadCount }: { unreadCount: number }) {
                 </FlexContainer>
             </Link>
         </MobileNavContainer>
-    );
+    ) : null;
 }
