@@ -44,7 +44,7 @@ export function Search() {
         );
 
     return (
-        <PageContainer direction="column">
+        <PageContainer direction="column" mb="5em">
             <FlexContainer
                 gap="3em"
                 maxW="80vw"
