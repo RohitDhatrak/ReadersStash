@@ -32,7 +32,7 @@ import {
     Followers,
     Likes,
 } from "./features";
-import { login } from "./features/user/userSlice";
+import { login, getUser } from "./features/user/userSlice";
 import { loaded, getPosts } from "./features/posts/postsSlice";
 import { LoaderSvg } from "./assets/svg";
 import { Notification } from "./types";
@@ -45,42 +45,9 @@ function App() {
     const [unreadCount, setUnreadCount] = useState(0);
     const [notifications, setNotifications] = useState<Array<Notification>>([]);
     const posts = useAppSelector(getPosts);
+    const userData = useAppSelector(getUser);
 
-    const { refetch } = useQuery(GET_INITIAL_DATA, {
-        onError(error) {
-            if (error?.graphQLErrors[0].extensions.code === "UNAUTHENTICATED") {
-                localStorage.setItem(
-                    "user",
-                    JSON.stringify({ _id: null, jwt: null })
-                );
-            }
-        },
-        onCompleted(data) {
-            dispatch(login(data.getUser));
-        },
-        variables: {
-            userId: user?._id ? user._id : "",
-        },
-    });
-
-    useEffect(() => {
-        refetch();
-        window.scrollTo(0, 0);
-    }, []);
-
-    useQuery(GET_POSTS, {
-        onCompleted(data) {
-            if (posts.length === 0) {
-                dispatch(loaded(data.getPosts));
-            }
-            setIsLoading(false);
-        },
-        onError() {
-            setIsLoading(false);
-        },
-    });
-
-    useQuery(GET_NOTIFICATIONS, {
+    const { startPolling, stopPolling } = useQuery(GET_NOTIFICATIONS, {
         onCompleted(data) {
             if (
                 data.getNotifications.length !== notifications.length &&
@@ -97,11 +64,49 @@ function App() {
             setNotificationLoading(false);
         },
         variables: {
-            userId: user._id,
+            userId: userData._id,
             count: notifications.length,
         },
-        pollInterval: 5000,
     });
+
+    useQuery(GET_INITIAL_DATA, {
+        onError(error) {
+            if (error?.graphQLErrors[0].extensions.code === "UNAUTHENTICATED") {
+                localStorage.setItem(
+                    "user",
+                    JSON.stringify({ _id: null, jwt: null })
+                );
+            }
+        },
+        onCompleted(data) {
+            dispatch(login(data.getUser));
+            startPolling(5000);
+        },
+        variables: {
+            userId: user?._id ? user._id : "",
+        },
+    });
+
+    useQuery(GET_POSTS, {
+        onCompleted(data) {
+            if (posts.length === 0) {
+                dispatch(loaded(data.getPosts));
+            }
+            setIsLoading(false);
+        },
+        onError() {
+            setIsLoading(false);
+        },
+    });
+
+    useEffect(() => {
+        window.scrollTo(0, 0);
+        return () => stopPolling();
+    }, []);
+
+    useEffect(() => {
+        if (userData?._id) startPolling(5000);
+    }, [userData]);
 
     if (isLoading)
         return (
@@ -136,7 +141,7 @@ function App() {
                     path="/settings"
                     element={
                         <PrivateRoute path="/settings">
-                            <Settings />
+                            <Settings stopPolling={stopPolling} />
                         </PrivateRoute>
                     }
                 />

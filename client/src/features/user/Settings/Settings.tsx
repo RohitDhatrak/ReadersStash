@@ -23,7 +23,7 @@ import { raiseErrorToast } from "../../../utils/toast";
 import { validatePassword } from "../../../utils/validatePassword";
 import { ImageContainer, PageContainer } from "./style.settings";
 
-export function Settings() {
+export function Settings({ stopPolling }: { stopPolling: Function }) {
     const dispatch = useAppDispatch();
     const user = useAppSelector(getUser);
     const navigate = useNavigate();
@@ -117,6 +117,7 @@ export function Settings() {
         navigate("/landing");
         localStorage.setItem("user", JSON.stringify({ _id: null, jwt: null }));
         dispatch(logout());
+        stopPolling();
     }
 
     function validateEmail(e: InputEvent) {

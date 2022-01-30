@@ -32,6 +32,9 @@ export const LOGIN = gql`
             name
             profilePicture
             jwt
+            likesHashMap
+            bookmarksHashMap
+            followingHashMap
         }
     }
 `;
