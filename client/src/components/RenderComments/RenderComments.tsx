@@ -10,6 +10,7 @@ import { commentDeleted } from "../../features/posts/postsSlice";
 import { Comment, ButtonEvent, InputEvent, Post } from "../../types";
 import { ADD_COMMENT, DELETE_COMMENT } from "../../graphql/mutations";
 import { raiseErrorToast } from "../../utils/toast";
+import { ImageContainer, ImageDiv } from "./style.renderComments";
 
 interface RenderCommentsProps {
     comments: Array<Comment>;
@@ -167,15 +168,11 @@ export function RenderComments({
                     maxW="85vw"
                 >
                     <FlexContainer direction="row" mt="1.5em">
-                        <Image
-                            src={comment.user?.profilePicture}
-                            h="3em"
-                            br="50%"
-                            cursor="pointer"
-                            onClick={(e: ButtonEvent) =>
-                                visitProfile(e, comment.user?.userName)
-                            }
-                        />
+                        <ImageContainer>
+                            <ImageDiv
+                                bgImg={`url(${comment.user?.profilePicture})`}
+                            />
+                        </ImageContainer>
                         <Container ml="1em">
                             <FlexContainer
                                 mb="0.3em"
