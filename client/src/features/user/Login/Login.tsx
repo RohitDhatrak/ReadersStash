@@ -44,7 +44,7 @@ export function Login() {
         setUserName(e.target.value);
     }
 
-    const [loginUser] = useMutation(LOGIN, {
+    const [loginUser, { loading }] = useMutation(LOGIN, {
         onCompleted(data) {
             dispatch(login(data.login));
             localStorage.setItem(
@@ -63,7 +63,9 @@ export function Login() {
 
     function loginAndRedirect(e: FormEvent) {
         e.preventDefault();
-        loginUser();
+        if (!loading) {
+            loginUser();
+        }
     }
 
     return (
@@ -106,9 +108,15 @@ export function Login() {
                 <Container color="var(--error-color)">{errorMessage}</Container>
                 {asGuest && <Container mb="1em">OR</Container>}
                 {userName && password && !errorMessage && !asGuest && (
-                    <ActionButton>Login</ActionButton>
+                    <ActionButton disabled={loading}>
+                        {loading ? "Logging In..." : "Login"}
+                    </ActionButton>
                 )}
-                {asGuest && <ActionButton>Login as Guest</ActionButton>}
+                {asGuest && (
+                    <ActionButton disabled={loading}>
+                        {loading ? "Logging In..." : "Login as Guest"}
+                    </ActionButton>
+                )}
                 <Container mt="0.5em">
                     <Container display="inline" mr="0.2em">
                         Don't have an account yet?

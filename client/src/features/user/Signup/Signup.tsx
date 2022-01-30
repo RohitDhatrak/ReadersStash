@@ -42,7 +42,7 @@ export function Signup() {
         }
     }
 
-    const [addUser] = useMutation(SIGN_UP, {
+    const [addUser, { loading }] = useMutation(SIGN_UP, {
         onCompleted(data) {
             dispatch(login(data.signup));
             localStorage.setItem(
@@ -61,7 +61,9 @@ export function Signup() {
 
     function signupAndRedirect(e: FormEvent) {
         e.preventDefault();
-        addUser();
+        if (!loading) {
+            addUser();
+        }
     }
 
     return (
@@ -153,7 +155,11 @@ export function Signup() {
                     email &&
                     password &&
                     retypedPassword &&
-                    !errorMessage && <ActionButton>Signup</ActionButton>}
+                    !errorMessage && (
+                        <ActionButton disabled={loading}>
+                            {loading ? "Creating account..." : "Signup"}
+                        </ActionButton>
+                    )}
                 <Container mt="0.5em">
                     <Container display="inline" mr="0.2em">
                         Already have an account?
