@@ -108,7 +108,7 @@ export function Profile() {
         }
     }
 
-    if (!user?.email && loading)
+    if ((!user?.email || user.userName !== userName) && loading)
         return (
             <FlexContainer h="75vh" justify="center" align="center">
                 <LoaderSvg />
