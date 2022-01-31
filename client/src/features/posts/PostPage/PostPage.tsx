@@ -129,7 +129,7 @@ export function PostPage() {
                                 w="5em"
                                 m="0.5em"
                                 disabled={
-                                    !comment ||
+                                    !comment.trim() ||
                                     comment.length > COMMENT_LIMIT ||
                                     loadingAddComment
                                 }

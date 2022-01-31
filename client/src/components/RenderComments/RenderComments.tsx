@@ -271,7 +271,7 @@ export function RenderComments({
                             <ActionButton
                                 w="5em"
                                 disabled={
-                                    !reply ||
+                                    !reply.trim() ||
                                     reply.length > REPLY_LIMIT ||
                                     loadingAddComment
                                 }
