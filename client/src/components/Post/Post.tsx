@@ -191,7 +191,7 @@ export function Post({ post }: { post: PostType }) {
                         <FlexContainer
                             direction="column"
                             ml="0.5em"
-                            justify="space-between"
+                            align="flex-start"
                         >
                             <Container cursor="pointer">
                                 {post.user.name}
