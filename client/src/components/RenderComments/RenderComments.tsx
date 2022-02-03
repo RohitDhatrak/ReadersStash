@@ -168,7 +168,12 @@ export function RenderComments({
                     maxW="85vw"
                 >
                     <FlexContainer direction="row" mt="1.5em">
-                        <ImageContainer>
+                        <ImageContainer
+                            cursor="pointer"
+                            onClick={(e: ButtonEvent) =>
+                                visitProfile(e, comment.user?.userName)
+                            }
+                        >
                             <ImageDiv
                                 bgImg={`url(${comment.user?.profilePicture})`}
                             />
@@ -190,6 +195,7 @@ export function RenderComments({
                                     bgc="transparent"
                                     fs="1rem"
                                     p="0"
+                                    cursor="pointer"
                                 >
                                     {comment?.user?.name}
                                 </Container>
