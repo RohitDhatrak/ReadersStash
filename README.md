@@ -20,7 +20,6 @@ Backend: GraphQL (Apollo Server), MongoDB, mongoose, Cloudinary, flexsearch, bcr
 - Near-real-time notifications for likes, comments, replies and follows
    - currently uses short polling at a frequency of 5 seconds
    - Optimized to avoid redundacy in payload transfer i.e sends a response payload only if the response has changed
-   - (Todo) Response based polling to avoid redundancy and exponential backoff.
 - Get users and posts by search query (done using flexsearch)
 - User profile with bio, profile picture, follow/following count, displays previous posts and liked posts
 - Edit bio, profile pic, change password
@@ -29,6 +28,10 @@ Backend: GraphQL (Apollo Server), MongoDB, mongoose, Cloudinary, flexsearch, bcr
 - Fully responsive
 - Tested for contrast issues
 - All interactive elements are keyboard accessible
+
+### Things I want to improve/explore further
+- Response based polling to avoid redundancy and exponential backoff to avoid spamming server in case of down time.
+- Improve performance by adding infinite scrolling and virtualization
 
 ### Connect With Me
 - Twitter – [@rohit_dhatrak_](https://twitter.com/rohit_dhatrak_)
