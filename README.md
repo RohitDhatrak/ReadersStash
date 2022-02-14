@@ -9,7 +9,7 @@ ReadersStash is a social media app to share ideas from books, articles, & podcas
 ### Tech Stack
 Frontend: React, Redux, Typescript, GraphQL (Apollo client), styled-components
 
-Backend: GraphQL (Apollo Server), MongoDB, mongoose, Cloudinary, flexsearch, bcrypt
+Backend: GraphQL (Apollo Server), MongoDB, mongoose, Cloudinary, flexsearch, jsonwebtoken, bcrypt
 
 ### Features
 - Create/Delete a Post
@@ -23,6 +23,7 @@ Backend: GraphQL (Apollo Server), MongoDB, mongoose, Cloudinary, flexsearch, bcr
 - Get users and posts by search query (done using flexsearch)
 - User profile with bio, profile picture, follow/following count, displays previous posts and liked posts
 - Edit bio, profile pic, change password
+- JWT based authentication
 
 ### Additonal Things
 - Fully responsive
