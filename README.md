@@ -1,15 +1,15 @@
 [![Netlify Status](https://api.netlify.com/api/v1/badges/772a1599-4ce0-41b2-a705-314ee4dd1325/deploy-status)](https://app.netlify.com/sites/readers-stash/deploys)
 
 ### About
-ReadersStash is a social media app to share ideas from books, articles, & podcasts.
+ReadersStash is a social media app to share ideas from books, articles & podcasts.
 
 ### Preview
 ![](/client/public/readers-stash.gif)
 
 ### Tech Stack
-Frontend: React, Redux, Typescript, GraphQL (Apollo client), styled-components
+Frontend: React, Redux, Typescript, GraphQL (Apollo client) & styled-components
 
-Backend: GraphQL (Apollo Server), MongoDB, mongoose, Cloudinary, flexsearch, jsonwebtoken, bcrypt
+Backend: GraphQL (Apollo Server), MongoDB, mongoose, Cloudinary, flexsearch, jsonwebtoken & bcrypt
 
 ### Features
 - Create/Delete a Post
