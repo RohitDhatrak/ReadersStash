@@ -1,5 +1,7 @@
 [![Netlify Status](https://api.netlify.com/api/v1/badges/772a1599-4ce0-41b2-a705-314ee4dd1325/deploy-status)](https://app.netlify.com/sites/readers-stash/deploys)
 
+ReadersStash is a social media app to share ideas from books, articles, & podcasts.
+
 ### Preview
 ![](/client/public/readers-stash.gif)
 
