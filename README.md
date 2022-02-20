@@ -23,7 +23,6 @@ Backend: GraphQL (Apollo Server), MongoDB, mongoose, Cloudinary, flexsearch, jso
 - Get users and posts by search query (done using flexsearch)
 - User profile with bio, profile picture, follow/following count, previous posts and liked posts
 - Change bio, profile pic and password
-- JWT based authentication
 
 ### Additonal Things
 - Fully responsive
