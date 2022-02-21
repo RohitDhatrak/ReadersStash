@@ -150,8 +150,8 @@ export function Signup() {
                     />
                 </FlexContainer>
                 <Container color="var(--error-color)">{errorMessage}</Container>
-                {name &&
-                    userName &&
+                {name.trim() &&
+                    userName.trim() &&
                     email &&
                     password &&
                     retypedPassword &&
