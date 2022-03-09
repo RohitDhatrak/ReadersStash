@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useMutation } from "@apollo/client";
 import { useNavigate, useLocation } from "react-router-dom";
-import { raiseErrorToast, raiseToast } from "../../utils/toast";
+import { raiseErrorToast, raiseToast, raiseError } from "../../utils/toast";
 import { useAppSelector, useAppDispatch } from "../../app/hooks";
 import { FlexContainer, Container, Image } from "../../components/Shared";
 import { Post as PostType, ButtonEvent } from "../../types";
@@ -38,42 +38,48 @@ export function Post({ post }: { post: PostType }) {
     const isPostPage = pathname.includes("/post/");
 
     let [likePost, { loading: likeLoading }] = useMutation(LIKE_POST, {
-        onCompleted(data) {
-            dispatch(liked(data.likePost));
+        onCompleted() {
             likeLoading = false;
         },
-        onError: raiseErrorToast("Some error occured please try again later"),
+        onError() {
+            dispatch(unliked(post));
+            raiseError("Error liking post");
+        },
         variables: { postId: post._id, userId: user._id },
     });
 
     let [unlikePost, { loading: unlikeLoading }] = useMutation(UNLIKE_POST, {
-        onCompleted(data) {
-            dispatch(unliked(data.unlikePost));
+        onCompleted() {
             unlikeLoading = false;
         },
-        onError: raiseErrorToast("Some error occured please try again later"),
+        onError() {
+            dispatch(liked(post));
+            raiseError("Error unliking post");
+        },
         variables: { postId: post._id, userId: user._id },
     });
 
     let [bookmarkPost, { loading: bookmarkLoading }] = useMutation(BOOKMARK, {
-        onCompleted(data) {
-            dispatch(bookmark(data.bookmark));
+        onCompleted() {
             bookmarkLoading = false;
         },
-        onError: raiseErrorToast("Some error occured please try again later"),
+        onError() {
+            dispatch(removeBookmark(post));
+            raiseError("Error bookmarking post");
+        },
         variables: { postId: post._id, userId: user._id },
     });
 
     let [removePostBookmark, { loading: removeBookmarkLoading }] = useMutation(
         REMOVE_BOOKMARK,
         {
-            onCompleted(data) {
-                dispatch(removeBookmark(data.removeBookmark));
+            onCompleted() {
                 removeBookmarkLoading = false;
             },
-            onError: raiseErrorToast(
-                "Some error occured please try again later"
-            ),
+            onError() {
+                dispatch(bookmark(post));
+                raiseError("Error removing bookmark");
+            },
             variables: { postId: post._id, userId: user._id },
         }
     );
@@ -99,8 +105,10 @@ export function Post({ post }: { post: PostType }) {
         e.stopPropagation();
         if (!likeLoading && !unlikeLoading) {
             if (user.likesHashMap[post._id]) {
+                dispatch(unliked(post));
                 unlikePost();
             } else {
+                dispatch(liked(post));
                 likePost();
             }
         }
@@ -110,8 +118,10 @@ export function Post({ post }: { post: PostType }) {
         e.stopPropagation();
         if (!bookmarkLoading && !removeBookmarkLoading) {
             if (user.bookmarksHashMap[post._id]) {
+                dispatch(removeBookmark(post));
                 removePostBookmark();
             } else {
+                dispatch(bookmark(post));
                 bookmarkPost();
             }
         }
