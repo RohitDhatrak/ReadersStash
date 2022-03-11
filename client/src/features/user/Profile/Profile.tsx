@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { useQuery, useLazyQuery, useMutation } from "@apollo/client";
+import { useQuery, useMutation } from "@apollo/client";
 import { useMediaQuery } from "react-responsive";
 import { Post as PostType } from "../../../types";
 import { useAppSelector, useAppDispatch } from "../../../app/hooks";
@@ -65,22 +65,22 @@ export function Profile() {
         refetch();
     }, [userName, user]);
 
-    const [followUser, { loading: loadingFollow }] = useMutation(FOLLOW_USER, {
+    let [followUser, { loading: loadingFollow }] = useMutation(FOLLOW_USER, {
         onCompleted(data) {
-            console.log("in follow");
             refetch();
             dispatch(followed(data.followUser));
+            loadingFollow = false;
         },
         onError: raiseErrorToast("Some error occured please try again later"),
     });
 
-    const [unfollowUser, { loading: loadingUnfollow }] = useMutation(
+    let [unfollowUser, { loading: loadingUnfollow }] = useMutation(
         UNFOLLOW_USER,
         {
             onCompleted(data) {
-                console.log("in unfollow");
                 refetch();
                 dispatch(unfollowed(data.unfollowUser));
+                loadingUnfollow = false;
             },
             onError: raiseErrorToast(
                 "Some error occured please try again later"
@@ -170,7 +170,11 @@ export function Profile() {
                                     cursor="pointer"
                                     onClick={toggleFollowing}
                                 >
-                                    {isFollowing ? "Following" : "Follow"}
+                                    {!loadingFollow &&
+                                        !loadingUnfollow &&
+                                        (isFollowing ? "Following" : "Follow")}
+                                    {loadingFollow && "Following..."}
+                                    {loadingUnfollow && "Unfollowing..."}
                                 </Container>
                             )}
                     </FlexContainer>
