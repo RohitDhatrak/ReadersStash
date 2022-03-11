@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useMutation } from "@apollo/client";
 import { toast } from "react-toastify";
+import { useLocation, useNavigate } from "react-router-dom";
 import TexareaAutosize from "react-textarea-autosize";
 import { InputEvent, ButtonEvent, TextAreaEvent } from "../../../types";
 import { useAppSelector, useAppDispatch } from "../../../app/hooks";
@@ -19,6 +20,7 @@ import { PageContainer } from "./style.newpost";
 export function NewPost() {
     const [title, setTitle] = useState("");
     const [body, setBody] = useState("");
+    const navigate = useNavigate();
     const [image, setImage] = useState<string | ArrayBuffer | null>();
     const dispatch = useAppDispatch();
     const user = useAppSelector(getUser);
@@ -68,6 +70,7 @@ export function NewPost() {
             setBody("");
             setImage("");
             loadingAddPost = false;
+            navigate("/");
         },
         onError() {
             toast.error("Some error occured please try again later", {
