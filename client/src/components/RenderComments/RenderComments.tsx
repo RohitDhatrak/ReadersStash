@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useMutation } from "@apollo/client";
 import { useNavigate } from "react-router-dom";
 import { useMediaQuery } from "react-responsive";
-import { FlexContainer, Container, Image } from "../Shared";
+import { FlexContainer, Container } from "../Shared";
 import { InputBox, ActionButton } from "../";
 import { useAppSelector, useAppDispatch } from "../../app/hooks";
 import { getUser } from "../../features/user/userSlice";
@@ -44,6 +44,8 @@ export function RenderComments({
                             : comment
                     ),
                 };
+                setReply("");
+                setReplyInput("");
                 setPost(updatedPost);
             }
             loadingAddComment = false;
@@ -126,8 +128,6 @@ export function RenderComments({
                     parentCommentId: comment._id,
                 },
             });
-            setReply("");
-            setReplyInput("");
         }
     }
 

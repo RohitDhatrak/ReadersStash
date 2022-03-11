@@ -66,6 +66,7 @@ export function PostPage() {
                     };
                     setPost(updatedPost);
                     dispatch(commentAdded(updatedPost));
+                    setComment("");
                 }
                 loadingAddComment = false;
             },
@@ -99,7 +100,6 @@ export function PostPage() {
     function postComment() {
         if (!loadingAddComment) {
             addComment();
-            setComment("");
         }
     }
 
