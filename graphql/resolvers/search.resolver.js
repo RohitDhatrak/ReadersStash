@@ -8,14 +8,23 @@ const searchResolvers = {
         async getSearchResults(parent, args, context) {
             checkJWT(context);
             const { query } = args;
-            const users = usersIndex.search({
-                query,
-                suggest: true,
-            });
-            const posts = postsIndex.search({
-                query,
-                suggest: true,
-            });
+
+            const users = [
+                ...new Set(
+                    usersIndex.search({
+                        query,
+                        suggest: true,
+                    })
+                ),
+            ];
+            const posts = [
+                ...new Set(
+                    postsIndex.search({
+                        query,
+                        suggest: true,
+                    })
+                ),
+            ];
             return { users, posts };
         },
     },
