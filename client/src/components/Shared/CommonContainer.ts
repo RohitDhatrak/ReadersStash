@@ -53,6 +53,7 @@ export type ContainerCommonProps = {
     overflow?: "auto";
     display?: "inline" | "inline-block" | "block" | "none";
     whiteSpace?: "pre" | "pre-wrap";
+    overFlowWrap?: "break-word";
 };
 
 export const CommonContainer = styled.div<ContainerCommonProps>`
@@ -248,6 +249,12 @@ export const CommonContainer = styled.div<ContainerCommonProps>`
         css`
             white-space: ${() => props.whiteSpace};
         `}
+    ${(props) =>
+        props.overFlowWrap &&
+        css`
+            overflow-wrap: ${() => props.overFlowWrap};
+        `}
+
     &:hover {
         ${(props) => props.hover}
     }

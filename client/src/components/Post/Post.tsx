@@ -276,10 +276,12 @@ export function Post({ post }: { post: PostType }) {
                 />
             )}
             <Container p="0em 2.5em">
-                <Container fs="1.4rem" mb="1em">
+                <Container fs="1.4rem" mb="1em" overFlowWrap="break-word">
                     {post.title}
                 </Container>
-                <Container whiteSpace="pre-wrap">{post.body}</Container>
+                <Container whiteSpace="pre-wrap" overFlowWrap="break-word">
+                    {post.body}
+                </Container>
             </Container>
             <FlexContainer p="1em 3em" justify="space-between" mt="0.5em">
                 <FlexContainer
